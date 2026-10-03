@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
-// Demo draait in een submap van de Sitefront-verzamelrepo op GitHub Pages.
+// Preview op GitHub Pages (eigen repo). Bij oplevering: site op het eigen domein en base weg.
 export default defineConfig({
   site: 'https://michaelbeset-ops.github.io',
   base: '/joris-uurwerkreparatie',

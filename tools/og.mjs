@@ -1,17 +1,13 @@
-// public/og.jpg (1200x630): woordmerk links op papier, eigen werkplaatsfoto rechts, in de eigen letter.
-import { chromium } from 'playwright'; import fs from 'node:fs';
-const font = fs.readFileSync('node_modules/@fontsource-variable/hanken-grotesk/files/hanken-grotesk-latin-wght-normal.woff2').toString('base64');
-const foto = fs.readFileSync('src/assets/kaliber-321.jpg').toString('base64');
-const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: 1200, height: 630 } });
-await p.setContent(`<style>@font-face{font-family:H;src:url(data:font/woff2;base64,${font}) format('woff2');font-weight:100 900}
-body{margin:0;width:1200px;height:630px;background:#f1f0ed;color:#161719;font-family:H;position:relative;overflow:hidden}
-img{position:absolute;right:0;top:0;width:504px;height:630px;object-fit:cover}
-.m{position:absolute;left:72px;top:72px;display:flex;flex-direction:column;align-items:center}
-.m b{font-weight:300;font-size:44px;letter-spacing:.5em;margin-right:-.5em;line-height:1}
-.m small{font-size:15px;letter-spacing:.34em;margin-right:-.34em;text-transform:uppercase;margin-top:12px;font-weight:500;color:#86683f}
-h1{position:absolute;left:72px;bottom:150px;width:560px;margin:0;font-weight:300;font-size:58px;line-height:1.04;letter-spacing:-.032em}
-p{position:absolute;left:72px;bottom:72px;margin:0;font-size:17px;letter-spacing:.16em;text-transform:uppercase;font-weight:500;color:#5e5d59}</style>
-<img src="data:image/jpeg;base64,${foto}"><div class=m><b>JORIS</b><small>Uurwerkreparatie</small></div>
-<h1>Uw horloge in handen van erkend vakmanschap.</h1><p>Officieel Omega Service Center, Herten</p>`);
-await p.waitForTimeout(300);
-await p.screenshot({ path: 'public/og.jpg', type: 'jpeg', quality: 84 }); await b.close();
+// Deelafbeelding (1200x630) in de huisstijl: woordmerk in de serif op warm papier, met de foto van het kaliber 321 rechts.
+import sharp from 'sharp';
+const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630">
+  <rect width="1200" height="630" fill="#f5f1ea"/>
+  <text x="80" y="200" font-family="'Cormorant Light', Cormorant, Garamond, serif" font-size="96" font-weight="500" letter-spacing="26" fill="#14213b">JORIS</text>
+  <text x="84" y="246" font-family="'Hanken Grotesk', 'Segoe UI', sans-serif" font-size="20" font-weight="500" letter-spacing="7" fill="#7d6233">UURWERKREPARATIE</text>
+  <text x="80" y="380" font-family="'Cormorant Light', Cormorant, Garamond, serif" font-size="58" font-weight="500" fill="#14213b">Officieel Omega</text>
+  <text x="80" y="440" font-family="'Cormorant Light', Cormorant, Garamond, serif" font-size="58" font-weight="500" fill="#14213b">Service Center in Herten.</text>
+  <text x="80" y="540" font-family="'Hanken Grotesk', 'Segoe UI', sans-serif" font-size="22" fill="#3a4158">Onderhoud en reparatie met originele onderdelen.</text>
+</svg>`;
+const foto = await sharp('src/assets/kaliber-321.jpg').resize(504, 630, { fit: 'cover' }).toBuffer();
+await sharp(Buffer.from(svg)).composite([{ input: foto, left: 696, top: 0 }]).jpeg({ quality: 85, mozjpeg: true }).toFile('public/og.jpg');
+console.log('og.jpg klaar');

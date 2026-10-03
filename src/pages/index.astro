@@ -5,180 +5,243 @@ import Kop from '../components/Kop.astro';
 import Voet from '../components/Voet.astro';
 import { site, waAfspraak } from '../data/site';
 import kaliber from '../assets/kaliber-321.jpg';
-import onderdelen from '../assets/onderdelen.jpg';
+import houder from '../assets/omega-houder.jpg';
 import groen from '../assets/uurwerk-groen.jpg';
-import seamaster from '../assets/seamaster.jpg';
 
-// Diensten: samengevat uit de servicepagina's voor Omega, Longines en Rado op hun site.
+// Alle feiten hieronder komen van jorisuurwerkreparatie.nl (bron/site-tekst.txt) of het Google-profiel.
+// Wat daar niet staat, is gemarkeerd met [[AANLEVEREN]]. Niets is aangevuld uit eigen hand.
+
+// Hero: de drie feiten die vertrouwen geven, direct zichtbaar.
+const vertrouwen = [
+  'Officieel Omega Service Center',
+  'Servicecenter Longines en Rado',
+  `${site.google.score} op Google, uit ${site.google.aantal} beoordelingen`,
+];
+
+// Omega: wat de erkenning voor de klant betekent (servicepagina Omega op hun site).
+const omega = [
+  { kop: 'Originele Omega-onderdelen', tekst: 'Uitsluitend originele Omega-onderdelen, voor kwaliteit en behoud van waarde.' },
+  { kop: 'Alle Omega-modellen', tekst: 'Speedmaster Professional (Moonwatch, kalibers 1861, 861, 321 en 3861), Seamaster (Diver 300M, Planet Ocean, Aqua Terra, Railmaster), Constellation (Globemaster) en De Ville (Prestige).' },
+  { kop: 'Met het vertrouwen van Omega', tekst: 'Omega zelf en veel horlogeliefhebbers vertrouwen hun horloge aan deze werkplaats toe. [[AANLEVEREN: sinds wanneer de erkenning geldt en wat die inhoudt, bijvoorbeeld opleiding bij Omega, werken volgens de Omega-voorschriften, garantie]]' },
+  { kop: 'Omega-horlogebanden', tekst: 'Ook voor de verkoop van originele Omega-horlogebanden kunt u hier terecht.' },
+];
+
+// Diensten: samengevat uit de servicepagina's voor Omega, Longines en Rado.
 const diensten = [
-  ['Onderhoud en revisie', 'Een complete servicebeurt: inspectie, schoonmaken, smeren en afstellen, en waar nodig onderdelen vervangen.'],
-  ['Reparaties', 'Van het vervangen van een kroon of wijzer tot complexe uurwerkreparaties.'],
-  ['Polijsten en cosmetisch herstel', 'Kast en band herstellen en polijsten, van staal tot keramiek, met behoud van de originele uitstraling.'],
-  ['Waterdichtheid', 'Controle en herstel van de waterdichtheid, essentieel voor sportieve en duikmodellen.'],
-  ['Originele onderdelen', 'Uitsluitend originele onderdelen, voor kwaliteit en behoud van waarde.'],
+  { kop: 'Onderhoud en revisie', tekst: 'Een complete servicebeurt: inspectie, schoonmaken, smeren en afstellen, en waar nodig onderdelen vervangen.' },
+  { kop: 'Reparaties', tekst: 'Van het vervangen van een kroon of wijzer tot complexe uurwerkreparaties.' },
+  { kop: 'Polijsten en cosmetisch herstel', tekst: 'Kast en band herstellen en polijsten, van staal tot keramiek, met behoud van de originele uitstraling.' },
+  { kop: 'Waterdichtheid', tekst: 'Controle en herstel van de waterdichtheid, essentieel voor sportieve en duikmodellen.' },
+  { kop: 'Originele onderdelen', tekst: 'Uitsluitend originele onderdelen van het merk, voor kwaliteit en behoud van waarde.' },
 ];
 
 const merken = [
-  ['Officieel servicecenter', 'Omega, Longines, Rado'],
-  ['Servicecentrum binnen de Swatch Group', 'Hamilton, Mido, Tissot, Certina en ETA-uurwerken'],
-  ['Met originele onderdelen', 'Ebel, Nomos en Mühle Glashütte'],
+  { kop: 'Officieel servicecenter', tekst: 'Omega, Longines en Rado' },
+  { kop: 'Servicecentrum binnen de Swatch Group', tekst: 'Hamilton, Mido, Tissot, Certina en ETA-uurwerken' },
+  { kop: 'Reparatie met originele onderdelen', tekst: 'Ebel, Nomos en Mühle Glashütte' },
+  { kop: 'Ook', tekst: 'Rolex, zie de servicebeurt onderaan' },
 ];
 
+// Werkwijze: afspraakpagina en "Onze werkwijze" op de over-ons-pagina.
+const stappen = [
+  { kop: 'Afspraak maken', tekst: 'Stuur een bericht met merk, type (quartz, automaat of chronograaf), soort band, eventuele referentienummers, een omschrijving van het probleem en een paar duidelijke foto’s. Hoe meer u vooraf vertelt, hoe makkelijker het contact verloopt.' },
+  { kop: 'Onderzoek en prijsopgave', tekst: 'Elk horloge wordt eerst zorgvuldig onderzocht voordat u een prijsopgave krijgt. Zo voorkomen we verrassingen achteraf en weet u precies waar u aan toe bent.' },
+  { kop: 'Herstel', tekst: 'Gaat u akkoord met de prijsopgave, dan ga ik aan de slag met uw horloge.' },
+  { kop: 'Ophalen', tekst: 'Is het werk klaar, dan haalt u uw horloge op afspraak weer op. Ziet u af van de reparatie, dan plannen we ook een afspraak om het op te halen.' },
+];
+
+// Vertrouwen: niets hiervan staat op de huidige site. Pas invullen na bevestiging van Hugo.
+const zekerheden = [
+  { kop: 'Garantie', tekst: '[[AANLEVEREN: garantie op een servicebeurt, bijvoorbeeld in maanden]]' },
+  { kop: 'Doorlooptijd', tekst: '[[AANLEVEREN: gemiddelde doorlooptijd van een servicebeurt]]' },
+  { kop: 'Verzekerd', tekst: '[[AANLEVEREN: is het horloge verzekerd zolang het in de werkplaats is, ja of nee]]' },
+  { kop: 'Opsturen', tekst: '[[AANLEVEREN: kan een horloge ook worden opgestuurd, ja of nee, en hoe]]' },
+];
+
+// Rolex: prijzen letterlijk van de Rolex-pagina op hun site.
 const rolex = [
   ['Modellen tot 30 jaar', '425'],
   ['Damesmodellen', '450'],
   ['Modellen met GMT-kaliber', '475'],
   ['Modellen van 30 jaar en ouder', '525'],
 ];
-
-const stappen = [
-  ['Afspraak maken', 'Ik ontvang u alleen op afspraak. Stuur liefst een app-bericht met merk, type (quartz, automaat of chronograaf), soort band, eventuele referentienummers, een omschrijving van het probleem en een paar duidelijke foto’s.'],
-  ['Onderzoek en prijsopgave', 'Elk horloge wordt eerst zorgvuldig onderzocht voordat u een prijsopgave krijgt. Zo voorkomen we verrassingen achteraf en weet u precies waar u aan toe bent.'],
-  ['Herstel', 'Gaat u akkoord met de prijsopgave, dan ga ik aan de slag met uw horloge.'],
-  ['Ophalen', 'Is het werk klaar, dan haalt u uw horloge op afspraak weer op. Ziet u af van de reparatie, dan plannen we ook een afspraak om het op te halen.'],
-];
 ---
-<Base title={`${site.naam} | Herten`} description="Officieel Omega Service Center en servicecenter voor Longines en Rado. Onderhoud en reparatie van horloges met originele onderdelen, op afspraak in Herten.">
+<Base title={`${site.naam} | Officieel Omega Service Center in Herten`} description="Officieel Omega Service Center en servicecenter voor Longines en Rado in Herten. Onderhoud en reparatie met originele onderdelen, alleen op afspraak.">
   <Kop />
   <main id="inhoud">
 
-    <!-- 1. Eerste scherm -->
-    <section class="wrap grid gap-y-12 pb-20 pt-12 md:grid-cols-12 md:gap-x-8 md:pb-28 md:pt-16 lg:min-h-[calc(100svh-6.5rem)] lg:items-center lg:py-14" aria-labelledby="t-hero">
-      <div class="md:col-span-6 lg:col-span-7">
-        <h1 id="t-hero" class="text-3xl">Uw horloge in handen <br class="hidden lg:block" />van erkend vakmanschap.</h1>
-        <p class="mt-7 max-w-[30rem] text-grijs">Officieel Omega Service Center, en servicecenter voor Longines en Rado. Onderhoud en reparatie met originele onderdelen, op afspraak in Herten.</p>
-        <div class="mt-10 flex flex-wrap items-center gap-x-9 gap-y-5">
-          <a href={waAfspraak} class="knop knop-vol">Afspraak via WhatsApp</a>
-          <a href="#werkwijze" class="lijn text-sm">Zo werkt het</a>
+    <!-- 1. Hero -->
+    <section class="wrap grid gap-y-12 pb-16 pt-10 md:grid-cols-12 md:gap-x-8 md:pb-24 md:pt-14 lg:min-h-[calc(100svh-6rem)] lg:items-center lg:pb-20 lg:pt-10" aria-labelledby="t-hero">
+      <div class="md:col-span-7 lg:col-span-7 lg:pr-8">
+        <p class="ui text-messing">Horlogemaker, alleen op afspraak</p>
+        <h1 id="t-hero" class="mt-5">Officieel Omega Service Center in Herten.</h1>
+        <p class="mt-7 max-w-[34rem] text-tekst">Onderhoud en reparatie van Omega, Longines en Rado met originele onderdelen. Ook voor Rolex en een aantal andere Zwitserse merken.</p>
+        <div class="mt-9 flex flex-wrap items-center gap-x-8 gap-y-5">
+          <a href="#contact" class="knop knop-vol">Afspraak maken</a>
+          <ul class="ui flex flex-wrap items-center gap-x-6 gap-y-3">
+            <li><a href={waAfspraak} class="lijn-in">WhatsApp</a></li>
+            <li><a href={site.telHref} class="lijn-in">Bellen</a></li>
+            <li><a href={`mailto:${site.mail}`} class="lijn-in">Mailen</a></li>
+          </ul>
         </div>
+        <ul class="mt-12 grid max-w-[40rem] divide-y divide-lijn border-y border-lijn text-sm sm:grid-cols-3 sm:divide-x sm:divide-y-0" aria-label="Waarom u hier terecht kunt">
+          {vertrouwen.map((v) => <li class="py-4 sm:px-5 sm:py-5 sm:first:pl-0 sm:last:pr-0">{v}</li>)}
+        </ul>
       </div>
-      <figure class="md:col-span-6 md:col-start-7 lg:col-span-5 lg:col-start-8">
-        <div class="aspect-[4/5] overflow-hidden bg-vlak lg:h-[min(76svh,46rem)] lg:w-auto lg:max-w-full">
-          <Image src={kaliber} alt="Een opengewerkt Omega-chronograafuurwerk in een uurwerkhouder op de werkbank" widths={[480, 720]} sizes="(min-width: 1024px) 34vw, (min-width: 768px) 46vw, 100vw" loading="eager" fetchpriority="high" class="h-full w-full object-cover" />
+      <figure class="md:col-span-5 md:col-start-8">
+        <div class="aspect-[4/5] overflow-hidden bg-vlak lg:h-[min(72svh,44rem)] lg:w-auto lg:max-w-full">
+          <Image src={kaliber} alt="Een opengewerkt Omega-chronograafuurwerk, kaliber 321, in een uurwerkhouder op de werkbank" widths={[480, 720]} sizes="(min-width: 1024px) 34vw, (min-width: 768px) 42vw, 100vw" loading="eager" fetchpriority="high" quality={78} class="h-full w-full object-cover" />
         </div>
-        <figcaption class="ui mt-4 flex justify-between gap-6 text-grijs"><span>Uit de werkplaats</span><span>Omega 321</span></figcaption>
+        <figcaption class="mt-4 flex justify-between gap-6 text-xs text-tekst"><span>Uit de werkplaats</span><span>Omega kaliber 321</span></figcaption>
       </figure>
     </section>
 
-    <!-- 2. Werk -->
-    <section id="werk" class="border-t border-lijn" aria-labelledby="t-werk">
-      <div class="wrap grid gap-y-14 py-24 md:grid-cols-12 md:gap-x-8 lg:py-36">
-        <div class="rijs md:col-span-5 md:sticky md:top-28 md:self-start">
-          <h2 id="t-werk" class="text-2xl">Onderhoud en reparatie, met originele onderdelen.</h2>
-          <p class="mt-6 max-w-sm text-grijs">Voor Omega, Longines, Rado en de andere merken hieronder. Ook verkoop ik Omega-horlogebanden.</p>
+    <!-- 2. Omega Service Center -->
+    <section id="omega" class="bg-vlak" aria-labelledby="t-omega">
+      <div class="wrap grid gap-y-12 py-20 md:grid-cols-12 md:gap-x-8 lg:py-28">
+        <div class="md:col-span-5">
+          <p class="ui text-messing">Omega Service Center</p>
+          <h2 id="t-omega" class="mt-5">Wat een officieel Omega Service Center voor u betekent.</h2>
+          <p class="mt-6 max-w-md text-tekst">Uw Omega wordt onderhouden door een werkplaats die Omega zelf erkent. Dat betekent originele onderdelen en vakmanschap op het niveau dat het merk vraagt.</p>
+          <figure class="mt-12 max-w-md">
+            <div class="aanleveren aspect-[3/2] w-full">[[AANLEVEREN: foto van het Omega-certificaat of het Service Center-bordje, liggend]]</div>
+            <figcaption class="mt-3 text-xs text-tekst">Erkenning door Omega</figcaption>
+          </figure>
+        </div>
+        <div class="md:col-span-7 lg:col-span-6 lg:col-start-7">
+          <dl class="divide-y divide-lijn-sterk border-y border-lijn-sterk">
+            {omega.map((o) => (
+              <div class="grid gap-2 py-7 sm:grid-cols-[13rem_1fr] sm:gap-8">
+                <dt class="kop-serif text-k3 leading-tight">{o.kop}</dt>
+                <dd class="text-tekst">{o.tekst}</dd>
+              </div>
+            ))}
+          </dl>
+          <figure class="mt-10">
+            <Image src={houder} alt="Een Omega-uurwerk in een rode Omega-uurwerkhouder, met een Omega-pincet ernaast" widths={[600, 900, 1150]} sizes="(min-width: 1024px) 40vw, (min-width: 768px) 55vw, 100vw" class="aspect-[8/5] w-full object-cover" />
+            <figcaption class="mt-3 text-xs text-tekst">Omega-gereedschap in de werkplaats</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Diensten en merken -->
+    <section id="diensten" aria-labelledby="t-diensten">
+      <div class="wrap grid gap-y-12 py-20 md:grid-cols-12 md:gap-x-8 lg:py-28">
+        <div class="md:col-span-5 md:sticky md:top-32 md:self-start">
+          <p class="ui text-messing">Diensten</p>
+          <h2 id="t-diensten" class="mt-5">Onderhoud en reparatie, met originele onderdelen.</h2>
+          <p class="mt-6 max-w-md text-tekst">Voor Omega, Longines, Rado en de andere merken hieronder. Geen modemerken, geen batterijservice en zeker geen imitaties.</p>
         </div>
         <ul class="md:col-span-7 lg:col-span-6 lg:col-start-7">
-          {diensten.map(([t, d], i) => (
-            <li class="rijs grid gap-2 border-t border-lijn py-7 first:border-t-0 first:pt-0 sm:grid-cols-[14rem_1fr] sm:gap-8" style={`--d:${i * 0.05}s`}>
-              <h3 class="text-lg">{t}</h3>
-              <p class="text-grijs">{d}</p>
+          {diensten.map((d) => (
+            <li class="grid gap-2 border-t border-lijn py-7 first:border-t-0 first:pt-0 sm:grid-cols-[13rem_1fr] sm:gap-8">
+              <h3>{d.kop}</h3>
+              <p class="text-tekst">{d.tekst}</p>
             </li>
           ))}
         </ul>
       </div>
 
-      <div class="wrap grid gap-y-14 pb-24 md:grid-cols-12 md:gap-x-8 lg:pb-36">
-        <figure class="rijs md:col-span-5">
-          <Image src={groen} alt="Een geopend chronograafuurwerk in een houder op een groene werkmat, met losse onderdelen erachter" widths={[600, 900, 1200]} sizes="(min-width: 768px) 40vw, 100vw" class="aspect-square w-full object-cover" />
+      <div class="wrap grid gap-y-12 pb-20 md:grid-cols-12 md:gap-x-8 lg:pb-28">
+        <figure class="md:col-span-5">
+          <Image src={groen} alt="Een geopend chronograafuurwerk in een houder op een groene werkmat, met losse onderdelen erachter" widths={[600, 900, 1200]} sizes="(min-width: 768px) 36vw, 100vw" class="aspect-square w-full object-cover" />
         </figure>
-        <div class="md:col-span-7 lg:col-span-6 lg:col-start-7 md:pt-2">
-          <h3 class="ui text-grijs">Merken</h3>
-          <dl class="mt-8">
-            {merken.map(([k, v], i) => (
-              <div class="rijs border-t border-lijn py-6" style={`--d:${i * 0.05}s`}>
-                <dt class="text-sm text-grijs">{k}</dt>
-                <dd class={i === 0 ? 'mt-2 text-2xl' : 'mt-2 text-xl'}>{v}</dd>
+        <div class="md:col-span-7 lg:col-span-6 lg:col-start-7">
+          <p class="ui text-messing">Merken</p>
+          <dl class="mt-6 divide-y divide-lijn border-y border-lijn">
+            {merken.map((m, i) => (
+              <div class="py-6">
+                <dt class="text-sm text-tekst">{m.kop}</dt>
+                <dd class={`kop-serif mt-2 ${i === 0 ? 'text-k2' : 'text-k3'}`}>{i === 3 ? <>Rolex, <a href="#rolex" class="lijn">zie de servicebeurt</a></> : m.tekst}</dd>
               </div>
             ))}
-            <div class="rijs border-t border-lijn py-6">
-              <dt class="text-sm text-grijs">Ook</dt>
-              <dd class="mt-2 text-xl">Rolex, <a href="#rolex" class="lijn">zie de servicebeurt</a></dd>
-            </div>
           </dl>
-          <p class="mt-4 border-t border-lijn pt-6 text-sm text-grijs">Geen modemerken, geen batterijservice en zeker geen imitaties.</p>
-        </div>
-      </div>
-
-      <div id="rolex" class="bg-vlak">
-        <div class="wrap grid gap-y-10 py-24 md:grid-cols-12 md:gap-x-8 lg:py-32">
-          <div class="rijs md:col-span-5">
-            <h2 class="text-2xl">Rolex-servicebeurt</h2>
-            <p class="mt-6 max-w-sm text-grijs">Submariner, Datejust, Day-Date, Air-King, GMT-Master, Explorer, Oyster Perpetual of Super Precision.</p>
-          </div>
-          <div class="md:col-span-7 lg:col-span-6 lg:col-start-7">
-            <table class="rijs w-full text-left">
-              <caption class="sr-only">Prijzen Rolex-servicebeurt</caption>
-              <thead class="sr-only"><tr><th scope="col">Model</th><th scope="col">Vanaf</th></tr></thead>
-              <tbody>
-                {rolex.map(([m, p]) => (
-                  <tr class="border-b border-lijn">
-                    <th scope="row" class="py-5 pr-6 font-normal">{m}</th>
-                    <td class="num whitespace-nowrap py-5 text-right text-lg">vanaf € {p},-</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            <div class="rijs mt-8 space-y-4 text-sm text-grijs">
-              <p>GMT-modellen van 30 jaar en ouder: <span class="num whitespace-nowrap">€ 50,-</span> extra. Inclusief opwindveer, achterdekseldichting, kroon- en tubedichting en het ultrasoon reinigen van kast en band.</p>
-              <p>Andere onderdelen, zoals glas, glasdichting, opwindkroon of tube, komen erbij. Daarvoor krijgt u twee keuzes: origineel of generiek. De werkelijke slijtage zie ik pas als het horloge helemaal gedemonteerd en gereinigd is.</p>
-              <p>Polijsten <span class="num whitespace-nowrap">vanaf € 125,-</span>, alleen bij een servicebeurt.</p>
-              <p class="text-xs">{site.naam} heeft in geen enkele vorm iets met Rolex te maken.</p>
-            </div>
-          </div>
         </div>
       </div>
     </section>
 
-    <!-- 3. Werkwijze -->
-    <section id="werkwijze" aria-labelledby="t-werkwijze">
-      <figure class="relative h-[52vw] max-h-[40rem] min-h-[15rem] overflow-hidden bg-vlak">
-        <Image src={onderdelen} alt="Losse onderdelen van een gedemonteerd Omega-horloge op de werkbank: uurwerk, rotor, kastbodem, glas en band" widths={[800, 1200, 1600]} sizes="100vw" class="h-full w-full object-cover" />
-      </figure>
-      <div class="wrap grid gap-y-14 py-24 md:grid-cols-12 md:gap-x-8 lg:py-36">
-        <div class="rijs md:col-span-5 md:sticky md:top-28 md:self-start">
-          <h2 id="t-werkwijze" class="text-2xl">Eerst onderzoek, dan pas een prijs.</h2>
-          <p class="mt-6 max-w-sm text-grijs">Hoe meer u vooraf vertelt, hoe makkelijker het contact verloopt.</p>
+    <!-- 4. Werkwijze -->
+    <section id="werkwijze" class="border-t border-lijn" aria-labelledby="t-werkwijze">
+      <div class="wrap grid gap-y-12 py-20 md:grid-cols-12 md:gap-x-8 lg:py-28">
+        <div class="md:col-span-5 md:sticky md:top-32 md:self-start">
+          <p class="ui text-messing">Werkwijze</p>
+          <h2 id="t-werkwijze" class="mt-5">Eerst onderzoek, dan pas een prijs.</h2>
+          <p class="mt-6 max-w-md text-tekst">Aan de prijsopgave zijn onderzoeks- en administratiekosten verbonden. Die betaalt u alleen als u de reparatie niet laat uitvoeren.</p>
+        </div>
+        <ol class="md:col-span-7 lg:col-span-6 lg:col-start-7">
+          {stappen.map((s, i) => (
+            <li class="grid grid-cols-[3.5rem_1fr] border-t border-lijn py-8 first:border-t-0 first:pt-0">
+              <span class="kop-serif num text-k3 text-messing" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              <div>
+                <h3>{s.kop}</h3>
+                <p class="mt-3 text-tekst">{s.tekst}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <!-- 5. Over -->
+    <section id="over" class="border-t border-lijn" aria-labelledby="t-over">
+      <div class="wrap grid gap-y-12 py-20 md:grid-cols-12 md:gap-x-8 lg:py-28">
+        <div class="md:col-span-5">
+          <div class="aanleveren aspect-[4/5] w-full">[[AANLEVEREN: portret van Hugo aan de werkbank, staand formaat]]</div>
+        </div>
+        <div class="md:col-span-7 lg:col-span-6 lg:col-start-7 md:self-center">
+          <p class="ui text-messing">Over</p>
+          <h2 id="t-over" class="mt-5">Hugo Joris, horlogemaker.</h2>
+          <div class="mt-7 max-w-xl space-y-5 text-tekst">
+            <p>Als officieel Omega Service Center ben ik trots op het vertrouwen dat Omega en veel horlogeliefhebbers in mij stellen. Elk horloge krijgt de aandacht die het verdient, met originele onderdelen.</p>
+            <p>[[AANLEVEREN: opleiding, aantal jaren ervaring en sinds wanneer de werkplaats Omega-erkend is]]</p>
+          </div>
+          <dl class="mt-10 divide-y divide-lijn border-y border-lijn">
+            <div class="grid gap-1 py-5 sm:grid-cols-[10rem_1fr] sm:gap-8">
+              <dt class="text-sm text-tekst">Op Google</dt>
+              <dd><span class="num">{site.google.score} uit {site.google.aantal} beoordelingen.</span> Klanten noemen een gepassioneerde uurwerkhersteller met gedegen kennis, en zijn zeer tevreden over onder meer de service van een Longines en een klassieke Rolex.</dd>
+            </div>
+            <div class="grid gap-1 py-5 sm:grid-cols-[10rem_1fr] sm:gap-8">
+              <dt class="text-sm text-tekst">Werkgebied</dt>
+              <dd>Limburg, Brabant, België en Duitsland</dd>
+            </div>
+            {zekerheden.map((z) => (
+              <div class="grid gap-1 py-5 sm:grid-cols-[10rem_1fr] sm:gap-8">
+                <dt class="text-sm text-tekst">{z.kop}</dt>
+                <dd class="text-tekst">{z.tekst}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Rolex, compact -->
+    <section id="rolex" class="border-t border-lijn" aria-labelledby="t-rolex">
+      <div class="wrap grid gap-y-10 py-16 md:grid-cols-12 md:gap-x-8 lg:py-24">
+        <div class="md:col-span-5">
+          <p class="ui text-messing">Ook</p>
+          <h2 id="t-rolex" class="mt-5">Rolex-servicebeurt.</h2>
+          <p class="mt-6 max-w-md text-tekst">Submariner, Datejust, Day-Date, Air-King, GMT-Master, Explorer, Oyster Perpetual of Super Precision.</p>
         </div>
         <div class="md:col-span-7 lg:col-span-6 lg:col-start-7">
-          <ol>
-            {stappen.map(([t, d], i) => (
-              <li class="rijs grid grid-cols-[2.5rem_1fr] border-t border-lijn py-8 first:border-t-0 first:pt-0" style={`--d:${i * 0.05}s`}>
-                <span class="num text-sm text-grijs" aria-hidden="true">{i + 1}</span>
-                <div>
-                  <h3 class="text-xl">{t}</h3>
-                  <p class="mt-3 text-grijs">{d}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-          <p class="rijs mt-2 border-t border-lijn pt-8 pl-10 text-sm text-grijs">Aan de prijsopgave zijn onderzoeks- en administratiekosten verbonden. Die betaalt u alleen als u de reparatie niet laat uitvoeren.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- 4. Over -->
-    <section id="over" class="border-t border-lijn" aria-labelledby="t-over">
-      <div class="wrap grid gap-y-14 py-24 md:grid-cols-12 md:gap-x-8 lg:py-36">
-        <figure class="rijs md:col-span-5">
-          <Image src={seamaster} alt="Een klassieke Omega Seamaster-chronograaf in een horlogedoos, in zwart-wit" widths={[600, 900, 1200]} sizes="(min-width: 768px) 40vw, 100vw" class="aspect-[4/5] w-full object-cover" />
-        </figure>
-        <div class="md:col-span-7 lg:col-span-6 lg:col-start-7 md:self-center">
-          <h2 id="t-over" class="rijs text-2xl">Hugo Joris, horlogemaker</h2>
-          <div class="rijs mt-8 max-w-xl space-y-5 text-grijs" style="--d:.05s">
-            <p>Vakmanschap en passie voor horloges staan centraal. Als officieel Omega Service Center ben ik trots op het vertrouwen dat zowel Omega als vele horlogeliefhebbers in mij stellen.</p>
-            <p>Geen concessies: alleen perfectie telt.</p>
+          <table class="w-full text-left">
+            <caption class="sr-only">Prijzen Rolex-servicebeurt</caption>
+            <thead class="sr-only"><tr><th scope="col">Model</th><th scope="col">Vanaf</th></tr></thead>
+            <tbody>
+              {rolex.map(([m, p]) => (
+                <tr class="border-b border-lijn first:border-t">
+                  <th scope="row" class="py-4 pr-6 font-normal">{m}</th>
+                  <td class="num whitespace-nowrap py-4 text-right">vanaf € {p},-</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div class="mt-6 space-y-3 text-sm text-tekst">
+            <p>GMT-modellen van 30 jaar en ouder: <span class="num whitespace-nowrap">€ 50,-</span> extra. Inclusief opwindveer, achterdekseldichting, kroon- en tubedichting en het ultrasoon reinigen van kast en band. Andere onderdelen, zoals glas, glasdichting, opwindkroon of tube, komen erbij: origineel of generiek, u kiest. De werkelijke slijtage zie ik pas als het horloge helemaal gedemonteerd en gereinigd is.</p>
+            <p>Polijsten <span class="num whitespace-nowrap">vanaf € 125,-</span>, alleen bij een servicebeurt.</p>
+            <p class="text-xs">{site.naam} is geen officieel Rolex-servicecentrum. Rolex is een geregistreerd merk van Rolex SA.</p>
           </div>
-          <dl class="rijs mt-12 text-sm" style="--d:.1s">
-            <div class="grid gap-1 border-t border-lijn py-5 sm:grid-cols-[10rem_1fr] sm:gap-8">
-              <dt class="text-grijs">Op Google</dt>
-              <dd><span class="num">{site.google.score} uit {site.google.aantal} beoordelingen.</span> Klanten beschrijven een gepassioneerde uurwerkhersteller met gedegen kennis en opleiding, en zijn zeer tevreden over onder meer de service van een Longines en een klassieke Rolex.</dd>
-            </div>
-            <div class="grid gap-1 border-y border-lijn py-5 sm:grid-cols-[10rem_1fr] sm:gap-8">
-              <dt class="text-grijs">Werkgebied</dt>
-              <dd>Limburg en Midden-Limburg, Brabant, Belgisch Limburg en België, Noordrijn-Westfalen en Duitsland</dd>
-            </div>
-          </dl>
-          <p class="mt-6 text-xs text-grijs">[[AANLEVEREN: portret van Hugo aan de werkbank]]</p>
         </div>
       </div>
     </section>

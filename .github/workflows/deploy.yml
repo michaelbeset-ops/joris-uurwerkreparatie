@@ -20,10 +20,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      # Voorstelmodus aan (balk + noindex) zolang de site nog niet definitief is. Zet op '' om hem uit te zetten.
+      # Preview (noindex) staat in src/data/site.ts zolang er [[AANLEVEREN]] in de site staat.
       - run: npm run build
-        env:
-          PUBLIC_VOORSTEL: '1'
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
