@@ -15,7 +15,7 @@ const fotos = {
   'omega-houder.jpg': (i) => i.extract({ left: 230, top: 0, width: 1150, height: 720 }), // Omega-houder centraal, pincet rechts
   'uurwerk-groen.jpg': (i) => i,                                // 1600x1600
   'seamaster.jpg': (i) => i.extract({ left: 160, top: 60, width: 1280, height: 1280 }),
-  'onderdelen.jpg': (i) => i.extract({ left: 240, top: 60, width: 1120, height: 630 }), // zacht beeld: alleen klein tonen
+  'onderdelen.jpg': (i) => i.extract({ left: 400, top: 40, width: 960, height: 640 }),   // zacht beeld: alleen als kleine kaartfoto
   'pand.jpg': (i) => i.extract({ left: 0, top: 230, width: 505, height: 630 }),       // auto rechtsonder eruit
 };
 for (const [naam, snij] of Object.entries(fotos)) {
