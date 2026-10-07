@@ -1,60 +1,81 @@
 ---
-// BASIS prijsindicatie (pakket van 100 euro): merk kiezen, één dienst kiezen, vanaf-prijs zien en via WhatsApp
-// een prijsopgave aanvragen. Prijzen uit src/data/prijzen.ts; onbekende prijzen tonen "prijs na onderzoek".
-// De uitgebreide versie (meerdere onderdelen, totaal, Rolex-model) staat in CalculatorUitgebreid.astro.
+// BASIS prijsindicatie (pakket van 100 euro): merk kiezen, één dienst kiezen, vanaf-prijs met korte uitleg en
+// direct contact via WhatsApp of telefoon. Prijzen uit src/data/prijzen.ts; onbekende prijzen tonen "prijs na onderzoek".
 import Icoon from './Icoon.astro';
 import { merken, onderdelen, rolexServicebeurt } from '../data/prijzen';
 import { site } from '../data/site';
 const rolexVanaf = Math.min(...rolexServicebeurt.map((r) => r.prijs));
 const data = JSON.stringify({ merken, onderdelen, rolexVanaf, wa: site.wa });
 ---
-<section id="prijzen" class="wrap scroll-mt-28 py-16 lg:py-24" aria-labelledby="t-prijzen">
-  <div class="kaart grid gap-8 p-6 sm:p-8 lg:grid-cols-12 lg:items-center lg:gap-10 lg:p-12" data-basis={data}>
-    <div class="lg:col-span-5">
-      <p class="kicker text-ink-zacht">Prijsindicatie</p>
-      <h2 id="t-prijzen" class="mt-3 text-3xl">Wat kost het ongeveer?</h2>
-      <p class="mt-4 text-ink-zacht">Kies merk en dienst voor een vanaf-prijs. De definitieve prijs hoort u na onderzoek.</p>
-    </div>
-    <div class="grid gap-4 lg:col-span-7">
-      <div class="grid gap-4 sm:grid-cols-2">
-        <div>
-          <label for="b-merk" class="text-sm font-medium">Merk</label>
-          <select id="b-merk" class="veld mt-1.5">{merken.map((m) => <option value={m.id}>{m.naam}</option>)}</select>
-        </div>
-        <div>
-          <label for="b-dienst" class="text-sm font-medium">Wat moet er gebeuren?</label>
-          <select id="b-dienst" class="veld mt-1.5">{onderdelen.map((o) => <option value={o.id}>{o.naam}</option>)}</select>
-        </div>
+<div class="grid gap-6 lg:grid-cols-12" data-basis={data}>
+  <div class="kaart grid content-start gap-7 p-5 sm:p-7 lg:col-span-8">
+    <fieldset class="min-w-0">
+      <legend class="font-display text-lg font-bold">Welk merk?</legend>
+      <div class="mt-3 flex flex-wrap gap-2">
+        {merken.map((m, i) => (
+          <label class="pil-keuze"><input type="radio" name="b-merk" value={m.id} checked={i === 0} class="sr-only" />{m.naam}</label>
+        ))}
       </div>
-      <div class="flex flex-col gap-4 rounded-xl bg-marine p-5 text-wit sm:flex-row sm:items-center sm:justify-between" aria-live="polite">
-        <div>
-          <p class="font-display text-2xl font-extrabold leading-tight" data-uitkomst>&nbsp;</p>
-          <p class="mt-1 text-sm text-staal" data-noot>&nbsp;</p>
-        </div>
-        <a href={site.wa} class="btn shrink-0 bg-wit text-marine hover:bg-ijs" data-basis-wa><Icoon naam="bericht" maat={20} />Vraag prijsopgave</a>
+    </fieldset>
+    <fieldset class="min-w-0">
+      <legend class="font-display text-lg font-bold">Wat moet er gebeuren?</legend>
+      <div class="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+        {onderdelen.map((o, i) => (
+          <label class="tegel"><input type="radio" name="b-dienst" value={o.id} checked={i === 0} class="sr-only" />
+            <span class="text-marine"><Icoon naam={o.icoon} maat={26} /></span>
+            <span class="mt-2 block font-display text-[0.9375rem] font-bold leading-tight">{o.naam}</span>
+          </label>
+        ))}
       </div>
+    </fieldset>
+  </div>
+
+  <div class="donker flex flex-col rounded-2xl bg-marine p-6 text-wit shadow-kaart sm:p-7 lg:col-span-4" aria-live="polite">
+    <p class="kicker text-staal">Uw prijsindicatie</p>
+    <p class="mt-3 font-display text-cijfer font-extrabold leading-none" data-uitkomst>&nbsp;</p>
+    <p class="mt-3 font-display font-bold" data-dienst>&nbsp;</p>
+    <p class="mt-1 text-sm text-staal" data-toelichting>&nbsp;</p>
+    <ul class="mt-5 grid gap-2 border-t border-wit/15 pt-4 text-sm">
+      <li class="flex gap-2"><Icoon naam="vink" maat={16} dik={2.6} class="mt-1 text-vink-licht" />Eerst onderzoek, dan een prijsopgave</li>
+      <li class="flex gap-2"><Icoon naam="vink" maat={16} dik={2.6} class="mt-1 text-vink-licht" />Niets zonder uw akkoord</li>
+    </ul>
+    <div class="mt-auto grid gap-2 pt-6">
+      <a href={site.wa} class="btn w-full bg-wit text-marine hover:bg-ijs" data-basis-wa><Icoon naam="bericht" maat={20} />Vraag prijsopgave</a>
+      <a href={site.telHref} class="btn btn-glas w-full"><Icoon naam="telefoon" maat={18} />Bel <span class="num">{site.tel}</span></a>
     </div>
   </div>
-</section>
+</div>
 
 <script>
-  type Data = { merken: { id: string; naam: string }[]; onderdelen: { id: string; naam: string; prijs: Record<string, number | null>; alleenMetServicebeurt?: boolean }[]; rolexVanaf: number; wa: string };
+  type Data = { merken: { id: string; naam: string }[]; onderdelen: { id: string; naam: string; toelichting: string; prijs: Record<string, number | null>; alleenMetServicebeurt?: boolean }[]; rolexVanaf: number; wa: string };
   const root = document.querySelector<HTMLElement>('[data-basis]');
   if (root) {
     const d: Data = JSON.parse(root.dataset.basis!);
-    const merk = root.querySelector<HTMLSelectElement>('#b-merk')!;
-    const dienst = root.querySelector<HTMLSelectElement>('#b-dienst')!;
+    const waarde = (n: string) => root.querySelector<HTMLInputElement>(`input[name="${n}"]:checked`)!.value;
+    const zet = (sel: string, t: string) => { root.querySelector(sel)!.textContent = t; };
     const bereken = () => {
-      const o = d.onderdelen.find((x) => x.id === dienst.value)!;
-      const p = o.id === 'servicebeurt' && merk.value === 'rolex' ? d.rolexVanaf : (o.prijs[merk.value] ?? o.prijs.alle ?? null);
-      root.querySelector('[data-uitkomst]')!.textContent = typeof p === 'number' ? 'Vanaf € ' + p.toLocaleString('nl-NL') : 'Prijs na onderzoek';
-      root.querySelector('[data-noot]')!.textContent = o.alleenMetServicebeurt ? 'Alleen samen met een servicebeurt.' : typeof p === 'number' ? 'Indicatie. Definitieve prijs na onderzoek.' : 'U krijgt een prijsopgave na onderzoek.';
-      const merkNaam = d.merken.find((m) => m.id === merk.value)?.naam ?? '';
+      const merk = waarde('b-merk');
+      const o = d.onderdelen.find((x) => x.id === waarde('b-dienst'))!;
+      const p = o.id === 'servicebeurt' && merk === 'rolex' ? d.rolexVanaf : (o.prijs[merk] ?? o.prijs.alle ?? null);
+      zet('[data-uitkomst]', typeof p === 'number' ? 'v.a. € ' + p.toLocaleString('nl-NL') : 'Prijs na onderzoek');
+      const u = root.querySelector<HTMLElement>('[data-uitkomst]')!; u.classList.toggle('text-cijfer', typeof p === 'number'); u.classList.toggle('text-3xl', typeof p !== 'number');
+      zet('[data-dienst]', o.naam + (o.alleenMetServicebeurt ? ' (bij een servicebeurt)' : ''));
+      zet('[data-toelichting]', o.toelichting);
+      const merkNaam = d.merken.find((m) => m.id === merk)?.naam ?? '';
       const tekst = ['Goedendag, ik wil graag een prijsopgave voor mijn horloge.', 'Merk: ' + merkNaam, 'Wat er moet gebeuren: ' + o.naam, 'Foto’s stuur ik hierna mee.'];
       root.querySelector<HTMLAnchorElement>('[data-basis-wa]')!.href = d.wa + '?text=' + encodeURIComponent(tekst.join('\n'));
     };
-    merk.addEventListener('change', bereken);
-    dienst.addEventListener('change', bereken);
+    root.addEventListener('change', bereken);
     bereken();
   }
 </script>
+
+<style>
+  .pil-keuze { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 1rem; border-radius: 999px; cursor: pointer; font-family: var(--font-display); font-weight: 600; font-size: .9375rem; background: #fff; box-shadow: inset 0 0 0 1.5px var(--color-lijn); transition: background-color .15s, color .15s, box-shadow .15s; }
+  .pil-keuze:hover { box-shadow: inset 0 0 0 1.5px #0f2a4a66; }
+  .pil-keuze:has(input:checked) { background: var(--color-marine); color: #fff; box-shadow: none; }
+  .tegel { display: block; cursor: pointer; border-radius: var(--radius-md); padding: .9rem; background: #fff; box-shadow: inset 0 0 0 1.5px var(--color-lijn); transition: box-shadow .15s, background-color .15s; }
+  .tegel:hover { box-shadow: inset 0 0 0 1.5px #0f2a4a66; }
+  .tegel:has(input:checked) { box-shadow: inset 0 0 0 2px var(--color-marine); background: var(--color-marine-licht); }
+  .pil-keuze:has(input:focus-visible), .tegel:has(input:focus-visible) { outline: 3px solid var(--color-marine); outline-offset: 2px; }
+</style>

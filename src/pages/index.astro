@@ -5,7 +5,7 @@ import Kop from '../components/Kop.astro';
 import Voet from '../components/Voet.astro';
 import Icoon from '../components/Icoon.astro';
 import Sterren from '../components/Sterren.astro';
-import Calculator from '../components/Calculator.astro';
+import Prijsindicatie from '../components/Prijsindicatie.astro';
 import { site, waAfspraak } from '../data/site';
 import heroFoto from '../assets/hero/hero-werkbank.jpg';
 import houder from '../assets/omega-houder.jpg';
@@ -72,8 +72,8 @@ const rolex = [
       <div aria-hidden="true" class="absolute inset-0 bg-[linear-gradient(to_top,#0a1d35f2_0%,#0a1d35b3_35%,#0a1d3526_70%,#0a1d3540_100%)] lg:bg-[linear-gradient(to_right,#0a1d35f2_0%,#0a1d35cc_42%,#0a1d3500_75%),linear-gradient(to_top,#0a1d35cc_0%,#0a1d3500_40%)]"></div>
       <div class="wrap relative grid gap-8 pb-24 pt-14 md:pb-12 lg:grid-cols-12 lg:items-end lg:gap-10 lg:pb-16">
         <div class="lg:col-span-8">
-          <p class="inline-flex items-center gap-2 rounded-pill bg-wit/12 px-3 py-1.5 text-sm font-medium ring-1 ring-wit/25 backdrop-blur-sm"><Icoon naam="schild" maat={18} class="text-vink-licht" />Servicecenter voor Omega, Longines en Rado</p>
-          <h1 class="mt-5 max-w-[15ch] text-4xl text-wit">Officieel Omega Service Center in Herten.</h1>
+          <p class="inline-flex items-center gap-2 rounded-pill bg-wit/12 px-3 py-1.5 text-sm font-medium ring-1 ring-wit/25 backdrop-blur-sm"><Icoon naam="schild" maat={18} class="text-vink-licht" />Officieel Omega Service Center in Herten</p>
+          <h1 class="mt-5 max-w-[16ch] text-4xl text-wit">Uw horloge in handen van erkend vakmanschap.</h1>
           <p class="mt-5 max-w-xl text-lg text-wit/90 lg:text-xl">Uw horloge wordt persoonlijk onderzocht en onderhouden door Hugo Joris. U krijgt vooraf een duidelijke prijsopgave en er gebeurt niets zonder uw akkoord. Ook onafhankelijke service voor Rolex, alleen op afspraak.</p>
           <div class="mt-8 flex flex-wrap items-center gap-3">
             <a href="#contact" class="btn bg-wit text-marine shadow-zacht hover:bg-ijs">Afspraak maken</a>
@@ -154,7 +154,7 @@ const rolex = [
       </div>
     </section>
 
-    <Calculator />
+    <Prijsindicatie />
 
     <!-- 4. Werkwijze: donker paneel met vier stappen. -->
     <section id="werkwijze" class="wrap scroll-mt-28 py-16 lg:py-24" aria-labelledby="t-werkwijze">

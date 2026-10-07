@@ -23,6 +23,8 @@ export type Onderdeel = {
   prijs: Prijs;
   /** Alleen te kiezen samen met een servicebeurt (zoals op hun site bij polijsten). */
   alleenMetServicebeurt?: boolean;
+  /** Wat houdt dit in: alleen wat op hun eigen site staat. */
+  toelichting: string;
 };
 
 // Servicebeurt: bij Rolex kiest de bezoeker het type model (prijzen van hun site).
@@ -36,12 +38,13 @@ export const rolexServicebeurt = [
 
 export const onderdelen: Onderdeel[] = [
   { id: 'servicebeurt', naam: 'Complete servicebeurt', uitleg: 'Demonteren, reinigen, smeren, afstellen', icoon: 'tandwiel',
+    toelichting: 'Inspectie, schoonmaken, smeren en afstellen, en waar nodig onderdelen vervangen. Bij Rolex inclusief opwindveer, achterdekseldichting, kroon- en tubedichting en ultrasoon reinigen van kast en band.',
     prijs: { omega: null, longines: null, rado: null, swatch: null, overig: null } }, // [[AANLEVEREN: servicebeurtprijzen per merk]]
-  { id: 'glas', naam: 'Glas vervangen', uitleg: 'Inclusief glasdichting', icoon: 'glans', prijs: { alle: null } }, // [[AANLEVEREN]]
-  { id: 'wijzerplaat', naam: 'Wijzerplaat vervangen', uitleg: 'Origineel onderdeel', icoon: 'klok', prijs: { alle: null } }, // [[AANLEVEREN]]
-  { id: 'wijzers', naam: 'Wijzers vervangen', uitleg: 'Uur-, minuut- of secondewijzer', icoon: 'klok', prijs: { alle: null } }, // [[AANLEVEREN]]
-  { id: 'kroon', naam: 'Kroon en tube vervangen', uitleg: 'Opwindkroon en tube', icoon: 'pincet', prijs: { alle: null } }, // [[AANLEVEREN]]
-  { id: 'waterdicht', naam: 'Waterdichtheid testen en herstellen', uitleg: 'Nieuwe dichtingen en test', icoon: 'druppel', prijs: { alle: null } }, // [[AANLEVEREN]]
-  { id: 'polijsten', naam: 'Kast en band polijsten', uitleg: 'Optioneel, alleen bij een servicebeurt', icoon: 'glans', prijs: { alle: 125 }, alleenMetServicebeurt: true },
-  { id: 'band', naam: 'Band vervangen', uitleg: 'Leer, rubber of staal', icoon: 'horloge', prijs: { alle: null } }, // [[AANLEVEREN]]
+  { toelichting: 'Nieuw glas met glasdichting. Origineel of generiek: u kiest vooraf.', id: 'glas', naam: 'Glas vervangen', uitleg: 'Inclusief glasdichting', icoon: 'glans', prijs: { alle: null } }, // [[AANLEVEREN]]
+  { toelichting: 'Vervanging van de wijzerplaat met een origineel onderdeel van het merk.', id: 'wijzerplaat', naam: 'Wijzerplaat vervangen', uitleg: 'Origineel onderdeel', icoon: 'klok', prijs: { alle: null } }, // [[AANLEVEREN]]
+  { toelichting: 'Vervanging van een of meer wijzers.', id: 'wijzers', naam: 'Wijzers vervangen', uitleg: 'Uur-, minuut- of secondewijzer', icoon: 'klok', prijs: { alle: null } }, // [[AANLEVEREN]]
+  { toelichting: 'Nieuwe opwindkroon en tube. Origineel of generiek: u kiest vooraf.', id: 'kroon', naam: 'Kroon en tube vervangen', uitleg: 'Opwindkroon en tube', icoon: 'pincet', prijs: { alle: null } }, // [[AANLEVEREN]]
+  { toelichting: 'Controle en herstel van de waterdichtheid, essentieel voor sportieve en duikmodellen.', id: 'waterdicht', naam: 'Waterdichtheid testen en herstellen', uitleg: 'Nieuwe dichtingen en test', icoon: 'druppel', prijs: { alle: null } }, // [[AANLEVEREN]]
+  { toelichting: 'Kast en band herstellen en polijsten, met behoud van de originele uitstraling. Alleen bij een servicebeurt en alleen als u dat wilt.', id: 'polijsten', naam: 'Kast en band polijsten', uitleg: 'Optioneel, alleen bij een servicebeurt', icoon: 'glans', prijs: { alle: 125 }, alleenMetServicebeurt: true },
+  { toelichting: 'Nieuwe band van leer, rubber of staal. Ook originele Omega-horlogebanden.', id: 'band', naam: 'Band vervangen', uitleg: 'Leer, rubber of staal', icoon: 'horloge', prijs: { alle: null } }, // [[AANLEVEREN]]
 ];

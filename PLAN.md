@@ -89,9 +89,12 @@ jorisuurwerkreparatie.nl (bron/site-tekst.txt, 2 oktober 2026), Google-profiel (
 - Niet gedaan, wacht op Hugo: aparte pagina's, gedocumenteerde intake/ontvangstbewijs, garantie, FAQ, "sinds 2017 niveau 3".
 
 ## Prijsindicatie: twee pakketten (verkoop Sitefront)
-- Basis, 100 euro (staat op de site): src/components/Calculator.astro. Merk en één dienst kiezen, vanaf-prijs of
-  "prijs na onderzoek", knop "Vraag prijsopgave" opent WhatsApp met merk en dienst.
-- Uitgebreid, 250 euro (klaar, niet op de site): src/components/CalculatorUitgebreid.astro. Meerdere onderdelen,
-  keuze per Rolex-model, optioneel cosmetisch werk, opgeteld totaal en samenvatting die mee gaat naar WhatsApp.
-  Activeren: in src/pages/index.astro <Calculator /> vervangen door <CalculatorUitgebreid /> (en de import).
+- Basis, 100 euro: src/components/Calculator.astro. Merk als knoppen, dienst als tegels met icoon, vanaf-prijs met
+  uitleg wat erbij hoort, knoppen WhatsApp (bericht met merk en dienst) en bellen.
+- Uitgebreid, 249 euro: src/components/CalculatorUitgebreid.astro. Stappenplan (merk, werkzaamheden, uw horloge,
+  overzicht), noodzakelijk en optioneel werk gescheiden, "Wat houdt dit in?" per onderdeel, Rolex-model, opgeteld totaal
+  in een meelopend vak, gegevens over het horloge (model, type, klacht, sinds, laatste service, contact, voorkeur),
+  overzicht naar WhatsApp of e-mail, kopiëren, printen/pdf, keuzes onthouden in de browser.
+- Schakelaar: src/components/Prijsindicatie.astro toont in de preview een demoschakelaar (ook via ?pakket=uitgebreid).
+  Bij oplevering: site.preview = false en site.prijsindicatie = 'basis' of 'uitgebreid' in src/data/site.ts.
 - Beide lezen dezelfde prijzen uit src/data/prijzen.ts.

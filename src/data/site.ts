@@ -25,6 +25,8 @@ export const site = {
   // Zolang er [[AANLEVEREN]]-markeringen in de site staan: niet indexeren en alleen op github.io.
   // Bij oplevering op false zetten, samen met public/robots.txt en het domein in astro.config.mjs.
   preview: true,
+  // Welk prijsindicatie-pakket op de site staat: 'basis' (100 euro) of 'uitgebreid' (249 euro).
+  prijsindicatie: 'basis' as 'basis' | 'uitgebreid',
 };
 export const url = (p = '') => `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${p.replace(/^\//, '')}`;
 export const waMet = (tekst: string) => `${site.wa}?text=${encodeURIComponent(tekst)}`;
