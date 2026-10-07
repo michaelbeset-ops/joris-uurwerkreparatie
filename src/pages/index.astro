@@ -74,55 +74,37 @@ const reviewsUrl = 'https://www.google.com/maps/search/?api=1&query=Joris+Uurwer
   <Kop />
   <main id="inhoud">
 
-    <!-- 1. Hero, schermvullend. Inktblauw vlak met de foto van het kaliber 321 over de volle hoogte rechts;
-         de foto loopt naar links over in het blauw. De foto is 720 x 900 en wordt nergens breder getoond dan
-         ongeveer die maat, zodat hij scherp blijft. Op mobiel ligt de foto achter de tekst. -->
-    <section class="donker relative isolate -mt-[5rem] flex min-h-[calc(100svh-2.25rem)] flex-col overflow-hidden bg-nacht text-licht lg:-mt-[5.75rem]" aria-labelledby="t-hero">
-      <div class="absolute inset-0 -z-10 lg:left-auto lg:w-[min(52vw,48rem)]">
-        <Image src={kaliber} alt="Een opengewerkt Omega-chronograafuurwerk, kaliber 321, in een uurwerkhouder op de werkbank" widths={[480, 720]} sizes="(min-width: 1024px) 52vw, 100vw" loading="eager" fetchpriority="high" quality={82} class="h-full w-full object-cover object-[50%_15%] lg:object-[55%_45%]" />
-        <div aria-hidden="true" class="absolute inset-0 bg-gradient-to-t from-nacht from-35% via-nacht/70 via-60% to-nacht/10 lg:bg-gradient-to-r lg:from-nacht lg:from-0% lg:via-nacht/35 lg:via-40% lg:to-transparent"></div>
-        <div aria-hidden="true" class="absolute inset-x-0 bottom-0 hidden h-40 bg-gradient-to-t from-nacht to-transparent lg:block"></div>
-      </div>
-
-      <div class="wrap relative flex flex-1 flex-col justify-end pb-10 pt-32 lg:justify-center lg:pb-12 lg:pt-36">
-        <div class="max-w-[40rem]">
-          <p class="ui text-messing-licht">Horlogemaker in Herten<span class="hidden sm:inline">, alleen op afspraak</span></p>
-          <h1 id="t-hero" class="mt-5 text-licht">Officieel Omega Service Center in Herten.</h1>
-          <p class="mt-6 max-w-[32rem] text-lg text-licht-zacht">Onderhoud en reparatie van Omega, Longines en Rado met originele onderdelen. Ook voor Rolex en andere Zwitserse merken.</p>
-          <div class="mt-9 flex flex-wrap items-center gap-3">
+    <!-- 1. Hero, schermvullend. Links tekst op wit, rechts de foto van het kaliber 321 over de volle hoogte
+         met een harde rand. De foto is 720 x 900 en staat op 1440 breed op ware grootte, dus scherp.
+         Op mobiel eerst de tekst, daaronder de foto tot onderaan het scherm. -->
+    <section class="grid min-h-[calc(100svh-4.5rem)] lg:grid-cols-2" aria-labelledby="t-hero">
+      <div class="flex flex-col justify-between gap-10 px-5 pb-8 pt-8 md:px-10 lg:py-14 lg:pl-[max(2.5rem,calc((100vw-78rem)/2+2.5rem))] lg:pr-16">
+        <div class="my-auto max-w-[36rem]">
+          <p class="text-tekst">Horlogemaker in Herten<span class="hidden sm:inline">, alleen op afspraak</span></p>
+          <h1 id="t-hero" class="mt-4">Officieel Omega Service Center in Herten.</h1>
+          <p class="mt-6 max-w-[31rem] text-lg text-tekst">Onderhoud en reparatie van Omega, Longines en Rado, met originele onderdelen. Ook voor Rolex en andere Zwitserse merken.</p>
+          <div class="mt-8 flex flex-wrap gap-3">
             <a href="#contact" class="knop knop-vol">Afspraak maken</a>
-            <a href={waAfspraak} class="knop knop-glas">WhatsApp</a>
+            <a href={waAfspraak} class="knop knop-licht">WhatsApp</a>
           </div>
-          <p class="mt-5 flex flex-wrap gap-x-6 gap-y-1 text-sm text-licht-zacht">
-            <a href={site.telHref} class="num underline decoration-licht/40 underline-offset-4 hover:decoration-licht">Bel<span class="hidden sm:inline"> {site.tel}</span></a>
-            <a href={`mailto:${site.mail}`} class="underline decoration-licht/40 underline-offset-4 hover:decoration-licht"><span class="sm:hidden">Mail</span><span class="hidden sm:inline">{site.mail}</span></a>
-          </p>
+          <p class="mt-5 text-[1rem] text-tekst">Of bel <a href={site.telHref} class="num font-medium text-inkt underline underline-offset-4">{site.tel}</a> of mail <a href={`mailto:${site.mail}`} class="font-medium text-inkt underline underline-offset-4">{site.mail}</a></p>
         </div>
-      </div>
-
-      <div class="wrap relative pb-20 md:pb-6 lg:pb-8">
-        <ul class="grid gap-4 border-t border-lijn-licht pt-6 sm:grid-cols-3 lg:max-w-[52rem]" aria-label="Waarom u hier terecht kunt">
-          {[
-            ['Officieel', 'Omega Service Center'],
-            ['Servicecenter', 'Longines en Rado'],
-            [`${site.google.score} op Google`, `uit ${site.google.aantal} beoordelingen`],
-          ].map(([a, b], i) => (
-            <li class="flex gap-3">
-              {i === 2 ? <span class="mt-1"><Sterren klein /></span> : <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0 text-messing-licht"><path d="M12 3l7 3v5c0 5-3.5 8.5-7 10-3.5-1.5-7-5-7-10V6zM9 12l2 2 4-4" /></svg>}
-              <span class="text-sm leading-snug">{i === 2 ? <a href={reviewsUrl} target="_blank" rel="noopener" class="hover:underline"><strong class="block font-medium text-licht">{a}</strong><span class="text-licht-zacht">{b}</span><span class="sr-only"> (opent in een nieuw tabblad)</span></a> : <><strong class="block font-medium text-licht">{a}</strong><span class="text-licht-zacht">{b}</span></>}</span>
-            </li>
-          ))}
+        <ul class="grid gap-3 border-t border-lijn pt-5 text-[1rem] leading-snug sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-lijn" aria-label="Waarom u hier terecht kunt">
+          <li class="sm:pr-5"><strong class="font-semibold sm:block">Officieel</strong> Omega Service Center</li>
+          <li class="sm:px-5"><strong class="font-semibold sm:block">Servicecenter</strong> Longines en Rado</li>
+          <li class="sm:pl-5"><a href={reviewsUrl} target="_blank" rel="noopener" class="hover:underline"><strong class="font-semibold sm:block">{site.google.score} op Google <Sterren klein /></strong> {site.google.aantal} beoordelingen<span class="sr-only"> (opent in een nieuw tabblad)</span></a></li>
         </ul>
-        <p class="absolute bottom-8 right-10 hidden text-xs text-licht-zacht xl:block">Omega kaliber 321, uit de werkplaats</p>
       </div>
+      <figure class="relative order-first aspect-[16/11] bg-vlak sm:aspect-[16/9] lg:order-none lg:aspect-auto">
+        <Image src={kaliber} alt="Een opengewerkt Omega-chronograafuurwerk, kaliber 321, in een uurwerkhouder op de werkbank" widths={[480, 720]} sizes="(min-width: 1024px) 50vw, 100vw" loading="eager" fetchpriority="high" quality={80} class="absolute inset-0 h-full w-full object-cover object-[50%_58%] lg:object-[50%_50%]" />
+        <figcaption class="absolute bottom-3 right-3 hidden rounded bg-papier/90 px-3 py-1.5 text-sm text-inkt sm:block lg:bottom-4 lg:right-4">Omega kaliber 321, in de werkplaats</figcaption>
+      </figure>
     </section>
 
-    <!-- Merkenrij -->
-    <nav aria-label="Merken" class="border-y border-lijn bg-papier">
-      <ul class="slider wrap py-4 lg:justify-between">
-        {merkenRij.map((m) => <li><a href={m === 'Rolex' ? '#rolex' : m === 'Omega' ? '#omega' : '#diensten'} class={`pil ${m === 'Omega' ? 'pil-vol' : ''}`}>{m}</a></li>)}
-      </ul>
-    </nav>
+    <!-- Merkenrij: rustige tekstregel. -->
+    <div class="border-y border-lijn bg-wit">
+      <p class="wrap flex flex-wrap items-center gap-x-6 gap-y-2 py-5 text-[1rem] text-tekst"><span class="font-semibold text-inkt">Merken</span>{merkenRij.map((m) => <span>{m}</span>)}</p>
+    </div>
 
     <!-- 2. Omega Service Center, donker blok -->
     <section id="omega" class="donker scroll-mt-24 bg-nacht text-licht" aria-labelledby="t-omega">

@@ -96,8 +96,8 @@ const h = (id: string) => (thuis ? `#${id}` : url(`#${id}`));
 
 <!-- Vaste balk onderaan op mobiel. -->
 <div class="fixed inset-x-0 bottom-0 z-30 grid grid-cols-2 gap-2 border-t border-lijn bg-papier/95 p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] backdrop-blur-sm md:hidden">
-  <a href={waAfspraak} class="knop knop-licht !min-h-12 !px-2 whitespace-nowrap !tracking-[.1em]">WhatsApp</a>
-  <a href={h('contact')} class="knop knop-vol !min-h-12 !px-2 whitespace-nowrap !tracking-[.1em]">Afspraak maken</a>
+  <a href={waAfspraak} class="knop knop-licht !min-h-12 !px-2">WhatsApp</a>
+  <a href={h('contact')} class="knop knop-vol !min-h-12 !px-2">Afspraak maken</a>
 </div>
 
 <script>

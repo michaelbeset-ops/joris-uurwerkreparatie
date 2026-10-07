@@ -1,7 +1,6 @@
 ---
 import '../styles/global.css';
-import kopUrl from '@fontsource-variable/cormorant/files/cormorant-latin-wght-normal.woff2?url';
-import sansUrl from '@fontsource-variable/hanken-grotesk/files/hanken-grotesk-latin-wght-normal.woff2?url';
+import sansUrl from '@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-wght-normal.woff2?url';
 import { site, url } from '../data/site';
 
 interface Props { title: string; description: string; }
@@ -17,7 +16,6 @@ const { title, description } = Astro.props;
     {site.preview && <meta name="robots" content="noindex, nofollow" />}
     <meta name="theme-color" content={site.themeColor} />
     <link rel="icon" type="image/svg+xml" href={url('favicon.svg')} />
-    <link rel="preload" as="font" type="font/woff2" href={kopUrl} crossorigin />
     <link rel="preload" as="font" type="font/woff2" href={sansUrl} crossorigin />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="nl_NL" />

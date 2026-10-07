@@ -1,0 +1,41 @@
+---
+// Hero-variant C, "Panorama": rustig lichtgrijs, de tekst gecentreerd als op een merkpagina, daaronder de Omega-
+// uurwerkhouder als brede fotoband (bron 1600 breed, scherp op 1440). Geist.
+import '@fontsource-variable/geist';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Sterren from '../../components/Sterren.astro';
+import { site, url, waAfspraak } from '../../data/site';
+import foto from '../../assets/hero/c-houder.jpg';
+---
+<Base title="Hero C, Panorama | Joris Uurwerkreparatie" description="Ontwerpvariant hero C">
+  <main id="inhoud" class="hero-c flex min-h-svh flex-col bg-[#f2f2f0] text-[#14161a]">
+    <header class="wrap flex h-[4.5rem] items-center justify-between gap-6">
+      <a href={url('')} class="whitespace-nowrap text-[1.1875rem] tracking-[-0.02em]"><span class="font-semibold">Joris</span> Uurwerkreparatie</a>
+      <nav aria-label="Hoofdmenu" class="hidden lg:block"><ul class="flex gap-8 text-[1rem] text-[#3f434b]">{['Omega', 'Diensten', 'Werkwijze', 'Over'].map((n) => <li><a href="#" class="hover:text-[#14161a]">{n}</a></li>)}</ul></nav>
+      <a href="#" class="hidden h-10 items-center rounded-full bg-[#14161a] px-4 text-[0.9375rem] font-medium text-white sm:inline-flex">Afspraak maken</a>
+    </header>
+
+    <div class="wrap flex flex-col items-center pb-10 pt-10 text-center lg:pt-14">
+      <p class="inline-flex items-center gap-2 text-[1rem] text-[#3f434b]"><Sterren klein /> {site.google.score} op Google, {site.google.aantal} beoordelingen</p>
+      <h1 class="mt-5 max-w-[18ch] text-[clamp(2.5rem,4.6vw,4.75rem)] font-semibold leading-[1.02] tracking-[-0.035em]">Officieel Omega Service Center in Herten.</h1>
+      <p class="mt-5 max-w-[36rem] text-[1.125rem] leading-relaxed text-[#3f434b]">Onderhoud en reparatie van Omega, Longines en Rado, met originele onderdelen. Alleen op afspraak.</p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a href="#" class="inline-flex h-12 items-center rounded-full bg-[#14161a] px-6 text-[1.0625rem] font-medium text-white hover:bg-[#2c3038]">Afspraak maken</a>
+        <a href={waAfspraak} class="inline-flex h-12 items-center rounded-full border border-[#14161a40] bg-white px-6 text-[1.0625rem] font-medium hover:border-[#14161a]">WhatsApp</a>
+      </div>
+    </div>
+
+    <figure class="relative mx-auto min-h-[18rem] w-full max-w-[100rem] flex-1">
+      <Image src={foto} alt="Een Omega-uurwerk in een rode Omega-uurwerkhouder op de werkbank, met een Omega-pincet erachter" widths={[800, 1200, 1600]} sizes="100vw" loading="eager" fetchpriority="high" class="absolute inset-0 h-full w-full object-cover object-[50%_55%]" />
+      <figcaption class="absolute bottom-0 left-0 right-0 hidden bg-[#14161a]/80 text-white sm:block">
+        <ul class="wrap flex flex-wrap justify-center gap-x-10 gap-y-1 py-3 text-[0.9375rem]">
+          <li>Officieel Omega Service Center</li><li>Servicecenter Longines en Rado</li><li>Originele onderdelen</li><li class="num">{site.tel}</li>
+        </ul>
+      </figcaption>
+    </figure>
+  </main>
+</Base>
+<style is:global>
+  .hero-c, .hero-c h1 { font-family: "Geist Variable", system-ui, sans-serif; }
+</style>

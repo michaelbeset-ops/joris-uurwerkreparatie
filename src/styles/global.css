@@ -1,8 +1,7 @@
 @import "tailwindcss";
 
-/* Alleen de latin-subsets, zelf gehost. */
-@import "@fontsource-variable/cormorant/index.css";
-@import "@fontsource-variable/hanken-grotesk/index.css";
+/* Eén lettertype voor alles: Schibsted Grotesk, een krantengrotesk. Stevig en zakelijk, zonder luxe-pose. */
+@import "@fontsource-variable/schibsted-grotesk/index.css";
 
 @theme {
   --color-*: initial;
@@ -10,32 +9,35 @@
   --radius-*: initial;
   --shadow-*: initial;
 
-  /* Warm gebroken wit, één diep inktblauw, één messingaccent (spaarzaam). */
-  --color-papier: #f5f1ea;        /* pagina */
-  --color-vlak: #ebe5da;          /* rustig vlak, iets donkerder papier */
-  --color-inkt: #14213b;          /* koppen en tekst, 13,5:1 op papier */
-  --color-tekst: #3a4158;         /* lopende bijtekst, 8,6:1 op papier */
-  --color-lijn: #14213b26;
-  --color-lijn-sterk: #14213b59;
-  --color-messing: #7d6233;       /* accent op papier, 4,9:1; alleen kleine labels en lijnen */
-  --color-nacht: #14213b;         /* donker vlak (contactblok) */
-  --color-licht: #f5f1ea;
-  --color-licht-zacht: #c3c5cf;   /* bijtekst op nacht, 9,4:1 */
-  --color-lijn-licht: #f5f1ea2e;
-  --color-messing-licht: #d2b27a; /* accent op nacht, 8,5:1 */
+  /* Warm wit, bijna-zwart met een blauwe zweem, één inktblauw voor knoppen en het donkere vlak.
+     Geen goud: dat maakte het een luxe-sjabloon. */
+  --color-papier: #f7f6f2;        /* pagina */
+  --color-vlak: #efede7;          /* rustig vlak */
+  --color-wit: #ffffff;
+  --color-white: #ffffff;         /* nodig voor de hero-varianten */
+  --color-inkt: #121a2b;          /* koppen, tekst, knoppen; 16,8:1 op papier */
+  --color-tekst: #444b5a;         /* bijtekst; 8,3:1 op papier */
+  --color-lijn: #121a2b1f;
+  --color-lijn-sterk: #121a2b4d;
+  --color-messing: #121a2b;       /* labels in dezelfde inkt; bewust geen tweede kleur */
+  --color-nacht: #121a2b;         /* donker vlak */
+  --color-licht: #f7f6f2;
+  --color-licht-zacht: #c2c6d0;   /* bijtekst op nacht, 9,9:1 */
+  --color-lijn-licht: #f7f6f22e;
+  --color-messing-licht: #f7f6f2;
+  --color-ster: #b8862b;          /* alleen de Google-sterren */
 
-  --font-kop: "Cormorant Variable", "Cormorant Garamond", Garamond, "Times New Roman", serif;
-  --font-sans: "Hanken Grotesk Variable", "Segoe UI", system-ui, sans-serif;
+  --font-sans: "Schibsted Grotesk Variable", "Helvetica Neue", Arial, sans-serif;
 
-  --text-micro: 0.75rem;     /* 12px labels in kleinkapitaal */
-  --text-xs: 0.875rem;       /* 14px: alleen voetnoten en bijschriften */
+  --text-micro: 0.875rem;    /* 14px labels */
+  --text-xs: 0.875rem;       /* 14px voetnoten */
   --text-sm: 1rem;           /* 16px */
   --text-base: 1.125rem;     /* 18px lopende tekst */
   --text-lg: 1.25rem;
-  --text-k3: clamp(1.5rem, 0.6vw + 1.3rem, 1.75rem);        /* h3, serif */
-  --text-k2: clamp(2.125rem, 2.2vw + 1.4rem, 3.25rem);      /* h2, serif */
-  --text-k1: clamp(2.5rem, 3.6vw + 1.4rem, 4.75rem);        /* h1, serif */
-  --text-cijfer: clamp(2rem, 2vw + 1.2rem, 2.75rem);
+  --text-k3: clamp(1.25rem, 0.4vw + 1.15rem, 1.4375rem);   /* h3 */
+  --text-k2: clamp(1.875rem, 1.6vw + 1.3rem, 2.75rem);     /* h2 */
+  --text-k1: clamp(2.375rem, 2.6vw + 1.5rem, 4rem);        /* h1 */
+  --text-cijfer: clamp(2.5rem, 2vw + 1.8rem, 3.25rem);
 
   --ease-zacht: cubic-bezier(.22, .61, .36, 1);
 }
@@ -52,14 +54,13 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  /* Klassieke serif met karakter, bewust licht (500) in plaats van zwaar: dit is een horlogemaker, geen startup. */
-  h1, h2, h3 { font-family: var(--font-kop); font-weight: 500; line-height: 1.08; letter-spacing: -0.005em; text-wrap: balance; overflow-wrap: anywhere; }
-  h1 { font-size: var(--text-k1); line-height: 1.02; }
+  h1, h2, h3 { font-weight: 650; letter-spacing: -0.022em; line-height: 1.08; text-wrap: balance; overflow-wrap: anywhere; }
+  h1 { font-size: var(--text-k1); font-weight: 700; letter-spacing: -0.03em; line-height: 1.02; }
   h2 { font-size: var(--text-k2); }
-  h3 { font-size: var(--text-k3); line-height: 1.2; }
+  h3 { font-size: var(--text-k3); line-height: 1.25; letter-spacing: -0.012em; font-weight: 600; }
   p { text-wrap: pretty; }
   ::selection { background: var(--color-inkt); color: var(--color-papier); }
-  :focus-visible { outline: 2px solid var(--color-inkt); outline-offset: 4px; }
+  :focus-visible { outline: 2px solid var(--color-inkt); outline-offset: 3px; }
   .donker :focus-visible { outline-color: var(--color-licht); }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -68,61 +69,40 @@
 }
 
 @layer components {
-  .wrap { width: 100%; max-width: 80rem; margin-inline: auto; padding-inline: 1.25rem; }
+  .wrap { width: 100%; max-width: 78rem; margin-inline: auto; padding-inline: 1.25rem; }
   @media (min-width: 768px) { .wrap { padding-inline: 2.5rem; } }
 
-  /* Klein label in kapitaal, voor rubrieken en navigatie. */
-  .ui { font-size: var(--text-micro); line-height: 1.4; letter-spacing: .14em; text-transform: uppercase; font-weight: 500; }
+  /* Label boven een kop: gewone zin, half vet. Geen gespatieerde hoofdletters. */
+  .ui { font-size: var(--text-micro); line-height: 1.4; font-weight: 600; letter-spacing: 0; }
   .num { font-variant-numeric: tabular-nums; }
-  .kop-serif { font-family: var(--font-kop); font-weight: 500; }
+  .kop-serif { font-weight: 600; letter-spacing: -0.015em; }
 
-  /* Woordmerk naar hun logo: JORIS ruim gespatieerd in de serif, Uurwerkreparatie klein eronder. */
-  .merk { display: inline-flex; flex-direction: column; align-items: center; line-height: 1; text-decoration: none; color: inherit; }
-  .merk b { font-family: var(--font-kop); font-weight: 500; letter-spacing: .3em; margin-right: -.3em; font-size: 1.75rem; }
-  .merk small { font-size: .625rem; letter-spacing: .3em; margin-right: -.3em; text-transform: uppercase; margin-top: .4rem; font-weight: 500; color: var(--color-messing); }
-  .donker .merk small { color: var(--color-messing-licht); }
-  @media (min-width: 768px) { .merk b { font-size: 2rem; } .merk small { font-size: .6875rem; } }
+  /* Woordmerk: Joris vet, Uurwerkreparatie gewoon erachter. Leesbaar op mobiel, geen spatiëring. */
+  .merk { display: inline-flex; align-items: baseline; gap: .4em; line-height: 1; text-decoration: none; color: inherit; font-size: 1.25rem; letter-spacing: -0.02em; white-space: nowrap; }
+  .merk b { font-weight: 750; }
+  .merk small { font-size: inherit; font-weight: 400; }
+  @media (min-width: 768px) { .merk { font-size: 1.375rem; } }
 
-  .lijn { background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat; padding-bottom: 2px; text-decoration: none; transition: background-size .45s var(--ease-zacht); }
-  .lijn:hover { background-size: 0 1px; background-position: 100% 100%; }
-  .lijn-in { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; padding-bottom: 2px; text-decoration: none; transition: background-size .45s var(--ease-zacht); }
-  .lijn-in:hover { background-size: 100% 1px; }
+  .lijn { background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat; padding-bottom: 2px; text-decoration: none; }
+  .lijn-in { text-decoration: none; }
+  .lijn-in:hover { text-decoration: underline; text-underline-offset: 4px; }
 
-  /* Knop: strakke rechthoek in inkt. Hover: messing schuift omhoog. */
-  .knop { display: inline-flex; align-items: center; justify-content: center; gap: .75rem; min-height: 3.5rem; padding: 0 2rem; border: 1px solid currentColor; font-size: var(--text-micro); letter-spacing: .14em; text-transform: uppercase; font-weight: 500; text-decoration: none; position: relative; isolation: isolate; overflow: hidden; transition: color .4s var(--ease-zacht), border-color .4s var(--ease-zacht); cursor: pointer; }
-  .knop::before { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--color-inkt); transform: scaleY(0); transform-origin: 50% 100%; transition: transform .45s var(--ease-zacht); }
-  .knop:hover { color: var(--color-papier); }
-  .knop:hover::before { transform: scaleY(1); }
+  /* Knop: rechthoek, gewone tekst, geen animatie-effect. */
+  .knop { display: inline-flex; align-items: center; justify-content: center; gap: .6rem; min-height: 3.25rem; padding: 0 1.5rem; border: 1px solid currentColor; font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.005em; text-decoration: none; border-radius: 4px; transition: background-color .15s, color .15s, border-color .15s; cursor: pointer; white-space: nowrap; }
   .knop-vol { background: var(--color-inkt); color: var(--color-papier); border-color: var(--color-inkt); }
-  .knop-vol::before { background: var(--color-messing); }
-  .knop-vol:hover { border-color: var(--color-messing); color: #fff; }
+  .knop-vol:hover { background: #24304a; border-color: #24304a; }
+  .knop-licht { background: var(--color-wit); color: var(--color-inkt); border-color: var(--color-lijn-sterk); }
+  .knop-licht:hover { border-color: var(--color-inkt); }
+  .knop-glas { color: var(--color-licht); border-color: #f7f6f266; background: transparent; }
+  .knop-glas:hover { border-color: var(--color-licht); }
   .donker .knop-vol { background: var(--color-licht); color: var(--color-nacht); border-color: var(--color-licht); }
-  .donker .knop-vol::before { background: var(--color-messing-licht); }
-  .donker .knop-vol:hover { color: var(--color-nacht); border-color: var(--color-messing-licht); }
+  .donker .knop-vol:hover { background: #fff; }
 
-  /* Plek voor nog aan te leveren beeld: rustig vlak in de huisstijl, geen stockfoto. */
-  .aanleveren { display: flex; align-items: flex-end; padding: 1.25rem; background: var(--color-vlak); color: var(--color-tekst); font-size: var(--text-xs); line-height: 1.5; border: 1px solid var(--color-lijn); }
-  .donker .aanleveren { background: #1d2b49; color: var(--color-licht-zacht); border-color: var(--color-lijn-licht); }
-}
+  .aanleveren { display: flex; align-items: flex-end; padding: 1.25rem; background: var(--color-vlak); color: var(--color-tekst); font-size: var(--text-xs); line-height: 1.5; border: 1px solid var(--color-lijn); border-radius: 4px; }
+  .donker .aanleveren { background: #1c2538; color: var(--color-licht-zacht); border-color: var(--color-lijn-licht); }
 
-@layer components {
-  /* Kaarten: dunne lijn, heel lage schaduw, geen afronding. Hetzelfde "gebouwde" gevoel als de lijnen in de tabellen. */
-  .kaart { background: #fff; border: 1px solid var(--color-lijn); box-shadow: 0 1px 2px #14213b0a, 0 12px 32px -16px #14213b26; }
-  .donker .kaart { background: #1b2a48; border-color: var(--color-lijn-licht); box-shadow: none; }
-  /* Foto in een kaart die onderaan zacht in wit overloopt. */
-  .vervaag { position: relative; }
-  .vervaag::after { content: ""; position: absolute; inset: auto 0 0 0; height: 40%; background: linear-gradient(to bottom, transparent, #fff); pointer-events: none; }
-  /* Rij pills (merken) die op mobiel horizontaal scrollt. */
-  .slider { display: flex; gap: .5rem; overflow-x: auto; scroll-snap-type: x proximity; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
-  .slider::-webkit-scrollbar { display: none; }
-  .slider > * { scroll-snap-align: start; flex: 0 0 auto; }
-  .pil { display: inline-flex; align-items: center; min-height: 2.25rem; padding: 0 .9rem; border: 1px solid var(--color-lijn-sterk); font-size: var(--text-sm); white-space: nowrap; text-decoration: none; }
-  .pil-vol { background: var(--color-inkt); color: var(--color-papier); border-color: var(--color-inkt); }
-  .ster { color: var(--color-messing); }
-  .donker .ster { color: var(--color-messing-licht); }
-  .knop-licht { background: #fff; color: var(--color-inkt); border-color: var(--color-lijn-sterk); }
-  .knop-licht::before { background: var(--color-inkt); }
-  .knop-glas { color: var(--color-licht); border-color: #f5f1ea99; }
-  .knop-glas::before { background: var(--color-licht); }
-  .knop-glas:hover { color: var(--color-nacht); }
+  .kaart { background: var(--color-wit); border: 1px solid var(--color-lijn); border-radius: 4px; }
+  .donker .kaart { background: #1c2538; border-color: var(--color-lijn-licht); }
+  .ster { color: var(--color-ster); }
+  .donker .ster { color: #e2b964; }
 }

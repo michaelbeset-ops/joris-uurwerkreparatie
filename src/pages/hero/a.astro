@@ -1,0 +1,45 @@
+---
+// Hero-variant A, "Nacht": schermvullende zwart-witfoto van een geopend uurwerk (1600 breed, scherp op 1440),
+// een vlakke donkere laag erover, witte tekst onderaan. Instrument Sans, gewicht 500.
+import '@fontsource-variable/instrument-sans';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Sterren from '../../components/Sterren.astro';
+import { site, url, waAfspraak } from '../../data/site';
+import foto from '../../assets/hero/a-groen-zw.jpg';
+const reviews = 'https://www.google.com/maps/search/?api=1&query=Joris+Uurwerkreparatie+Herten';
+---
+<Base title="Hero A, Nacht | Joris Uurwerkreparatie" description="Ontwerpvariant hero A">
+  <main id="inhoud" class="hero-a relative isolate flex min-h-svh flex-col overflow-hidden bg-[#0b0b0c] text-white">
+    <Image src={foto} alt="Een geopend chronograafuurwerk in een houder op de werkbank, in zwart-wit" widths={[800, 1200, 1600]} sizes="100vw" loading="eager" fetchpriority="high" class="absolute inset-0 -z-10 h-full w-full object-cover object-[50%_62%]" />
+    <div aria-hidden="true" class="absolute inset-0 -z-10 bg-[#0b0b0c]/62"></div>
+
+    <header class="wrap flex h-20 items-center justify-between gap-6">
+      <a href={url('')} class="whitespace-nowrap text-[1.25rem] tracking-[-0.02em]"><span class="font-semibold">Joris</span> Uurwerkreparatie</a>
+      <nav aria-label="Hoofdmenu" class="hidden lg:block"><ul class="flex gap-8 text-[1rem] text-white/85">{['Omega', 'Diensten', 'Werkwijze', 'Over'].map((n) => <li><a href="#" class="hover:text-white">{n}</a></li>)}</ul></nav>
+      <a href="#" class="hidden h-11 items-center border border-white/50 px-4 text-[1rem] font-medium hover:border-white sm:inline-flex">Afspraak maken</a>
+    </header>
+
+    <div class="wrap mt-auto pb-10 pt-24 lg:pb-14">
+      <p class="text-[1rem] text-white/75">Horlogemaker in Herten, alleen op afspraak</p>
+      <h1 class="mt-4 max-w-[13ch] text-[clamp(2.75rem,5.4vw,5.75rem)] font-medium leading-[0.98] tracking-[-0.035em]">Officieel Omega Service Center in Herten.</h1>
+      <div class="mt-8 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+        <p class="max-w-[30rem] text-[1.1875rem] leading-relaxed text-white/80">Onderhoud en reparatie van Omega, Longines en Rado, met originele onderdelen. Ook voor Rolex en andere Zwitserse merken.</p>
+        <div class="flex flex-wrap gap-3">
+          <a href="#" class="inline-flex h-13 items-center bg-white px-6 text-[1.0625rem] font-medium text-[#0b0b0c] hover:bg-white/90">Afspraak maken</a>
+          <a href={waAfspraak} class="inline-flex h-13 items-center border border-white/50 px-6 text-[1.0625rem] font-medium hover:border-white">WhatsApp</a>
+        </div>
+      </div>
+      <ul class="mt-12 grid gap-3 border-t border-white/20 pt-5 text-[1rem] text-white/80 sm:grid-cols-2 lg:grid-cols-[auto_auto_1fr_auto] lg:gap-10">
+        <li><strong class="font-semibold text-white">Officieel</strong> Omega Service Center</li>
+        <li><strong class="font-semibold text-white">Servicecenter</strong> Longines en Rado</li>
+        <li><a href={reviews} class="hover:text-white"><strong class="font-semibold text-white">{site.google.score}</strong> <Sterren klein /> op Google ({site.google.aantal})</a></li>
+        <li class="sm:text-right"><a href={site.telHref} class="num font-medium text-white hover:underline">{site.tel}</a></li>
+      </ul>
+    </div>
+  </main>
+</Base>
+<style is:global>
+  .hero-a, .hero-a h1 { font-family: "Instrument Sans Variable", system-ui, sans-serif; }
+  .hero-a .ster { color: #e8c37a; }
+</style>

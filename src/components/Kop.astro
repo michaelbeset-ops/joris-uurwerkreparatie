@@ -1,44 +1,37 @@
 ---
-// USP-balk met de feiten van hun eigen site, daaronder de navigatie als smalle witte kaart die blijft plakken.
+// Rustige kopbalk: woordmerk, menu, telefoon en een knop. Plakt bovenaan.
 import { url, site, waAfspraak } from '../data/site';
 interface Props { thuis?: boolean }
 const { thuis = true } = Astro.props;
 const h = (id: string) => (thuis ? `#${id}` : url(`#${id}`));
 const menu = [['Omega', 'omega'], ['Diensten', 'diensten'], ['Werkwijze', 'werkwijze'], ['Over', 'over'], ['Rolex', 'rolex']];
-const usps = ['Officieel Omega Service Center', 'Servicecenter Longines en Rado', 'Originele onderdelen', 'Alleen op afspraak'];
 ---
-<div class="bg-nacht text-licht">
-  <ul class="wrap flex h-9 items-center gap-6 overflow-hidden text-xs font-medium leading-none sm:text-sm">
-    {usps.map((u, i) => <li class={`flex items-center gap-2 whitespace-nowrap ${i > 0 ? 'hidden sm:flex' : ''} ${i > 1 ? 'sm:hidden lg:flex' : ''}`}><svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" class="text-messing-licht"><path d="M4 12.5l5 5L20 6.5"/></svg>{u}</li>)}
-    <li class="ml-auto hidden min-[400px]:block"><a href={site.telHref} class="num whitespace-nowrap hover:underline">{site.tel}</a></li>
-  </ul>
-</div>
-<header class="sticky top-0 z-40 px-3 pt-3 md:px-6">
-  <div class="mx-auto flex h-[4.25rem] max-w-[78rem] items-center justify-between gap-4 border border-lijn bg-papier/95 px-4 shadow-[0_8px_30px_-12px_#14213b33] backdrop-blur-sm md:px-6 lg:h-20">
-    <a href={url('')} class="merk !items-start">
-      <b>JORIS</b><small>Uurwerkreparatie</small>
-    </a>
+<header class="sticky top-0 z-40 border-b border-lijn bg-papier/95 backdrop-blur-sm">
+  <div class="wrap flex h-[4.5rem] items-center justify-between gap-6">
+    <a href={url('')} class="merk"><b>Joris</b><small>Uurwerkreparatie</small></a>
     <nav aria-label="Hoofdmenu" class="hidden lg:block">
-      <ul class="ui flex gap-1">
-        {menu.map(([n, id]) => <li><a href={h(id)} class="block px-3 py-2 transition-colors hover:bg-vlak">{n}</a></li>)}
+      <ul class="flex gap-7 text-[1rem]">
+        {menu.map(([n, id]) => <li><a href={h(id)} class="lijn-in">{n}</a></li>)}
       </ul>
     </nav>
-    <div class="flex items-center gap-2">
-      <a href={waAfspraak} class="knop knop-licht hidden !min-h-11 !px-4 md:inline-flex">WhatsApp</a>
-      <a href={h('contact')} class="knop knop-vol hidden !min-h-11 !px-4 sm:inline-flex">Afspraak maken</a>
-      <button type="button" class="flex h-11 w-11 items-center justify-center border border-lijn lg:hidden" aria-expanded="false" aria-controls="menu-mobiel" aria-label="Menu" data-menu-knop>
+    <div class="flex items-center gap-5">
+      <a href={site.telHref} class="num hidden text-[1rem] font-medium xl:inline">{site.tel}</a>
+      <a href={h('contact')} class="knop knop-vol hidden !min-h-11 !px-4 !text-[1rem] sm:inline-flex">Afspraak maken</a>
+      <button type="button" class="flex h-11 w-11 items-center justify-center rounded border border-lijn-sterk lg:hidden" aria-expanded="false" aria-controls="menu-mobiel" aria-label="Menu" data-menu-knop>
         <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16" data-open-icoon /><path d="M6 6l12 12M18 6L6 18" class="hidden" data-dicht-icoon /></svg>
       </button>
     </div>
   </div>
-  <div class="fixed inset-0 z-[-1] hidden bg-nacht/40 lg:!hidden" data-menu-sluier aria-hidden="true"></div>
-  <nav id="menu-mobiel" aria-label="Menu" class="mx-auto mt-2 hidden max-w-[78rem] border border-lijn bg-papier p-5 shadow-[0_20px_40px_-20px_#14213b55] lg:!hidden" data-menu>
-    <ul class="kop-serif grid text-k3">
-      {menu.map(([n, id]) => <li class="border-b border-lijn last:border-0"><a href={h(id)} class="block py-3">{n}</a></li>)}
-    </ul>
-    <div class="mt-5 grid gap-2 sm:grid-cols-2">
-      <a href={waAfspraak} class="knop knop-licht w-full">WhatsApp</a>
-      <a href={site.telHref} class="knop knop-licht w-full num">Bel {site.tel}</a>
+  <div class="fixed inset-0 top-[4.5rem] z-[-1] hidden bg-nacht/30 lg:!hidden" data-menu-sluier aria-hidden="true"></div>
+  <nav id="menu-mobiel" aria-label="Menu" class="hidden border-t border-lijn bg-papier lg:!hidden" data-menu>
+    <div class="wrap py-4">
+      <ul class="grid text-lg font-medium">
+        {menu.map(([n, id]) => <li class="border-b border-lijn last:border-0"><a href={h(id)} class="block py-3">{n}</a></li>)}
+      </ul>
+      <div class="mt-4 grid gap-2 sm:grid-cols-2">
+        <a href={waAfspraak} class="knop knop-licht w-full">WhatsApp</a>
+        <a href={site.telHref} class="knop knop-licht num w-full">Bel {site.tel}</a>
+      </div>
     </div>
   </nav>
 </header>

@@ -1,0 +1,51 @@
+---
+// Hero-variant B, "Zwitsers raster": wit vlak, een heel grote strakke kop over de breedte, daaronder drie kolommen:
+// tekst met knoppen, een feitenlijst als specificatieblad, en de foto van het kaliber 321 op halve bronmaat (2x scherp).
+import '@fontsource-variable/ibm-plex-sans';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import { site, url, waAfspraak } from '../../data/site';
+import foto from '../../assets/kaliber-321.jpg';
+const specs = [
+  ['Erkenning', 'Officieel Omega Service Center'],
+  ['Servicecenter', 'Longines en Rado'],
+  ['Ook', 'Rolex, Hamilton, Tissot, Nomos en meer'],
+  ['Google', `${site.google.score} uit ${site.google.aantal} beoordelingen`],
+  ['Werkplaats', `${site.plaats}, alleen op afspraak`],
+];
+---
+<Base title="Hero B, Zwitsers raster | Joris Uurwerkreparatie" description="Ontwerpvariant hero B">
+  <main id="inhoud" class="hero-b flex min-h-svh flex-col bg-[#fbfbf9] text-[#111317]">
+    <header class="border-b border-[#11131726]">
+      <div class="wrap flex h-[4.5rem] items-center justify-between gap-6">
+        <a href={url('')} class="whitespace-nowrap text-[1.1875rem] tracking-[-0.01em]"><span class="font-semibold">Joris</span> Uurwerkreparatie</a>
+        <nav aria-label="Hoofdmenu" class="hidden lg:block"><ul class="flex gap-8 text-[1rem]">{['Omega', 'Diensten', 'Werkwijze', 'Over', 'Contact'].map((n) => <li><a href="#" class="hover:underline">{n}</a></li>)}</ul></nav>
+        <a href={site.telHref} class="num hidden text-[1rem] font-medium sm:inline">{site.tel}</a>
+      </div>
+    </header>
+
+    <div class="wrap flex flex-1 flex-col justify-center py-12 lg:py-16">
+      <h1 class="max-w-[16ch] text-[clamp(2.75rem,6.6vw,6.75rem)] font-semibold leading-[0.95] tracking-[-0.045em]">Officieel Omega Service Center in Herten.</h1>
+      <div class="mt-12 grid gap-10 border-t border-[#111317] pt-8 md:grid-cols-12 md:gap-8">
+        <div class="md:col-span-5 lg:col-span-4">
+          <p class="text-[1.125rem] leading-relaxed text-[#3d424c]">Onderhoud en reparatie van Omega, Longines en Rado, met originele onderdelen. Ook voor Rolex en andere Zwitserse merken.</p>
+          <div class="mt-7 flex flex-wrap gap-3">
+            <a href="#" class="inline-flex h-12 items-center bg-[#111317] px-5 text-[1.0625rem] font-medium text-white hover:bg-[#2a2e36]">Afspraak maken</a>
+            <a href={waAfspraak} class="inline-flex h-12 items-center border border-[#111317] px-5 text-[1.0625rem] font-medium hover:bg-[#111317] hover:text-white">WhatsApp</a>
+          </div>
+          <p class="mt-4 text-[1rem] text-[#3d424c]">Of mail <a href={`mailto:${site.mail}`} class="underline underline-offset-4">{site.mail}</a></p>
+        </div>
+        <dl class="text-[1rem] md:col-span-4 lg:col-span-5">
+          {specs.map(([k, v]) => <div class="grid grid-cols-[7.5rem_1fr] gap-4 border-b border-[#11131726] py-2.5 first:pt-0"><dt class="text-[#5a606b]">{k}</dt><dd class="font-medium">{v}</dd></div>)}
+        </dl>
+        <figure class="md:col-span-3">
+          <Image src={foto} alt="Een opengewerkt Omega-chronograafuurwerk, kaliber 321" widths={[360, 720]} sizes="(min-width: 768px) 22vw, 100vw" loading="eager" fetchpriority="high" class="aspect-[4/5] w-full object-cover" />
+          <figcaption class="mt-2 text-[0.875rem] text-[#5a606b]">Omega kaliber 321, in de werkplaats</figcaption>
+        </figure>
+      </div>
+    </div>
+  </main>
+</Base>
+<style is:global>
+  .hero-b, .hero-b h1 { font-family: "IBM Plex Sans Variable", "Helvetica Neue", Arial, sans-serif; }
+</style>
