@@ -6,22 +6,21 @@ Status: klant (geen demo). Preview op github.io, noindex, zolang er `[[AANLEVERE
 - Zwaartepunt: officieel Omega Service Center. Kop in de hero, eigen sectie direct eronder, vertrouwensblok met drie feiten.
 - Sfeer: luxe, rustig, betrouwbaar. Geen brochuretaal, geen designertrucs (de grote vage JORIS-letters zijn weg).
 
-## Typografie (variant A "Nacht", gekozen door Michael 7 okt 2026)
-- Eén letter voor alles: Instrument Sans Variable. Koppen 500 met -0.03em, h1 tot 92px; tekst 400, 18px.
-  Geen serif en geen gespatieerde kapitalen meer: die gaven de AI-luxe-look.
-- Woordmerk "Joris Uurwerkreparatie" in tekst, Joris half vet. Leesbaar op mobiel.
+## Richting (8 okt 2026, na feedback Michael: "betrouwbaar, kwaliteit, strak", maatstaf Afzetbak.nl, ZBN, B-Advice)
+Patroon van die sites, met een eigen identiteit voor een horlogemaker:
+- USP-balk met vinkjes en de Google-score, zwevende witte navigatiekaart met telefoon en "Afspraak maken".
+- Schermvullende foto-hero (eigen werkbankfoto, 1600 breed) met witte kop "Officieel Omega Service Center in Herten.",
+  twee knoppen en rechts de feiten: sterren 4,5, plaats, groot telefoonnummer.
+- Merkenrij als pills, Omega-blok met vinkjes en foto plus zwevende badge, diensten als rijkaarten met foto,
+  werkwijze in een marine paneel met iconen en verbindlijn, Over met Google-scorekaart, "Waarom kiezen voor Joris?"
+  met schildjes, Rolex-prijskaart, afspraakkaart in marine met formulier, afsluitende vraag, footer, mobiele balk.
 
-## Kleur
-- Zwart #0b0b0c (hero, contact), warm wit #f4f2ee, tekst #121314 en #474a51. Geen kleuraccent; alleen de Google-sterren.
-- Rechte hoeken, dunne lijnen, geen schaduwen.
+## Typografie en kleur
+- Red Hat Display (koppen 800, -0.025em) en Red Hat Text (18px). Stevig en zakelijk, niet modieus.
+- Marineblauw #0f2a4a als enige merkkleur (knoppen, panelen, iconen), wit en koel lichtgrijs #f3f5f8, groen alleen voor
+  vinkjes, geel alleen voor sterren. Afgeronde hoeken (12 tot 28px) en zachte schaduwen, zoals op Michaels eigen sites.
 
-## Hero
-- Schermvullend (100svh) zwart. Foto: de Omega Seamaster uit hun Google-profiel (1600x1600), zwart-wit en gedimd,
-  rechts op 62% van de breedte, met een CSS-masker dat naar links in het zwart overloopt. Op 1440 en 1920 breed
-  kleiner dan de bron, dus scherp. Mobiel: horloge bovenin, tekst eronder op zwart.
-- Kop vast bovenaan: transparant op de hero, donkere balk na scrollen.
-
-## Afwerking (maatstaf: ZBN en B-Advice, bekeken uit hun repo's; de domeinen zijn hier geblokkeerd)
+## Eerdere afwerkingsnotities
 Dezelfde dichtheid als die sites, in de eigen sfeer van een horlogemaker: USP-balk, plakkende navigatie als kaart met
 twee knoppen, hero met foto tot de rand en een feitenkaart op de foto (sterren, telefoon), merkenrij als pills,
 kaarten met dunne lijn en lage schaduw, foto's die onderaan in wit overlopen, werkwijze met iconen en verbindlijn,

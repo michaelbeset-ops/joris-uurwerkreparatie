@@ -15,7 +15,7 @@ export const site = {
   instagram: 'https://www.instagram.com/jorisuurwerkreparatie/',
   maps: 'https://www.google.com/maps/search/?api=1&query=Joris+Uurwerkreparatie+Aan+de+Dijk+126+Herten',
   google: { score: '4,5', aantal: 38 },
-  themeColor: '#0b0b0c',
+  themeColor: '#0f2a4a',
   // Zolang er [[AANLEVEREN]]-markeringen in de site staan: niet indexeren en alleen op github.io.
   // Bij oplevering op false zetten, samen met public/robots.txt en het domein in astro.config.mjs.
   preview: true,

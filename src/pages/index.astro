@@ -3,200 +3,176 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Kop from '../components/Kop.astro';
 import Voet from '../components/Voet.astro';
+import Icoon from '../components/Icoon.astro';
 import Sterren from '../components/Sterren.astro';
 import { site, waAfspraak } from '../data/site';
-import kaliber from '../assets/kaliber-321.jpg';
+import heroFoto from '../assets/hero/hero-werkbank.jpg';
 import houder from '../assets/omega-houder.jpg';
 import groen from '../assets/uurwerk-groen.jpg';
 import seamaster from '../assets/seamaster.jpg';
 import onderdelen from '../assets/onderdelen.jpg';
-import heroFoto from '../assets/hero/hero-seamaster.jpg';
+import kaliber from '../assets/kaliber-321.jpg';
 
 // Alle feiten komen van jorisuurwerkreparatie.nl (bron/site-tekst.txt) of het Google-profiel.
 // Wat daar niet staat, is gemarkeerd met [[AANLEVEREN]].
+const reviewsUrl = 'https://www.google.com/maps/search/?api=1&query=Joris+Uurwerkreparatie+Herten';
 
-const merkenRij = ['Omega', 'Longines', 'Rado', 'Hamilton', 'Mido', 'Tissot', 'Certina', 'ETA-uurwerken', 'Ebel', 'Nomos', 'Mühle Glashütte', 'Rolex'];
+const merken = ['Omega', 'Longines', 'Rado', 'Rolex', 'Hamilton', 'Tissot', 'Mido', 'Certina', 'Nomos', 'Ebel', 'Mühle Glashütte'];
 
-// Omega: van de Omega-servicepagina op hun site.
 const omegaPunten = [
   'Uitsluitend originele Omega-onderdelen, voor kwaliteit en behoud van waarde',
   'Alle Omega-modellen: Speedmaster, Seamaster, Constellation en De Ville',
-  'Ook kalibers 321, 861, 1861 en 3861 van de Speedmaster Professional',
+  'Ook de kalibers 321, 861, 1861 en 3861 van de Speedmaster Professional',
   'Verkoop van originele Omega-horlogebanden',
-];
-const omegaModellen = [
-  ['Speedmaster Professional', 'Moonwatch, kalibers 1861, 861, 321 en 3861'],
-  ['Seamaster', 'Diver 300M, Planet Ocean, Aqua Terra, Railmaster'],
-  ['Constellation', 'Globemaster'],
-  ['De Ville', 'Prestige'],
 ];
 
 // Diensten: samengevat uit de servicepagina's voor Omega, Longines en Rado.
 const diensten = [
-  { kop: 'Onderhoud en revisie', tekst: 'Een complete servicebeurt: inspectie, schoonmaken, smeren en afstellen, en waar nodig onderdelen vervangen.', foto: groen, alt: 'Een geopend chronograafuurwerk in een houder op een groene werkmat' },
-  { kop: 'Reparaties', tekst: 'Van het vervangen van een kroon of wijzer tot complexe uurwerkreparaties.', foto: onderdelen, alt: 'Losse onderdelen van een gedemonteerd Omega-horloge op de werkbank' },
-  { kop: 'Polijsten en cosmetisch herstel', tekst: 'Kast en band herstellen en polijsten, van staal tot keramiek, met behoud van de originele uitstraling.', foto: seamaster, alt: 'Een klassieke Omega Seamaster-chronograaf in een horlogedoos' },
-  { kop: 'Waterdichtheid', tekst: 'Controle en herstel van de waterdichtheid, essentieel voor sportieve en duikmodellen.', icoon: 'M12 3c-3 4-6 7.5-6 11a6 6 0 0 0 12 0c0-3.5-3-7-6-11z' },
-  { kop: 'Originele onderdelen', tekst: 'Uitsluitend originele onderdelen van het merk, voor kwaliteit en behoud van waarde.', icoon: 'M12 3l8 4.5v9L12 21l-8-4.5v-9zM12 12l8-4.5M12 12v9M12 12L4 7.5' },
+  { kop: 'Onderhoud en revisie', tekst: 'Complete servicebeurt: inspectie, schoonmaken, smeren en afstellen, en waar nodig onderdelen vervangen.', foto: groen, alt: 'Geopend chronograafuurwerk op een groene werkmat' },
+  { kop: 'Reparaties', tekst: 'Van een nieuwe kroon of wijzer tot complexe uurwerkreparaties.', foto: onderdelen, alt: 'Losse onderdelen van een gedemonteerd Omega-horloge' },
+  { kop: 'Polijsten en herstel', tekst: 'Kast en band herstellen en polijsten, van staal tot keramiek, met behoud van de originele uitstraling.', foto: seamaster, alt: 'Klassieke Omega Seamaster-chronograaf in een horlogedoos' },
+  { kop: 'Waterdichtheid', tekst: 'Controle en herstel van de waterdichtheid, essentieel voor sportieve en duikmodellen.', icoon: 'druppel' },
+  { kop: 'Originele onderdelen', tekst: 'Uitsluitend originele onderdelen van het merk, voor kwaliteit en behoud van waarde.', icoon: 'doos' },
 ];
 
-const merken = [
-  { kop: 'Officieel servicecenter', tekst: 'Omega, Longines en Rado' },
-  { kop: 'Servicecentrum binnen de Swatch Group', tekst: 'Hamilton, Mido, Tissot, Certina en ETA-uurwerken' },
-  { kop: 'Reparatie met originele onderdelen', tekst: 'Ebel, Nomos en Mühle Glashütte' },
-];
-
-// Werkwijze: afspraakpagina en "Onze werkwijze" op hun over-ons-pagina.
 const stappen = [
-  { kop: 'Afspraak maken', tekst: 'Stuur een bericht met merk, type, soort band, eventueel het referentienummer, wat er aan de hand is en een paar foto’s.', icoon: 'M4 5h16v14H4zM4 9h16M8 3v4M16 3v4' },
-  { kop: 'Onderzoek en prijsopgave', tekst: 'Elk horloge wordt eerst zorgvuldig onderzocht voordat u een prijsopgave krijgt. Zo weet u precies waar u aan toe bent.', icoon: 'M10 4a6 6 0 1 0 0 12 6 6 0 0 0 0-12zM14.5 14.5L20 20' },
-  { kop: 'Herstel', tekst: 'Gaat u akkoord met de prijsopgave, dan ga ik aan de slag met uw horloge.', icoon: 'M14.5 4.5a4 4 0 0 0-5 5L3 16v5h5l6.5-6.5a4 4 0 0 0 5-5l-2.5 2.5-2-2 2.5-2.5z' },
-  { kop: 'Ophalen', tekst: 'Is het werk klaar, dan haalt u uw horloge op afspraak weer op. Ziet u af van de reparatie, dan plannen we ook een afspraak om het op te halen.', icoon: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2' },
+  { kop: 'Afspraak maken', tekst: 'Stuur een bericht met merk, type, band, eventueel het referentienummer en een paar foto’s.', icoon: 'kalender' },
+  { kop: 'Onderzoek en prijsopgave', tekst: 'Elk horloge wordt eerst zorgvuldig onderzocht. Daarna weet u precies waar u aan toe bent.', icoon: 'loep' },
+  { kop: 'Herstel', tekst: 'Gaat u akkoord met de prijsopgave, dan ga ik aan de slag met uw horloge.', icoon: 'pincet' },
+  { kop: 'Ophalen', tekst: 'Is het werk klaar, dan haalt u uw horloge op afspraak weer op.', icoon: 'ophalen' },
 ];
 
-// Vertrouwen: niets hiervan staat op de huidige site. Pas invullen na bevestiging van Hugo.
-const zekerheden = [
+// Waarom: de feiten van hun site, aangevuld met wat Hugo nog moet bevestigen.
+const waarom = [
+  { kop: 'Officieel Omega Service Center', tekst: 'Erkend door Omega. Onderhoud en reparatie van alle Omega-modellen met originele onderdelen.' },
+  { kop: 'Servicecenter Longines en Rado', tekst: 'Binnen de Swatch Group ook voor Hamilton, Mido, Tissot, Certina en ETA-uurwerken.' },
+  { kop: 'Eerst onderzoek, dan een prijs', tekst: 'Geen verrassingen achteraf. Onderzoekskosten betaalt u alleen als u de reparatie niet laat uitvoeren.' },
+  { kop: 'Geen modemerken of imitaties', tekst: 'Alleen echte horloges van serieuze merken. Geen batterijservice.' },
   { kop: 'Garantie', tekst: '[[AANLEVEREN: garantie op een servicebeurt]]' },
-  { kop: 'Doorlooptijd', tekst: '[[AANLEVEREN: gemiddelde doorlooptijd]]' },
-  { kop: 'Verzekerd', tekst: '[[AANLEVEREN: verzekerd tijdens reparatie, ja of nee]]' },
-  { kop: 'Opsturen', tekst: '[[AANLEVEREN: horloge opsturen mogelijk, ja of nee]]' },
+  { kop: 'Doorlooptijd', tekst: '[[AANLEVEREN: gemiddelde doorlooptijd van een servicebeurt]]' },
+  { kop: 'Verzekerd', tekst: '[[AANLEVEREN: is het horloge verzekerd tijdens de reparatie, ja of nee]]' },
+  { kop: 'Opsturen', tekst: '[[AANLEVEREN: kan een horloge worden opgestuurd, ja of nee]]' },
 ];
 
-// Rolex: prijzen letterlijk van de Rolex-pagina op hun site.
 const rolex = [
   ['Modellen tot 30 jaar', '425'],
   ['Damesmodellen', '450'],
   ['Modellen met GMT-kaliber', '475'],
   ['Modellen van 30 jaar en ouder', '525'],
 ];
-const reviewsUrl = 'https://www.google.com/maps/search/?api=1&query=Joris+Uurwerkreparatie+Herten';
 ---
 <Base title={`${site.naam} | Officieel Omega Service Center in Herten`} description="Officieel Omega Service Center en servicecenter voor Longines en Rado in Herten. Onderhoud en reparatie met originele onderdelen, alleen op afspraak.">
-  <Kop overHero />
+  <Kop />
   <main id="inhoud">
 
-    <!-- 1. Hero (variant A, "Nacht"), schermvullend zwart. De Seamaster (1600x1600) staat rechts op 62% van de
-         breedte en is op 1440x900 kleiner dan de bron, dus scherp. Tekst links op puur zwart. -->
-    <section class="donker relative isolate flex min-h-svh flex-col overflow-hidden bg-nacht text-white" aria-labelledby="t-hero">
-      <!-- Foto rechts, zacht overlopend in zwart. Op mobiel bovenin, met onderaan dezelfde overloop. -->
-      <div class="hero-foto absolute inset-x-0 top-0 -z-10 h-[58svh] md:inset-y-0 md:left-auto md:h-full md:w-[62%]">
-        <Image src={heroFoto} alt="Een klassieke Omega Seamaster-chronograaf in een horlogedoos, in zwart-wit" widths={[600, 900, 1200, 1600]} sizes="(min-width: 768px) 62vw, 100vw" loading="eager" fetchpriority="high" class="h-full w-full object-cover object-[50%_30%] md:object-[40%_35%]" />
-      </div>
-
-      <div class="wrap relative mt-auto pb-24 pt-[44svh] md:pb-10 md:pt-28 lg:pb-12">
-        <p class="text-[1rem] text-white/70">Horlogemaker in Herten<span class="hidden sm:inline">, alleen op afspraak</span></p>
-        <h1 id="t-hero" class="mt-4 max-w-[13ch] text-white">Officieel Omega Service Center in Herten.</h1>
-        <p class="mt-6 max-w-[31rem] text-[1.1875rem] leading-relaxed text-white/80">Onderhoud en reparatie van Omega, Longines en Rado, met originele onderdelen. Ook voor Rolex en andere Zwitserse merken.</p>
-        <div class="mt-8 flex flex-wrap gap-3">
-          <a href="#contact" class="knop knop-vol">Afspraak maken</a>
-          <a href={waAfspraak} class="knop knop-glas">WhatsApp</a>
+    <!-- 1. Hero, schermvullend: foto over de volle breedte, de navigatie zweeft erover, kop groot en wit onderin,
+         de feiten rechts. De foto (1600 breed) wordt op 1440 kleiner getoond dan de bron. -->
+    <section class="donker relative -mt-[4.75rem] flex min-h-[calc(100svh-2.5rem)] flex-col justify-end overflow-hidden bg-marine pt-[4.75rem] text-wit lg:-mt-[5.25rem] lg:pt-[5.25rem]" aria-labelledby="t-hero">
+      <Image src={heroFoto} alt="Een geopend chronograafuurwerk in een houder op de groene werkmat in de werkplaats" widths={[640, 1000, 1600]} sizes="100vw" loading="eager" fetchpriority="high" class="absolute inset-0 h-full w-full object-cover object-[60%_45%]" />
+      <div aria-hidden="true" class="absolute inset-0 bg-[linear-gradient(to_top,#0a1d35f2_0%,#0a1d35b3_35%,#0a1d3526_70%,#0a1d3540_100%)] lg:bg-[linear-gradient(to_right,#0a1d35f2_0%,#0a1d35cc_42%,#0a1d3500_75%),linear-gradient(to_top,#0a1d35cc_0%,#0a1d3500_40%)]"></div>
+      <div class="wrap relative grid gap-8 pb-24 pt-20 md:pb-12 lg:grid-cols-12 lg:items-end lg:gap-10 lg:pb-16">
+        <div class="lg:col-span-8">
+          <p class="inline-flex items-center gap-2 rounded-pill bg-wit/12 px-3 py-1.5 text-sm font-medium ring-1 ring-wit/25 backdrop-blur-sm"><Icoon naam="schild" maat={18} class="text-vink-licht" />Servicecenter voor Omega, Longines en Rado</p>
+          <h1 class="mt-5 max-w-[15ch] text-4xl text-wit">Officieel Omega Service Center in Herten.</h1>
+          <p class="mt-5 max-w-xl text-lg text-wit/90 lg:text-xl">Onderhoud en reparatie met originele onderdelen, door een horlogemaker die Omega zelf erkent. Ook voor Rolex en andere Zwitserse merken.</p>
+          <div class="mt-8 flex flex-wrap items-center gap-3">
+            <a href="#contact" class="btn bg-wit text-marine shadow-zacht hover:bg-ijs">Afspraak maken</a>
+            <a href={waAfspraak} class="btn btn-glas"><Icoon naam="bericht" maat={20} />WhatsApp</a>
+          </div>
         </div>
-        <p class="mt-5 text-[1rem] text-white/70">Of bel <a href={site.telHref} class="num text-white underline decoration-white/40 underline-offset-4 hover:decoration-white">{site.tel}</a><span class="hidden sm:inline"> of mail <a href={`mailto:${site.mail}`} class="text-white underline decoration-white/40 underline-offset-4 hover:decoration-white">{site.mail}</a></span></p>
-
-        <ul class="mt-12 grid gap-2 border-t border-white/20 pt-5 text-[1rem] text-white/75 md:mt-14 md:grid-cols-3 md:gap-8 lg:max-w-[60rem]" aria-label="Waarom u hier terecht kunt">
-          <li><strong class="font-medium text-white">Officieel</strong> Omega Service Center</li>
-          <li><strong class="font-medium text-white">Servicecenter</strong> Longines en Rado</li>
-          <li><a href={reviewsUrl} target="_blank" rel="noopener" class="hover:text-white"><strong class="font-medium text-white">{site.google.score}</strong> <Sterren klein /> op Google ({site.google.aantal})<span class="sr-only"> (opent in een nieuw tabblad)</span></a></li>
+        <ul class="grid gap-3 text-wit/90 sm:grid-cols-3 lg:col-span-4 lg:grid-cols-1 lg:justify-items-end lg:text-right">
+          <li><a href={reviewsUrl} target="_blank" rel="noopener" class="inline-flex flex-wrap items-center gap-2 no-underline hover:underline lg:justify-end"><Sterren /><strong class="num font-display text-wit">{site.google.score}</strong> op Google ({site.google.aantal})<span class="sr-only"> (opent in een nieuw tabblad)</span></a></li>
+          <li class="inline-flex items-center gap-2 lg:justify-end"><Icoon naam="pin" maat={18} />{site.plaats}, alleen op afspraak</li>
+          <li><a href={site.telHref} class="num font-display text-2xl font-extrabold text-wit no-underline hover:underline">{site.tel}</a></li>
         </ul>
       </div>
     </section>
 
-    <!-- Merkenrij: rustige tekstregel. -->
-    <div class="border-y border-lijn bg-wit">
-      <p class="wrap flex flex-wrap items-center gap-x-6 gap-y-2 py-5 text-[1rem] text-tekst"><span class="font-semibold text-inkt">Merken</span>{merkenRij.map((m) => <span>{m}</span>)}</p>
-    </div>
+    <!-- Merkenrij: snelkeuze, op mobiel swipebaar. -->
+    <nav aria-label="Merken" class="border-b border-lijn bg-wit">
+      <ul class="slider wrap py-4 lg:justify-between">
+        {merken.map((m) => <li><a href={m === 'Omega' ? '#omega' : m === 'Rolex' ? '#rolex' : '#diensten'} class={`inline-flex h-10 items-center rounded-pill px-4 font-display text-[0.9375rem] font-semibold no-underline ring-1 transition-colors ${m === 'Omega' ? 'bg-marine text-wit ring-marine' : 'ring-lijn hover:ring-marine'}`}>{m}</a></li>)}
+      </ul>
+    </nav>
 
-    <!-- 2. Omega Service Center, donker blok -->
-    <section id="omega" class="scroll-mt-24 bg-papier" aria-labelledby="t-omega">
-      <div class="wrap grid gap-10 py-16 lg:grid-cols-12 lg:items-center lg:gap-8 lg:py-24">
+    <!-- 2. Omega Service Center -->
+    <section id="omega" class="scroll-mt-28 py-16 lg:py-24" aria-labelledby="t-omega">
+      <div class="wrap grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center lg:gap-10">
         <div class="lg:col-span-6">
-          <p class="ui text-inkt">Omega Service Center</p>
-          <h2 id="t-omega" class="mt-4">Wat een officieel Omega Service Center voor u betekent.</h2>
-          <p class="mt-5 max-w-lg text-tekst">Uw Omega wordt onderhouden door een werkplaats die Omega zelf erkent. Dat betekent originele onderdelen en vakmanschap op het niveau dat het merk vraagt.</p>
-          <ul class="mt-7 grid gap-3">
-            {omegaPunten.map((t) => (
-              <li class="flex items-start gap-3"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0 text-inkt"><path d="M4 12.5l5 5L20 6.5"/></svg><span>{t}</span></li>
-            ))}
+          <p class="kicker text-ink-zacht">Omega Service Center</p>
+          <h2 id="t-omega" class="mt-3 text-3xl">Wat de Omega-erkenning voor u betekent.</h2>
+          <p class="mt-5 text-lg text-ink-zacht">Uw Omega wordt onderhouden door een werkplaats die Omega zelf erkent. Dat betekent originele onderdelen en vakmanschap op het niveau dat het merk vraagt.</p>
+          <ul class="mt-7 grid gap-3.5">
+            {omegaPunten.map((t) => <li class="flex items-start gap-3"><span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-pill bg-vink/10 text-vink"><Icoon naam="vink" maat={15} dik={3} /></span><span>{t}</span></li>)}
           </ul>
-          <p class="mt-6 max-w-lg text-sm text-tekst">[[AANLEVEREN: sinds wanneer de erkenning geldt en wat die inhoudt, bijvoorbeeld opleiding bij Omega, werken volgens de Omega-voorschriften, garantie]]</p>
+          <p class="mt-6 text-sm text-ink-zacht">[[AANLEVEREN: sinds wanneer de erkenning geldt en wat die inhoudt, bijvoorbeeld opleiding bij Omega en werken volgens de Omega-voorschriften]]</p>
           <div class="mt-8 flex flex-wrap gap-3">
-            <a href="#contact" class="knop knop-vol">Afspraak voor uw Omega</a>
-            <a href="#diensten" class="knop knop-licht">Alle diensten</a>
+            <a href="#contact" class="btn btn-marine">Afspraak voor uw Omega</a>
+            <a href="#diensten" class="btn btn-wit">Alle diensten</a>
           </div>
         </div>
-        <div class="grid gap-4 lg:col-span-6">
-          <figure class="kaart overflow-hidden">
-            <Image src={houder} alt="Een Omega-uurwerk in een rode Omega-uurwerkhouder, met een Omega-pincet ernaast" widths={[640, 960, 1150]} sizes="(min-width: 1024px) 40vw, 100vw" class="aspect-[8/5] w-full object-cover" />
-          </figure>
-          <div class="grid gap-4 sm:grid-cols-2">
-            <div class="aanleveren aspect-[3/2] w-full">[[AANLEVEREN: foto van het Omega-certificaat of het Service Center-bordje, liggend]]</div>
-            <dl class="kaart grid content-start gap-2 p-5 text-sm">
-              <dt class="ui text-tekst">Modellen</dt>
-              {omegaModellen.map(([m, s]) => <dd><strong class="font-medium">{m}</strong> <span class="text-tekst">{s}</span></dd>)}
-            </dl>
+        <div class="relative lg:col-span-6">
+          <div class="overflow-hidden rounded-2xl shadow-kaart">
+            <Image src={houder} alt="Een Omega-uurwerk in een rode Omega-uurwerkhouder, met een Omega-pincet ernaast" widths={[640, 960, 1150]} sizes="(min-width: 1024px) 40vw, 100vw" class="aspect-[4/3] w-full object-cover" />
+          </div>
+          <div class="kaart absolute -bottom-6 left-4 right-4 flex items-center gap-4 p-4 sm:left-auto sm:right-6 sm:w-80 lg:-left-8 lg:right-auto">
+            <span class="icoonvlak"><Icoon naam="schild" maat={26} /></span>
+            <p class="leading-snug"><strong class="block font-display">Officieel Omega Service Center</strong><span class="text-sm text-ink-zacht">Originele onderdelen, Omega-gereedschap</span></p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- 3. Diensten -->
-    <section id="diensten" class="scroll-mt-24 py-16 lg:py-24" aria-labelledby="t-diensten">
-      <div class="wrap">
-        <div class="grid gap-6 lg:grid-cols-12 lg:items-end">
-          <div class="lg:col-span-7">
-            <p class="ui text-messing">Diensten</p>
-            <h2 id="t-diensten" class="mt-4">Onderhoud en reparatie, met originele onderdelen.</h2>
+    <section id="diensten" class="scroll-mt-28 bg-ijs py-16 lg:py-24" aria-labelledby="t-diensten">
+      <div class="wrap grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-10">
+        <div class="lg:col-span-4">
+          <div class="lg:sticky lg:top-32">
+            <p class="kicker text-ink-zacht">Diensten</p>
+            <h2 id="t-diensten" class="mt-3 text-3xl">Onderhoud en reparatie, met originele onderdelen.</h2>
+            <p class="mt-5 text-ink-zacht">Voor Omega, Longines, Rado en de andere merken. Geen modemerken, geen batterijservice en zeker geen imitaties.</p>
+            <a href="#contact" class="btn btn-marine mt-7">Afspraak maken</a>
           </div>
-          <p class="text-tekst lg:col-span-5 lg:pb-1">Voor Omega, Longines, Rado en de andere merken hieronder. Geen modemerken, geen batterijservice en zeker geen imitaties.</p>
         </div>
-        <ul class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {diensten.map((d, i) => (
-            <li class="kaart flex flex-col">
-              {d.foto ? (
-                <div class="vervaag"><Image src={d.foto} alt={d.alt} widths={[480, 720, 960]} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 50vw, 100vw" class="aspect-[3/2] w-full object-cover" /></div>
-              ) : (
-                <div class="flex h-36 items-center justify-center bg-vlak text-inkt"><svg aria-hidden="true" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d={d.icoon}/></svg></div>
-              )}
-              <div class="flex flex-1 flex-col p-6">
-                <span class="num text-sm text-messing">0{i + 1}</span>
-                <h3 class="mt-2">{d.kop}</h3>
-                <p class="mt-2 text-sm text-tekst">{d.tekst}</p>
-                <a href="#contact" class="mt-auto inline-flex items-center gap-2 pt-5 text-sm font-medium no-underline hover:underline">Afspraak maken <span aria-hidden="true">&rarr;</span></a>
-              </div>
+        <ul class="grid min-w-0 grid-cols-1 gap-4 lg:col-span-8">
+          {diensten.map((d) => (
+            <li>
+              <a href="#contact" class="group kaart flex items-stretch overflow-hidden no-underline transition-transform duration-200 hover:-translate-y-0.5">
+                <span class="relative w-20 shrink-0 overflow-hidden bg-marine-licht min-[400px]:w-24 sm:w-40">
+                  {d.foto ? <Image src={d.foto} alt={d.alt} widths={[200, 320]} sizes="10rem" class="absolute inset-0 h-full w-full object-cover" /> : <span class="absolute inset-0 flex items-center justify-center text-marine"><Icoon naam={d.icoon!} maat={36} dik={1.5} /></span>}
+                </span>
+                <span class="flex min-w-0 flex-1 items-center justify-between gap-4 p-4 sm:p-6">
+                  <span class="min-w-0"><span class="block font-display text-lg font-bold leading-tight sm:text-xl">{d.kop}</span><span class="mt-1.5 block text-ink-zacht">{d.tekst}</span></span>
+                  <span aria-hidden="true" class="hidden h-10 w-10 shrink-0 items-center justify-center rounded-pill ring-1 ring-lijn transition-colors group-hover:bg-marine group-hover:text-wit group-hover:ring-marine sm:flex"><Icoon naam="pijl" maat={18} dik={2.2} /></span>
+                </span>
+              </a>
             </li>
           ))}
-          <li class="kaart bg-vlak p-6">
-            <p class="ui text-messing">Merken</p>
-            <dl class="mt-4 grid gap-4">
-              {merken.map((m) => <div><dt class="text-sm text-tekst">{m.kop}</dt><dd class="kop-serif text-k3 leading-tight">{m.tekst}</dd></div>)}
-              <div><dt class="text-sm text-tekst">Ook</dt><dd class="kop-serif text-k3 leading-tight"><a href="#rolex" class="underline">Rolex, zie de servicebeurt</a></dd></div>
-            </dl>
-          </li>
         </ul>
       </div>
     </section>
 
-    <!-- 4. Werkwijze -->
-    <section id="werkwijze" class="scroll-mt-24 bg-vlak py-16 lg:py-24" aria-labelledby="t-werkwijze">
-      <div class="wrap">
+    <!-- 4. Werkwijze: donker paneel met vier stappen. -->
+    <section id="werkwijze" class="wrap scroll-mt-28 py-16 lg:py-24" aria-labelledby="t-werkwijze">
+      <div class="donker relative overflow-hidden rounded-2xl bg-marine px-6 py-12 text-wit md:px-12 lg:px-16 lg:py-20">
         <div class="grid gap-6 lg:grid-cols-12 lg:items-end">
           <div class="lg:col-span-7">
-            <p class="ui text-messing">Werkwijze</p>
-            <h2 id="t-werkwijze" class="mt-4">Eerst onderzoek, dan pas een prijs.</h2>
+            <p class="kicker text-staal">Werkwijze</p>
+            <h2 id="t-werkwijze" class="mt-3 text-3xl text-wit">Eerst onderzoek, dan pas een prijs.</h2>
           </div>
-          <p class="text-tekst lg:col-span-5 lg:pb-1">Aan de prijsopgave zijn onderzoeks- en administratiekosten verbonden. Die betaalt u alleen als u de reparatie niet laat uitvoeren.</p>
+          <p class="text-staal lg:col-span-5">Aan de prijsopgave zijn onderzoeks- en administratiekosten verbonden. Die betaalt u alleen als u de reparatie niet laat uitvoeren.</p>
         </div>
         <ol class="relative mt-12 grid gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-6">
           {stappen.map((s, i) => (
             <li class="relative flex gap-5 lg:block">
-              {i < stappen.length - 1 && <span aria-hidden="true" class="absolute left-8 top-16 h-[calc(100%-1.5rem)] w-px bg-lijn-sterk md:hidden lg:left-[4.5rem] lg:top-8 lg:block lg:h-px lg:w-[calc(100%-4.5rem+1.5rem)]"></span>}
-              <div class="kaart relative flex h-16 w-16 shrink-0 items-center justify-center text-inkt">
-                <svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d={s.icoon}/></svg>
-                <span class="num absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center bg-inkt text-xs font-medium text-papier">{i + 1}</span>
-              </div>
+              {i < stappen.length - 1 && <span aria-hidden="true" class="absolute left-7 top-16 h-[calc(100%-1.5rem)] w-px bg-wit/20 md:hidden lg:left-[4.25rem] lg:top-7 lg:block lg:h-px lg:w-[calc(100%-4.25rem+1.5rem)]"></span>}
+              <span class="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-wit text-marine">
+                <Icoon naam={s.icoon} maat={26} />
+                <span class="num absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-pill bg-vink-licht font-display text-xs font-bold text-marine-diep">{i + 1}</span>
+              </span>
               <div class="lg:mt-6">
-                <h3><span class="sr-only">Stap {i + 1}: </span>{s.kop}</h3>
-                <p class="mt-2 text-sm text-tekst">{s.tekst}</p>
+                <h3 class="text-lg text-wit"><span class="sr-only">Stap {i + 1}: </span>{s.kop}</h3>
+                <p class="mt-2 text-staal">{s.tekst}</p>
               </div>
             </li>
           ))}
@@ -204,63 +180,88 @@ const reviewsUrl = 'https://www.google.com/maps/search/?api=1&query=Joris+Uurwer
       </div>
     </section>
 
-    <!-- 5. Over Hugo -->
-    <section id="over" class="scroll-mt-24 py-16 lg:py-24" aria-labelledby="t-over">
-      <div class="wrap grid gap-10 lg:grid-cols-12 lg:gap-8">
+    <!-- 5. Reviews en Over Hugo -->
+    <section id="over" class="scroll-mt-28 pb-16 lg:pb-24" aria-labelledby="t-over">
+      <div class="wrap grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center lg:gap-10">
         <div class="lg:col-span-5">
           <div class="aanleveren aspect-[4/5] w-full">[[AANLEVEREN: portret van Hugo aan de werkbank, staand formaat]]</div>
         </div>
-        <div class="lg:col-span-7 lg:pl-6">
-          <p class="ui text-messing">Over</p>
-          <h2 id="t-over" class="mt-4">Hugo Joris, horlogemaker.</h2>
-          <p class="mt-5 max-w-xl text-tekst">Als officieel Omega Service Center ben ik trots op het vertrouwen dat Omega en veel horlogeliefhebbers in mij stellen. Elk horloge krijgt de aandacht die het verdient, met originele onderdelen.</p>
-          <p class="mt-4 max-w-xl text-tekst">[[AANLEVEREN: opleiding, aantal jaren ervaring en sinds wanneer de werkplaats Omega-erkend is]]</p>
-          <div class="kaart mt-8 grid gap-5 p-6 sm:grid-cols-[auto_1fr] sm:items-center">
-            <div>
-              <p class="kop-serif num text-cijfer leading-none">{site.google.score}</p>
-              <Sterren />
+        <div class="lg:col-span-7">
+          <p class="kicker text-ink-zacht">Over Hugo Joris</p>
+          <h2 id="t-over" class="mt-3 text-3xl">De horlogemaker achter Joris Uurwerkreparatie.</h2>
+          <p class="mt-5 text-lg text-ink-zacht">Als officieel Omega Service Center ben ik trots op het vertrouwen dat Omega en veel horlogeliefhebbers in mij stellen. Elk horloge krijgt de aandacht die het verdient, met originele onderdelen.</p>
+          <p class="mt-4 text-ink-zacht">[[AANLEVEREN: opleiding, aantal jaren ervaring en sinds wanneer de werkplaats Omega-erkend is]]</p>
+          <div class="kaart mt-8 grid gap-5 p-6 sm:grid-cols-[auto_1fr] sm:items-center sm:gap-8 sm:p-8">
+            <div class="text-center sm:text-left">
+              <p class="num font-display text-cijfer font-extrabold leading-none">{site.google.score}</p>
+              <div class="mt-2"><Sterren maat={20} /></div>
+              <p class="mt-1 text-sm text-ink-zacht">{site.google.aantal} beoordelingen</p>
             </div>
-            <div class="text-sm">
-              <p><strong class="font-medium">{site.google.aantal} beoordelingen op Google.</strong> Klanten noemen een gepassioneerde uurwerkhersteller met gedegen kennis, en zijn zeer tevreden over onder meer de service van een Longines en een klassieke Rolex.</p>
-              <a href={reviewsUrl} target="_blank" rel="noopener" class="mt-2 inline-block underline">Lees de beoordelingen op Google<span class="sr-only"> (opent in een nieuw tabblad)</span></a>
+            <div>
+              <p><strong class="font-display">Klanten op Google</strong> noemen een gepassioneerde uurwerkhersteller met gedegen kennis, en zijn zeer tevreden over onder meer de service van een Longines en een klassieke Rolex.</p>
+              <a href={reviewsUrl} target="_blank" rel="noopener" class="mt-3 inline-flex items-center gap-2 font-display font-bold no-underline hover:underline">Lees de beoordelingen<Icoon naam="pijl" maat={18} dik={2.2} /><span class="sr-only"> (opent in een nieuw tabblad)</span></a>
             </div>
           </div>
-          <dl class="mt-6 grid gap-x-6 gap-y-4 sm:grid-cols-2">
-            <div class="border-t border-lijn pt-4"><dt class="text-sm text-tekst">Werkgebied</dt><dd class="mt-1 font-medium">Limburg, Brabant, België en Duitsland</dd></div>
-            <div class="border-t border-lijn pt-4"><dt class="text-sm text-tekst">Werkplaats</dt><dd class="mt-1 font-medium">{site.straat}, {site.plaats}. Alleen op afspraak.</dd></div>
-            {zekerheden.map((z) => <div class="border-t border-lijn pt-4"><dt class="text-sm text-tekst">{z.kop}</dt><dd class="mt-1 text-sm text-tekst">{z.tekst}</dd></div>)}
-          </dl>
+          <ul class="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-ink-zacht">
+            <li class="inline-flex items-center gap-2"><Icoon naam="pin" maat={18} class="text-marine" />Werkplaats in {site.plaats}</li>
+            <li class="inline-flex items-center gap-2"><Icoon naam="kaart" maat={18} class="text-marine" />Limburg, Brabant, België en Duitsland</li>
+          </ul>
         </div>
       </div>
     </section>
 
-    <!-- 6. Rolex, compact -->
-    <section id="rolex" class="scroll-mt-24 border-t border-lijn py-16 lg:py-20" aria-labelledby="t-rolex">
-      <div class="wrap grid gap-8 lg:grid-cols-12 lg:gap-8">
-        <div class="lg:col-span-5">
-          <p class="ui text-messing">Ook</p>
-          <h2 id="t-rolex" class="mt-4">Rolex-servicebeurt.</h2>
-          <p class="mt-5 max-w-md text-tekst">Submariner, Datejust, Day-Date, Air-King, GMT-Master, Explorer, Oyster Perpetual of Super Precision. Vaste prijzen, eerst onderzoek.</p>
-          <a href="#contact" class="knop knop-vol mt-6">Afspraak maken</a>
+    <!-- 6. Waarom -->
+    <section class="wrap pb-16 lg:pb-24" aria-labelledby="t-waarom">
+      <div class="rounded-2xl bg-ijs p-6 md:p-10 lg:p-14">
+        <div class="grid gap-10 lg:grid-cols-3 lg:gap-12">
+          <div>
+            <div class="lg:sticky lg:top-32">
+              <h2 id="t-waarom" class="text-3xl">Waarom kiezen voor Joris?</h2>
+              <p class="mt-5 text-ink-zacht">Een kostbaar horloge geeft u niet zomaar uit handen. Dit kunt u van de werkplaats verwachten.</p>
+            </div>
+          </div>
+          <ul class="grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:col-span-2">
+            {waarom.map((w) => (
+              <li class="flex gap-4">
+                <span class="icoonvlak bg-wit shadow-zacht"><Icoon naam="schild" maat={24} /></span>
+                <span><h3 class="text-lg">{w.kop}</h3><span class="mt-1.5 block text-ink-zacht">{w.tekst}</span></span>
+              </li>
+            ))}
+          </ul>
         </div>
-        <div class="kaart min-w-0 p-5 sm:p-6 lg:col-span-7">
+      </div>
+    </section>
+
+    <!-- 7. Rolex, compact -->
+    <section id="rolex" class="scroll-mt-28 border-t border-lijn py-16 lg:py-24" aria-labelledby="t-rolex">
+      <div class="wrap grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-start lg:gap-10">
+        <div class="lg:col-span-5">
+          <p class="kicker text-ink-zacht">Ook voor Rolex</p>
+          <h2 id="t-rolex" class="mt-3 text-3xl">Rolex-servicebeurt met vaste prijzen.</h2>
+          <p class="mt-5 text-ink-zacht">Submariner, Datejust, Day-Date, Air-King, GMT-Master, Explorer, Oyster Perpetual of Super Precision.</p>
+          <figure class="mt-8 hidden overflow-hidden rounded-xl shadow-zacht lg:block lg:w-72">
+            <Image src={kaliber} alt="Een opengewerkt chronograafuurwerk in een houder op de werkbank" widths={[360, 576]} sizes="18rem" class="aspect-[4/5] w-full object-cover" />
+          </figure>
+        </div>
+        <div class="kaart min-w-0 p-5 sm:p-8 lg:col-span-7">
           <table class="w-full text-left">
             <caption class="sr-only">Prijzen Rolex-servicebeurt</caption>
-            <thead class="sr-only"><tr><th scope="col">Model</th><th scope="col">Vanaf</th></tr></thead>
+            <thead><tr class="border-b border-lijn text-sm text-ink-zacht"><th scope="col" class="pb-3 font-medium">Model</th><th scope="col" class="pb-3 text-right font-medium">Servicebeurt</th></tr></thead>
             <tbody>
               {rolex.map(([m, p]) => (
                 <tr class="border-b border-lijn">
-                  <th scope="row" class="py-3 pr-6 font-normal">{m}</th>
-                  <td class="num py-3 text-right font-medium sm:whitespace-nowrap">vanaf € {p},-</td>
+                  <th scope="row" class="py-4 pr-4 font-normal">{m}</th>
+                  <td class="num py-4 text-right font-display text-lg font-bold sm:whitespace-nowrap">vanaf € {p},-</td>
                 </tr>
               ))}
             </tbody>
           </table>
-          <div class="mt-4 space-y-2 text-sm text-tekst">
-            <p>GMT-modellen van 30 jaar en ouder: <span class="num whitespace-nowrap">€ 50,-</span> extra. Inclusief opwindveer, achterdekseldichting, kroon- en tubedichting en het ultrasoon reinigen van kast en band. Andere onderdelen, zoals glas, glasdichting, opwindkroon of tube, komen erbij: origineel of generiek, u kiest. De werkelijke slijtage zie ik pas als het horloge helemaal gedemonteerd en gereinigd is.</p>
-            <p>Polijsten <span class="num whitespace-nowrap">vanaf € 125,-</span>, alleen bij een servicebeurt.</p>
-            <p class="text-xs">{site.naam} is geen officieel Rolex-servicecentrum. Rolex is een geregistreerd merk van Rolex SA.</p>
-          </div>
+          <ul class="mt-6 grid gap-2.5 text-ink-zacht">
+            <li class="flex gap-3"><Icoon naam="vink" maat={18} dik={2.6} class="mt-1 text-vink" /><span>Inclusief opwindveer, achterdekseldichting, kroon- en tubedichting en ultrasoon reinigen van kast en band.</span></li>
+            <li class="flex gap-3"><Icoon naam="vink" maat={18} dik={2.6} class="mt-1 text-vink" /><span>Andere onderdelen komen erbij. U kiest zelf: origineel of generiek.</span></li>
+            <li class="flex gap-3"><Icoon naam="vink" maat={18} dik={2.6} class="mt-1 text-vink" /><span>Polijsten <span class="num whitespace-nowrap">vanaf € 125,-</span>, alleen bij een servicebeurt. GMT-modellen van 30 jaar en ouder: <span class="num whitespace-nowrap">€ 50,-</span> extra.</span></li>
+          </ul>
+          <p class="mt-6 border-t border-lijn pt-4 text-xs text-ink-zacht">{site.naam} is geen officieel Rolex-servicecentrum. Rolex is een geregistreerd merk van Rolex SA.</p>
         </div>
       </div>
     </section>

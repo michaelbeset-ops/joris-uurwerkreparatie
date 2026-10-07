@@ -1,6 +1,6 @@
-// Hero-foto: de Omega Seamaster uit hun Google-profiel (1600x1600), zwart-wit en iets donkerder, zodat hij in het
-// zwarte vlak van de hero opgaat. Geen verlenging: de overgang naar zwart doet een CSS-masker.
+// Hero-foto's. Bron: bron/fotos (eigen foto's van het Google-profiel), nergens groter getoond dan de bron.
 import sharp from 'sharp';
-await sharp('bron/fotos/seamaster.jpg').grayscale().linear(1.12, -14).modulate({ brightness: 0.62 })
-  .jpeg({ quality: 86, mozjpeg: true }).toFile('src/assets/hero/hero-seamaster.jpg');
-console.log('hero-seamaster.jpg klaar');
+// Groene werkmat met geopend chronograafuurwerk, in kleur, iets donkerder zodat witte tekst erop leesbaar blijft.
+await sharp('bron/fotos/uurwerk-groen.jpg').modulate({ saturation: 0.9, brightness: 0.9 }).linear(1.05, -6)
+  .jpeg({ quality: 86, mozjpeg: true }).toFile('src/assets/hero/hero-werkbank.jpg');
+console.log('klaar');

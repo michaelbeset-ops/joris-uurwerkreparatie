@@ -9,8 +9,10 @@ for (const w of (breedtes.length ? breedtes : ['1440', '390', '320']).map(Number
   await p.waitForTimeout(500);
   await p.screenshot({ path: `shots/${naam}-${w}-fold.png` });
   // Lazy afbeeldingen laden pas na scrollen: eerst naar beneden, dan terug, dan pas de full-page opname.
-  await p.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 600) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 50)); } window.scrollTo(0, 0); });
-  await p.waitForTimeout(1500);
+  const hoogte = await p.evaluate(() => document.body.scrollHeight);
+  for (let y = 0; y < hoogte; y += 500) { await p.evaluate((y) => scrollTo(0, y), y); await p.waitForTimeout(120); }
+  await p.evaluate(() => scrollTo(0, 0));
+  await p.waitForTimeout(1200);
   await p.screenshot({ path: `shots/${naam}-${w}.png`, fullPage: true });
   const sw = await p.evaluate(() => document.documentElement.scrollWidth);
   console.log(`${w}: scrollWidth ${sw}`);
