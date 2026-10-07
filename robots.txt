@@ -1,0 +1,3 @@
+# Preview op github.io: niet indexeren zolang er [[AANLEVEREN]] in de site staat. Bij oplevering: Allow en Sitemap-regel.
+User-agent: *
+Disallow: /
