@@ -1,27 +1,27 @@
 ---
 // UITGEBREIDE prijsindicatie (pakket van 249 euro). Stappenplan in vier stappen:
-// 1 merk, 2 werkzaamheden (noodzakelijk en optioneel, met uitleg en Rolex-model), 3 uw horloge, 4 overzicht.
-// Het overzicht gaat naar WhatsApp of e-mail, kan gekopieerd of geprint worden, en keuzes worden onthouden.
-// Prijzen uit src/data/prijzen.ts; onbekende prijzen tonen "na onderzoek". Er wordt niets verzonden zonder de bezoeker.
+// 1 merk, 2 werkzaamheden (noodzakelijk en optioneel, uitleg, Rolex-model), 3 uw horloge en contactgegevens, 4 overzicht.
+// De aanvraag komt met alle gegevens per e-mail binnen bij Joris (Web3Forms, sleutel in PUBLIC_WEB3FORMS_KEY) met een
+// eigen aanvraagnummer. Zonder sleutel draait hij in demostand: alles werkt, maar er wordt niets verstuurd.
+// Prijzen uit src/data/prijzen.ts (echte prijzen, of voorbeeldprijzen zolang die aan staan).
 import Icoon from './Icoon.astro';
-import { merken, onderdelen, rolexServicebeurt } from '../data/prijzen';
-import { site } from '../data/site';
-const data = JSON.stringify({ merken, onderdelen, rolexServicebeurt, wa: site.wa, mail: site.mail });
+import { merken, onderdelen, rolexServicebeurt, prijstabel } from '../data/prijzen';
+import { site, url } from '../data/site';
+const sleutel = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
+const data = JSON.stringify({ merken, onderdelen, rolexServicebeurt, tabel: prijstabel(merken.map((m) => m.id)), wa: site.wa, sleutel });
 const noodzakelijk = onderdelen.filter((o) => !o.alleenMetServicebeurt);
 const optioneel = onderdelen.filter((o) => o.alleenMetServicebeurt);
-const stappen = ['Merk', 'Werkzaamheden', 'Uw horloge', 'Overzicht'];
+const stappen = ['Merk', 'Werkzaamheden', 'Uw gegevens', 'Overzicht'];
 ---
-<div class="grid gap-6 lg:grid-cols-12" data-plus={data}>
+<form class="grid gap-6 lg:grid-cols-12" novalidate data-plus={data}>
   <div class="kaart min-w-0 lg:col-span-8">
-    <!-- Voortgang -->
     <ol class="grid grid-cols-4 border-b border-lijn" aria-label="Stappen">
       {stappen.map((s, i) => (
         <li><button type="button" class="stap-tab" data-naar={i}><span class="stap-nr">{i + 1}</span><span class="hidden sm:inline">{s}</span></button></li>
       ))}
     </ol>
 
-    <div class="p-5 sm:p-7">
-      <!-- Stap 1 -->
+    <div class="p-5 sm:p-7" data-wizard>
       <section data-stap="0">
         <h3 class="text-xl">Welk merk heeft uw horloge?</h3>
         <div class="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -33,75 +33,81 @@ const stappen = ['Merk', 'Werkzaamheden', 'Uw horloge', 'Overzicht'];
         </div>
       </section>
 
-      <!-- Stap 2 -->
       <section data-stap="1" hidden>
         <h3 class="text-xl">Wat moet er gebeuren?</h3>
         <p class="mt-1 text-sm text-ink-zacht">Meerdere keuzes mogelijk. Twijfelt u? Kies de servicebeurt; na onderzoek hoort u wat nodig is.</p>
-        <p class="kicker mt-5 text-ink-zacht">Noodzakelijk werk</p>
-        <div class="mt-2 grid gap-2">
-          {noodzakelijk.map((o) => (
-            <div class="keuze !p-0" data-onderdeel={o.id}>
-              <label class="flex cursor-pointer items-start gap-3 p-4">
-                <input type="checkbox" name="u-werk" value={o.id} class="mt-1 h-5 w-5 shrink-0 accent-[#0f2a4a]" />
-                <span class="text-marine"><Icoon naam={o.icoon} maat={22} /></span>
-                <span class="min-w-0 flex-1"><span class="block font-display font-bold leading-tight">{o.naam}</span><span class="block text-sm text-ink-zacht">{o.uitleg}</span></span>
-                <span class="num shrink-0 whitespace-nowrap text-sm font-semibold" data-prijs></span>
-              </label>
-              <details class="border-t border-lijn px-4 py-2 text-sm"><summary class="cursor-pointer font-medium text-marine">Wat houdt dit in?</summary><p class="mt-2 text-ink-zacht">{o.toelichting}</p></details>
-              {o.id === 'servicebeurt' && (
-                <div class="hidden border-t border-lijn px-4 py-3" data-rolex>
-                  <label for="u-rolex" class="text-sm font-medium">Welk Rolex-model?</label>
-                  <select id="u-rolex" name="u-rolex" class="veld mt-1.5">{rolexServicebeurt.map((r) => <option value={r.id}>{r.naam} (v.a. € {r.prijs})</option>)}</select>
+        {[['Noodzakelijk werk', noodzakelijk], ['Optioneel, cosmetisch', optioneel]].map(([kop, lijst]) => (
+          <>
+            <p class="kicker mt-6 text-ink-zacht">{kop}</p>
+            <div class="mt-2 grid gap-2">
+              {(lijst as typeof onderdelen).map((o) => (
+                <div class="keuze !p-0" data-onderdeel={o.id}>
+                  <label class="flex cursor-pointer items-start gap-3 p-4">
+                    <input type="checkbox" name="u-werk" value={o.id} class="mt-1 h-5 w-5 shrink-0 accent-[#0f2a4a]" />
+                    <span class="text-marine"><Icoon naam={o.icoon} maat={22} /></span>
+                    <span class="min-w-0 flex-1"><span class="block font-display font-bold leading-tight">{o.naam}</span><span class="block text-sm text-ink-zacht">{o.uitleg}</span></span>
+                    <span class="num shrink-0 whitespace-nowrap text-sm font-semibold" data-prijs></span>
+                  </label>
+                  <details class="border-t border-lijn px-4 py-2 text-sm"><summary class="cursor-pointer font-medium text-marine">Wat houdt dit in?</summary><p class="mt-2 text-ink-zacht">{o.toelichting}</p></details>
+                  {o.id === 'servicebeurt' && (
+                    <div class="hidden border-t border-lijn px-4 py-3" data-rolex>
+                      <label for="u-rolex" class="text-sm font-medium">Welk Rolex-model?</label>
+                      <select id="u-rolex" name="u-rolex" class="veld mt-1.5">{rolexServicebeurt.map((r) => <option value={r.id}>{r.naam} (v.a. € {r.prijs})</option>)}</select>
+                    </div>
+                  )}
                 </div>
-              )}
+              ))}
             </div>
-          ))}
-        </div>
-        <p class="kicker mt-6 text-ink-zacht">Optioneel, cosmetisch</p>
-        <div class="mt-2 grid gap-2">
-          {optioneel.map((o) => (
-            <div class="keuze !p-0" data-onderdeel={o.id}>
-              <label class="flex cursor-pointer items-start gap-3 p-4">
-                <input type="checkbox" name="u-werk" value={o.id} class="mt-1 h-5 w-5 shrink-0 accent-[#0f2a4a]" />
-                <span class="text-marine"><Icoon naam={o.icoon} maat={22} /></span>
-                <span class="min-w-0 flex-1"><span class="block font-display font-bold leading-tight">{o.naam}</span><span class="block text-sm text-ink-zacht">{o.uitleg}</span></span>
-                <span class="num shrink-0 whitespace-nowrap text-sm font-semibold" data-prijs></span>
-              </label>
-              <details class="border-t border-lijn px-4 py-2 text-sm"><summary class="cursor-pointer font-medium text-marine">Wat houdt dit in?</summary><p class="mt-2 text-ink-zacht">{o.toelichting}</p></details>
-            </div>
-          ))}
-        </div>
+          </>
+        ))}
       </section>
 
-      <!-- Stap 3 -->
       <section data-stap="2" hidden>
-        <h3 class="text-xl">Vertel iets over uw horloge</h3>
-        <p class="mt-1 text-sm text-ink-zacht">Alles is optioneel. Hoe meer u vertelt, hoe sneller u een goede prijsopgave krijgt.</p>
+        <h3 class="text-xl">Uw gegevens en uw horloge</h3>
+        <p class="mt-1 text-sm text-ink-zacht">Velden met * zijn nodig om uw aanvraag te sturen. De rest helpt Hugo om u sneller een goede prijsopgave te geven.</p>
         <div class="mt-5 grid gap-4 sm:grid-cols-2">
+          <div><label for="u-naam" class="text-sm font-medium">Naam *</label><input id="u-naam" name="u-naam" autocomplete="name" required maxlength="100" class="veld mt-1.5" /><p class="fout" data-fout="u-naam">Vul uw naam in.</p></div>
+          <div><label for="u-email" class="text-sm font-medium">E-mail *</label><input id="u-email" name="u-email" type="email" autocomplete="email" required maxlength="120" class="veld mt-1.5" /><p class="fout" data-fout="u-email">Vul een geldig e-mailadres in.</p></div>
+          <div><label for="u-tel" class="text-sm font-medium">Telefoon</label><input id="u-tel" name="u-tel" type="tel" autocomplete="tel" maxlength="30" class="veld mt-1.5" /></div>
+          <div><label for="u-contact" class="text-sm font-medium">Liefst contact via</label><select id="u-contact" name="u-contact" class="veld mt-1.5"><option>E-mail</option><option>WhatsApp</option><option>Telefoon</option></select></div>
           <div><label for="u-model" class="text-sm font-medium">Model of referentienummer</label><input id="u-model" name="u-model" autocomplete="off" placeholder="Bijvoorbeeld Speedmaster 3861" class="veld mt-1.5" /></div>
           <div><label for="u-type" class="text-sm font-medium">Type uurwerk</label><select id="u-type" name="u-type" class="veld mt-1.5"><option value="">Weet ik niet</option><option>Automaat</option><option>Handopwind</option><option>Quartz</option><option>Chronograaf</option></select></div>
-          <div class="sm:col-span-2"><label for="u-klacht" class="text-sm font-medium">Wat merkt u aan het horloge?</label><textarea id="u-klacht" name="u-klacht" rows="3" placeholder="Bijvoorbeeld: loopt achter, blijft stilstaan, vocht onder het glas" class="veld mt-1.5"></textarea></div>
+          <div class="sm:col-span-2"><label for="u-klacht" class="text-sm font-medium">Wat merkt u aan het horloge?</label><textarea id="u-klacht" name="u-klacht" rows="3" maxlength="1500" placeholder="Bijvoorbeeld: loopt achter, blijft stilstaan, vocht onder het glas" class="veld mt-1.5"></textarea></div>
           <div><label for="u-sinds" class="text-sm font-medium">Sinds wanneer?</label><input id="u-sinds" name="u-sinds" autocomplete="off" placeholder="Bijvoorbeeld: een paar weken" class="veld mt-1.5" /></div>
           <div><label for="u-laatste" class="text-sm font-medium">Laatste servicebeurt</label><select id="u-laatste" name="u-laatste" class="veld mt-1.5"><option value="">Weet ik niet</option><option>Minder dan 5 jaar geleden</option><option>5 tot 10 jaar geleden</option><option>Meer dan 10 jaar geleden</option><option>Nog nooit</option></select></div>
-          <div><label for="u-contact" class="text-sm font-medium">Liefst contact via</label><select id="u-contact" name="u-contact" class="veld mt-1.5"><option>WhatsApp</option><option>Telefoon</option><option>E-mail</option></select></div>
-          <div><label for="u-moment" class="text-sm font-medium">Voorkeur voor een afspraak</label><select id="u-moment" name="u-moment" class="veld mt-1.5"><option value="">Geen voorkeur</option><option>Ochtend</option><option>Middag</option><option>Avond</option></select></div>
+          <div class="sm:col-span-2"><label for="u-moment" class="text-sm font-medium">Voorkeur voor een afspraak</label><select id="u-moment" name="u-moment" class="veld mt-1.5"><option value="">Geen voorkeur</option><option>Ochtend</option><option>Middag</option><option>Avond</option></select></div>
+          <!-- Honeypot tegen spam: onzichtbaar voor mensen. -->
+          <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" />
         </div>
       </section>
 
-      <!-- Stap 4 -->
       <section data-stap="3" hidden>
-        <h3 class="text-xl">Uw overzicht</h3>
-        <p class="mt-1 text-sm text-ink-zacht">Controleer uw keuzes en stuur ze naar Hugo. Foto's van de voor- en achterkant voegt u daarna toe.</p>
-        <pre class="mt-4 whitespace-pre-wrap rounded-xl bg-ijs p-4 font-body text-sm leading-relaxed text-ink" data-overzicht></pre>
-        <div class="mt-5 grid gap-2 sm:grid-cols-2">
-          <a href={site.wa} class="btn btn-marine w-full" data-plus-wa><Icoon naam="bericht" maat={20} />Stuur via WhatsApp</a>
-          <a href={`mailto:${site.mail}`} class="btn btn-wit w-full" data-plus-mail><Icoon naam="mail" maat={20} />Stuur per e-mail</a>
-          <button type="button" class="btn btn-wit w-full" data-kopieer><Icoon naam="doos" maat={20} /><span data-kopieer-tekst>Kopieer overzicht</span></button>
-          <button type="button" class="btn btn-wit w-full" data-print><Icoon naam="kalender" maat={20} />Print of bewaar als pdf</button>
+        <div data-voor-verzenden>
+          <h3 class="text-xl">Controleer en verstuur</h3>
+          <p class="mt-1 text-sm text-ink-zacht">Uw aanvraag komt met alle gegevens direct bij Hugo binnen. Foto's van de voor- en achterkant kunt u daarna sturen als antwoord op zijn mail of via WhatsApp.</p>
+          <pre class="mt-4 whitespace-pre-wrap rounded-xl bg-ijs p-4 font-body text-sm leading-relaxed text-ink" data-overzicht></pre>
+          <label class="mt-4 flex items-start gap-3 text-sm"><input type="checkbox" name="u-privacy" class="mt-0.5 h-5 w-5 shrink-0 accent-[#0f2a4a]" /><span>Ik ga akkoord dat mijn gegevens worden gebruikt om mijn aanvraag te behandelen, zoals beschreven in de <a href={url('privacy/')} class="underline" target="_blank" rel="noopener">privacyverklaring</a>. *</span></label>
+          <p class="fout" data-fout="u-privacy">Vink dit aan om te kunnen versturen.</p>
+          <div class="mt-5 grid gap-2 sm:grid-cols-2">
+            <button type="submit" class="btn btn-marine w-full" data-verstuur><Icoon naam="mail" maat={20} /><span data-verstuur-tekst>Verstuur aanvraag</span></button>
+            <a href={site.wa} class="btn btn-wit w-full" data-plus-wa><Icoon naam="bericht" maat={20} />Liever via WhatsApp</a>
+          </div>
+          <p class="mt-3 flex flex-wrap gap-x-5 gap-y-1 text-sm">
+            <button type="button" class="underline" data-kopieer><span data-kopieer-tekst>Kopieer overzicht</span></button>
+            <button type="button" class="underline" data-print>Print of bewaar als pdf</button>
+          </p>
+          <p class="fout mt-3" data-fout="verzenden">Versturen is niet gelukt. Probeer het opnieuw of stuur uw aanvraag via WhatsApp.</p>
+        </div>
+        <div class="hidden text-center" data-bedankt tabindex="-1">
+          <span class="mx-auto flex h-14 w-14 items-center justify-center rounded-pill bg-vink/10 text-vink"><Icoon naam="vink" maat={30} dik={2.6} /></span>
+          <h3 class="mt-4 text-2xl">Uw aanvraag is verstuurd</h3>
+          <p class="mt-2 text-ink-zacht">Uw aanvraagnummer is <strong class="num font-display text-ink" data-nummer></strong>. Hugo neemt contact met u op via uw voorkeur. Noem dit nummer als u contact opneemt.</p>
+          <p class="mt-2 hidden rounded-md bg-marine-licht p-3 text-sm text-ink" data-demo-melding>Demostand: er is niets verstuurd, omdat de formulierkoppeling nog niet is ingesteld.</p>
+          <a href={site.wa} class="btn btn-wit mt-5" data-plus-wa-na><Icoon naam="bericht" maat={20} />Stuur foto's via WhatsApp</a>
         </div>
       </section>
 
-      <div class="mt-7 flex items-center justify-between gap-3 border-t border-lijn pt-5">
+      <div class="mt-7 flex items-center justify-between gap-3 border-t border-lijn pt-5" data-navigatie>
         <button type="button" class="btn btn-wit" data-vorige>Vorige</button>
         <p class="num text-sm text-ink-zacht lg:hidden" data-mini></p>
         <button type="button" class="btn btn-marine" data-volgende>Volgende</button>
@@ -119,25 +125,28 @@ const stappen = ['Merk', 'Werkzaamheden', 'Uw horloge', 'Overzicht'];
       <p class="mt-5 border-t border-wit/15 pt-4 text-xs text-staal">Indicatie, geen offerte. Elk horloge wordt eerst onderzocht. Aan de prijsopgave zijn onderzoeks- en administratiekosten verbonden; die betaalt u alleen als u de reparatie niet laat uitvoeren.</p>
     </div>
   </aside>
-</div>
+</form>
 
 <script>
-  type O = { id: string; naam: string; prijs: Record<string, number | null>; alleenMetServicebeurt?: boolean };
-  type Data = { merken: { id: string; naam: string }[]; onderdelen: O[]; rolexServicebeurt: { id: string; naam: string; prijs: number }[]; wa: string; mail: string };
-  const root = document.querySelector<HTMLElement>('[data-plus]');
+  type O = { id: string; naam: string; alleenMetServicebeurt?: boolean };
+  type Data = { merken: { id: string; naam: string }[]; onderdelen: O[]; rolexServicebeurt: { id: string; naam: string; prijs: number }[]; tabel: Record<string, Record<string, { prijs: number | null }>>; wa: string; sleutel: string };
+  const root = document.querySelector<HTMLFormElement>('[data-plus]');
   if (root) {
     const d: Data = JSON.parse(root.dataset.plus!);
     const $ = <T extends Element = HTMLElement>(s: string) => root.querySelector<T>(s)!;
     const $$ = <T extends Element = HTMLElement>(s: string) => [...root.querySelectorAll<T>(s)];
     const eur = (n: number) => '€ ' + n.toLocaleString('nl-NL');
     const OPSLAG = 'joris-prijsindicatie';
+    const BEWAAR_NIET = ['u-naam', 'u-email', 'u-tel', 'u-privacy', 'botcheck']; // persoonsgegevens niet in de browser bewaren
     let stap = 0;
+    let overzicht = '';
 
-    // Keuzes onthouden in deze browser (handig als iemand later terugkomt). Werkt het niet, dan gewoon zonder.
-    const bewaar = () => { try { const f: Record<string, string | string[]> = {}; $$<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('input,select,textarea').forEach((el) => { if (!el.name) return; if (el instanceof HTMLInputElement && el.type === 'checkbox') { f[el.name] = [...((f[el.name] as string[]) ?? []), ...(el.checked ? [el.value] : [])]; } else if (el instanceof HTMLInputElement && el.type === 'radio') { if (el.checked) f[el.name] = el.value; } else f[el.name] = el.value; }); localStorage.setItem(OPSLAG, JSON.stringify(f)); } catch {} };
-    const herstel = () => { try { const f = JSON.parse(localStorage.getItem(OPSLAG) ?? 'null'); if (!f) return; $$<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('input,select,textarea').forEach((el) => { if (!el.name || !(el.name in f)) return; const v = f[el.name]; if (el instanceof HTMLInputElement && el.type === 'checkbox') el.checked = (v as string[]).includes(el.value); else if (el instanceof HTMLInputElement && el.type === 'radio') el.checked = el.value === v; else el.value = v; }); } catch {} };
+    type Veld = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+    const velden = () => $$<Veld>('input,select,textarea').filter((el) => el.name && !BEWAAR_NIET.includes(el.name));
+    const bewaar = () => { try { const f: Record<string, string | string[]> = {}; velden().forEach((el) => { if (el instanceof HTMLInputElement && el.type === 'checkbox') f[el.name] = [...((f[el.name] as string[]) ?? []), ...(el.checked ? [el.value] : [])]; else if (el instanceof HTMLInputElement && el.type === 'radio') { if (el.checked) f[el.name] = el.value; } else f[el.name] = el.value; }); localStorage.setItem(OPSLAG, JSON.stringify(f)); } catch {} };
+    const herstel = () => { try { const f = JSON.parse(localStorage.getItem(OPSLAG) ?? 'null'); if (!f) return; velden().forEach((el) => { if (!(el.name in f)) return; const v = f[el.name]; if (el instanceof HTMLInputElement && el.type === 'checkbox') el.checked = (v as string[]).includes(el.value); else if (el instanceof HTMLInputElement && el.type === 'radio') el.checked = el.value === v; else el.value = v; }); } catch {} };
 
-    const veld = (n: string) => (root.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(`[name="${n}"]`)?.value ?? '').trim();
+    const veld = (n: string) => (root.querySelector<Veld>(`[name="${n}"]`)?.value ?? '').trim();
     const merk = () => root.querySelector<HTMLInputElement>('input[name="u-merk"]:checked')!.value;
 
     const bereken = () => {
@@ -150,13 +159,12 @@ const stappen = ['Merk', 'Werkzaamheden', 'Uw horloge', 'Overzicht'];
         const blok = $(`[data-onderdeel="${o.id}"]`);
         const box = blok.querySelector<HTMLInputElement>('input')!;
         if (o.alleenMetServicebeurt) { box.disabled = !service.checked; if (!service.checked) box.checked = false; blok.classList.toggle('opacity-50', !service.checked); }
-        const p = o.id === 'servicebeurt' && m === 'rolex' ? (rolex?.prijs ?? null) : (o.prijs[m] ?? o.prijs.alle ?? null);
+        const p = o.id === 'servicebeurt' && m === 'rolex' ? (rolex?.prijs ?? null) : d.tabel[o.id][m].prijs;
         blok.querySelector('[data-prijs]')!.textContent = typeof p === 'number' ? 'v.a. ' + eur(p) : 'na onderzoek';
         if (!box.checked) continue;
-        const naam = o.id === 'servicebeurt' && m === 'rolex' && rolex ? `${o.naam} (${rolex.naam})` : o.naam;
-        const label = naam + (o.alleenMetServicebeurt ? ' (optioneel)' : '');
-        if (typeof p === 'number') { totaal += p; regels.push(`<li class="flex justify-between gap-3"><span>${label}</span><span class="num shrink-0">v.a. ${eur(p)}</span></li>`); tekst.push(`- ${label}: v.a. ${eur(p)}`); }
-        else { onbekend++; regels.push(`<li class="flex justify-between gap-3"><span>${label}</span><span class="shrink-0 text-staal">na onderzoek</span></li>`); tekst.push(`- ${label}: prijs na onderzoek`); }
+        const naam = (o.id === 'servicebeurt' && m === 'rolex' && rolex ? `${o.naam} (${rolex.naam})` : o.naam) + (o.alleenMetServicebeurt ? ' (optioneel)' : '');
+        if (typeof p === 'number') { totaal += p; regels.push(`<li class="flex justify-between gap-3"><span>${naam}</span><span class="num shrink-0">v.a. ${eur(p)}</span></li>`); tekst.push(`- ${naam}: v.a. ${eur(p)}`); }
+        else { onbekend++; regels.push(`<li class="flex justify-between gap-3"><span>${naam}</span><span class="shrink-0 text-staal">na onderzoek</span></li>`); tekst.push(`- ${naam}: prijs na onderzoek`); }
       }
       const merkNaam = d.merken.find((x) => x.id === m)?.naam ?? '';
       $('[data-merknaam]').textContent = merkNaam;
@@ -167,19 +175,15 @@ const stappen = ['Merk', 'Werkzaamheden', 'Uw horloge', 'Overzicht'];
       $('[data-lijst]').innerHTML = regels.join('');
       $('[data-mini]').textContent = totaal ? 'v.a. ' + eur(totaal) : '';
 
-      // Overzicht voor stap 4 en de berichten
-      const info = [['Model of referentie', veld('u-model')], ['Type uurwerk', veld('u-type')], ['Wat ik merk', veld('u-klacht')], ['Sinds', veld('u-sinds')], ['Laatste servicebeurt', veld('u-laatste')], ['Contact liefst via', veld('u-contact')], ['Voorkeur afspraak', veld('u-moment')]].filter(([, v]) => v);
-      const regelsTekst = [
-        'Goedendag, ik wil graag een prijsopgave voor mijn horloge.', '',
-        'Merk: ' + merkNaam,
-        ...info.map(([k, v]) => `${k}: ${v}`), '',
+      const info = [['Naam', veld('u-naam')], ['E-mail', veld('u-email')], ['Telefoon', veld('u-tel')], ['Contact liefst via', veld('u-contact')], ['Model of referentie', veld('u-model')], ['Type uurwerk', veld('u-type')], ['Wat ik merk', veld('u-klacht')], ['Sinds', veld('u-sinds')], ['Laatste servicebeurt', veld('u-laatste')], ['Voorkeur afspraak', veld('u-moment')]].filter(([, v]) => v);
+      overzicht = [
+        'Merk: ' + merkNaam, ...info.map(([k, v]) => `${k}: ${v}`), '',
         'Gewenste werkzaamheden:', ...(tekst.length ? tekst : ['- Nog niet gekozen']),
         ...(totaal ? ['', 'Indicatie op de website: v.a. ' + eur(totaal) + (onbekend ? ' (plus onderdelen na onderzoek)' : '')] : []),
-        '', 'Foto’s van de voor- en achterkant stuur ik hierna mee.',
       ].join('\n');
-      $('[data-overzicht]').textContent = regelsTekst;
-      $<HTMLAnchorElement>('[data-plus-wa]').href = d.wa + '?text=' + encodeURIComponent(regelsTekst);
-      $<HTMLAnchorElement>('[data-plus-mail]').href = `mailto:${d.mail}?subject=${encodeURIComponent('Prijsopgave ' + merkNaam)}&body=${encodeURIComponent(regelsTekst)}`;
+      $('[data-overzicht]').textContent = overzicht;
+      const wa = d.wa + '?text=' + encodeURIComponent('Goedendag, ik wil graag een prijsopgave voor mijn horloge.\n\n' + overzicht + '\n\nFoto’s stuur ik hierna mee.');
+      $<HTMLAnchorElement>('[data-plus-wa]').href = wa;
       bewaar();
     };
 
@@ -191,10 +195,49 @@ const stappen = ['Merk', 'Werkzaamheden', 'Uw horloge', 'Overzicht'];
       $<HTMLButtonElement>('[data-volgende]').style.display = stap === 3 ? 'none' : '';
     };
     const naarBoven = () => { const top = root.getBoundingClientRect().top + scrollY - 110; if (scrollY > top) scrollTo({ top, behavior: 'smooth' }); };
+    const fout = (naam: string, aan: boolean) => { root.querySelector(`[data-fout="${naam}"]`)?.classList.toggle('zichtbaar', aan); root.querySelector(`[name="${naam}"]`)?.setAttribute('aria-invalid', String(aan)); };
+    const controleer = () => {
+      const naamOk = veld('u-naam').length > 1, mailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(veld('u-email'));
+      fout('u-naam', !naamOk); fout('u-email', !mailOk);
+      const privacyOk = $<HTMLInputElement>('input[name="u-privacy"]').checked; fout('u-privacy', naamOk && mailOk && !privacyOk);
+      if (!naamOk || !mailOk) { toon(2); root.querySelector<HTMLElement>(naamOk ? '#u-email' : '#u-naam')?.focus(); return false; }
+      if (!privacyOk) { $<HTMLInputElement>('input[name="u-privacy"]').focus(); return false; }
+      return true;
+    };
+    const nummer = () => { const n = new Date(); const p = (x: number) => String(x).padStart(2, '0'); return `JU-${String(n.getFullYear()).slice(2)}${p(n.getMonth() + 1)}${p(n.getDate())}-${p(n.getHours())}${p(n.getMinutes())}${Math.floor(Math.random() * 90 + 10)}`; };
+
+    root.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      bereken();
+      if (!controleer()) return;
+      if ($<HTMLInputElement>('input[name="botcheck"]').checked) return;
+      const nr = nummer();
+      const knop = $<HTMLButtonElement>('[data-verstuur]');
+      knop.disabled = true; $('[data-verstuur-tekst]').textContent = 'Bezig met versturen...';
+      fout('verzenden', false);
+      let gelukt = true;
+      if (d.sleutel) {
+        try {
+          const r = await fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({ access_key: d.sleutel, subject: `Aanvraag ${nr}: ${d.merken.find((x) => x.id === merk())?.naam ?? ''}`, from_name: 'Website Joris Uurwerkreparatie', replyto: veld('u-email'), Aanvraagnummer: nr, Aanvraag: overzicht, botcheck: false }) });
+          gelukt = (await r.json()).success === true;
+        } catch { gelukt = false; }
+      }
+      knop.disabled = false; $('[data-verstuur-tekst]').textContent = 'Verstuur aanvraag';
+      if (!gelukt) { fout('verzenden', true); return; }
+      $('[data-nummer]').textContent = nr;
+      $('[data-demo-melding]').classList.toggle('hidden', !!d.sleutel);
+      $<HTMLAnchorElement>('[data-plus-wa-na]').href = d.wa + '?text=' + encodeURIComponent(`Goedendag, hierbij de foto’s bij aanvraag ${nr}.`);
+      $('[data-voor-verzenden]').classList.add('hidden');
+      $('[data-navigatie]').classList.add('hidden');
+      const b = $('[data-bedankt]'); b.classList.remove('hidden'); b.focus();
+      try { localStorage.removeItem(OPSLAG); } catch {}
+    });
+
     $('[data-volgende]').addEventListener('click', () => { toon(stap + 1); naarBoven(); });
     $('[data-vorige]').addEventListener('click', () => { toon(stap - 1); naarBoven(); });
     $$('[data-naar]').forEach((b) => b.addEventListener('click', () => toon(Number(b.dataset.naar))));
-    $('[data-kopieer]').addEventListener('click', async () => { try { await navigator.clipboard.writeText($('[data-overzicht]').textContent ?? ''); $('[data-kopieer-tekst]').textContent = 'Gekopieerd'; setTimeout(() => { $('[data-kopieer-tekst]').textContent = 'Kopieer overzicht'; }, 2000); } catch {} });
+    $('[data-kopieer]').addEventListener('click', async () => { try { await navigator.clipboard.writeText(overzicht); $('[data-kopieer-tekst]').textContent = 'Gekopieerd'; setTimeout(() => { $('[data-kopieer-tekst]').textContent = 'Kopieer overzicht'; }, 2000); } catch {} });
     $('[data-print]').addEventListener('click', () => { document.body.classList.add('print-overzicht'); window.print(); document.body.classList.remove('print-overzicht'); });
     root.addEventListener('input', bereken);
     root.addEventListener('change', bereken);
@@ -211,6 +254,9 @@ const stappen = ['Merk', 'Werkzaamheden', 'Uw horloge', 'Overzicht'];
   .stap-nr { display: inline-flex; height: 1.75rem; width: 1.75rem; align-items: center; justify-content: center; border-radius: 999px; background: var(--color-ijs); font-size: .8125rem; }
   .stap-tab[data-actief] { color: var(--color-marine); border-bottom-color: var(--color-marine); }
   .stap-tab[data-actief] .stap-nr, .stap-tab[data-klaar] .stap-nr { background: var(--color-marine); color: #fff; }
+  .fout { display: none; margin-top: .35rem; font-size: .875rem; color: #b3261e; }
+  .fout.zichtbaar { display: block; }
+  [aria-invalid="true"] { border-color: #b3261e !important; }
   @media print {
     :global(body.print-overzicht *) { visibility: hidden; }
     :global(body.print-overzicht [data-overzicht]), :global(body.print-overzicht [data-overzicht] *) { visibility: visible; }

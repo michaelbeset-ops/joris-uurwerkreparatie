@@ -98,3 +98,6 @@ jorisuurwerkreparatie.nl (bron/site-tekst.txt, 2 oktober 2026), Google-profiel (
 - Schakelaar: src/components/Prijsindicatie.astro toont in de preview een demoschakelaar (ook via ?pakket=uitgebreid).
   Bij oplevering: site.preview = false en site.prijsindicatie = 'basis' of 'uitgebreid' in src/data/site.ts.
 - Beide lezen dezelfde prijzen uit src/data/prijzen.ts.
+- Uitgebreid verstuurt per e-mail via Web3Forms (PUBLIC_WEB3FORMS_KEY bij de build), met aanvraagnummer (JU-jjmmdd-...),
+  antwoordadres van de klant en het hele overzicht. Zonder sleutel: demostand, er wordt niets verstuurd.
+- Voorbeeldprijzen in src/data/prijzen.ts (toonVoorbeeldprijzen). Op false zetten zodra Hugo echte prijzen levert.

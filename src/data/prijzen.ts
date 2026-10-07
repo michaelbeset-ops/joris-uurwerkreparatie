@@ -3,6 +3,20 @@
 // Alle andere prijzen staan op null = [[AANLEVEREN: prijs van Hugo]]. De calculator toont dan "prijs na onderzoek".
 // Prijs per merk: { omega: 395 } of één prijs voor alle merken: { alle: 85 }.
 
+// VOORBEELDPRIJZEN: alleen om de calculator te laten zien zolang Hugo zijn eigen prijzen nog niet heeft aangeleverd.
+// Ze worden gebruikt waar hierboven/hieronder null staat, en alleen zolang toonVoorbeeldprijzen true is.
+// [[AANLEVEREN: echte prijzen van Hugo; daarna toonVoorbeeldprijzen op false zetten]]
+export const toonVoorbeeldprijzen = true;
+export const voorbeeldprijzen: Record<string, Partial<Record<string, number>>> = {
+  servicebeurt: { omega: 395, longines: 295, rado: 295, swatch: 195, overig: 325 },
+  glas: { alle: 85 },
+  wijzerplaat: { alle: 145 },
+  wijzers: { alle: 65 },
+  kroon: { alle: 95 },
+  waterdicht: { alle: 45 },
+  band: { alle: 35 },
+};
+
 export type Merk = 'omega' | 'longines' | 'rado' | 'rolex' | 'swatch' | 'overig';
 
 export const merken: { id: Merk; naam: string; uitleg: string }[] = [
@@ -48,3 +62,16 @@ export const onderdelen: Onderdeel[] = [
   { toelichting: 'Kast en band herstellen en polijsten, met behoud van de originele uitstraling. Alleen bij een servicebeurt en alleen als u dat wilt.', id: 'polijsten', naam: 'Kast en band polijsten', uitleg: 'Optioneel, alleen bij een servicebeurt', icoon: 'glans', prijs: { alle: 125 }, alleenMetServicebeurt: true },
   { toelichting: 'Nieuwe band van leer, rubber of staal. Ook originele Omega-horlogebanden.', id: 'band', naam: 'Band vervangen', uitleg: 'Leer, rubber of staal', icoon: 'horloge', prijs: { alle: null } }, // [[AANLEVEREN]]
 ];
+
+/** Prijs voor een onderdeel en merk: eerst de echte prijs, anders (indien aan) de voorbeeldprijs, anders null. */
+export function prijsVoor(o: Onderdeel, merk: string): { prijs: number | null; voorbeeld: boolean } {
+  const echt = o.prijs[merk as Merk] ?? o.prijs.alle;
+  if (typeof echt === 'number') return { prijs: echt, voorbeeld: false };
+  const vb = voorbeeldprijzen[o.id]?.[merk] ?? voorbeeldprijzen[o.id]?.alle;
+  return toonVoorbeeldprijzen && typeof vb === 'number' ? { prijs: vb, voorbeeld: true } : { prijs: null, voorbeeld: false };
+}
+
+/** Prijstabel per onderdeel en merk, voor gebruik in de browser. */
+export function prijstabel(merkIds: string[]) {
+  return Object.fromEntries(onderdelen.map((o) => [o.id, Object.fromEntries(merkIds.map((m) => [m, prijsVoor(o, m)]))]));
+}

@@ -2,10 +2,11 @@
 // BASIS prijsindicatie (pakket van 100 euro): merk kiezen, één dienst kiezen, vanaf-prijs met korte uitleg en
 // direct contact via WhatsApp of telefoon. Prijzen uit src/data/prijzen.ts; onbekende prijzen tonen "prijs na onderzoek".
 import Icoon from './Icoon.astro';
-import { merken, onderdelen, rolexServicebeurt } from '../data/prijzen';
+import { merken, onderdelen, rolexServicebeurt, prijstabel } from '../data/prijzen';
 import { site } from '../data/site';
 const rolexVanaf = Math.min(...rolexServicebeurt.map((r) => r.prijs));
-const data = JSON.stringify({ merken, onderdelen, rolexVanaf, wa: site.wa });
+const tabel = prijstabel(merken.map((m) => m.id));
+const data = JSON.stringify({ merken, onderdelen, rolexVanaf, tabel, wa: site.wa });
 ---
 <div class="grid gap-6 lg:grid-cols-12" data-basis={data}>
   <div class="kaart grid content-start gap-7 p-5 sm:p-7 lg:col-span-8">
@@ -47,7 +48,7 @@ const data = JSON.stringify({ merken, onderdelen, rolexVanaf, wa: site.wa });
 </div>
 
 <script>
-  type Data = { merken: { id: string; naam: string }[]; onderdelen: { id: string; naam: string; toelichting: string; prijs: Record<string, number | null>; alleenMetServicebeurt?: boolean }[]; rolexVanaf: number; wa: string };
+  type Data = { merken: { id: string; naam: string }[]; onderdelen: { id: string; naam: string; toelichting: string; alleenMetServicebeurt?: boolean }[]; rolexVanaf: number; tabel: Record<string, Record<string, { prijs: number | null }>>; wa: string };
   const root = document.querySelector<HTMLElement>('[data-basis]');
   if (root) {
     const d: Data = JSON.parse(root.dataset.basis!);
@@ -56,7 +57,7 @@ const data = JSON.stringify({ merken, onderdelen, rolexVanaf, wa: site.wa });
     const bereken = () => {
       const merk = waarde('b-merk');
       const o = d.onderdelen.find((x) => x.id === waarde('b-dienst'))!;
-      const p = o.id === 'servicebeurt' && merk === 'rolex' ? d.rolexVanaf : (o.prijs[merk] ?? o.prijs.alle ?? null);
+      const p = o.id === 'servicebeurt' && merk === 'rolex' ? d.rolexVanaf : d.tabel[o.id][merk].prijs;
       zet('[data-uitkomst]', typeof p === 'number' ? 'v.a. € ' + p.toLocaleString('nl-NL') : 'Prijs na onderzoek');
       const u = root.querySelector<HTMLElement>('[data-uitkomst]')!; u.classList.toggle('text-cijfer', typeof p === 'number'); u.classList.toggle('text-3xl', typeof p !== 'number');
       zet('[data-dienst]', o.naam + (o.alleenMetServicebeurt ? ' (bij een servicebeurt)' : ''));

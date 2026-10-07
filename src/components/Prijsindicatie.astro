@@ -5,6 +5,7 @@
 import Calculator from './Calculator.astro';
 import CalculatorUitgebreid from './CalculatorUitgebreid.astro';
 import { site } from '../data/site';
+import { toonVoorbeeldprijzen } from '../data/prijzen';
 const standaard = site.prijsindicatie;
 ---
 <section id="prijzen" class="scroll-mt-28 py-16 lg:py-24" aria-labelledby="t-prijzen">
@@ -13,9 +14,10 @@ const standaard = site.prijsindicatie;
       <div class="mb-8 flex flex-wrap items-center gap-3 rounded-xl border border-dashed border-marine/40 bg-wit p-3 text-sm" data-demo>
         <span class="px-1 font-medium text-ink-zacht">Sitefront-demo, alleen in de preview:</span>
         <div class="inline-flex rounded-pill bg-ijs p-1" role="group" aria-label="Kies pakket">
-          <button type="button" class="demo-knop" data-pakket="basis">Basis <span class="font-normal opacity-75">€ 100</span></button>
-          <button type="button" class="demo-knop" data-pakket="uitgebreid">Uitgebreid <span class="font-normal opacity-75">€ 249</span></button>
+          <button type="button" class="demo-knop" data-pakket="basis">Basis <span class="font-normal">€ 100</span></button>
+          <button type="button" class="demo-knop" data-pakket="uitgebreid">Uitgebreid <span class="font-normal">€ 249</span></button>
         </div>
+        {toonVoorbeeldprijzen && <span class="px-1 text-ink-zacht">Prijzen zijn <strong class="font-semibold text-ink">voorbeeldprijzen</strong>, behalve Rolex en polijsten.</span>}
       </div>
     )}
     <div class="grid gap-6 lg:grid-cols-12 lg:items-end">
