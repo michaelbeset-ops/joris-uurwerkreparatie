@@ -3,6 +3,7 @@
 // de footer en op mobiel een vaste balk met bellen en afspraak.
 import { Image } from 'astro:assets';
 import Icoon from './Icoon.astro';
+import Logo from './Logo.astro';
 import { site, url, waAfspraak } from '../data/site';
 import pand from '../assets/pand.jpg';
 interface Props { thuis?: boolean }
@@ -61,7 +62,7 @@ const h = (id: string) => (thuis ? `#${id}` : url(`#${id}`));
     </div>
     <div class="grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
       <div class="lg:col-span-4">
-        <p class="font-display text-xl font-extrabold">{site.naam}</p>
+        <Logo licht />
         <p class="mt-3 max-w-xs text-staal">Officieel Omega Service Center en servicecenter voor Longines en Rado.</p>
         <p class="mt-4 text-sm text-staal">KvK [[AANLEVEREN: KvK-nummer]]<br />Btw-id [[AANLEVEREN: btw-nummer]]</p>
       </div>

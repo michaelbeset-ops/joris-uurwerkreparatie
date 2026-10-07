@@ -28,11 +28,11 @@ const omegaPunten = [
 
 // Diensten: samengevat uit de servicepagina's voor Omega, Longines en Rado.
 const diensten = [
-  { kop: 'Onderhoud en revisie', tekst: 'Complete servicebeurt: inspectie, schoonmaken, smeren en afstellen, en waar nodig onderdelen vervangen.', foto: groen, alt: 'Geopend chronograafuurwerk op een groene werkmat' },
-  { kop: 'Reparaties', tekst: 'Van een nieuwe kroon of wijzer tot complexe uurwerkreparaties.', foto: onderdelen, alt: 'Losse onderdelen van een gedemonteerd Omega-horloge' },
-  { kop: 'Polijsten en herstel', tekst: 'Kast en band herstellen en polijsten, van staal tot keramiek, met behoud van de originele uitstraling.', foto: seamaster, alt: 'Klassieke Omega Seamaster-chronograaf in een horlogedoos' },
-  { kop: 'Waterdichtheid', tekst: 'Controle en herstel van de waterdichtheid, essentieel voor sportieve en duikmodellen.', icoon: 'druppel' },
-  { kop: 'Originele onderdelen', tekst: 'Uitsluitend originele onderdelen van het merk, voor kwaliteit en behoud van waarde.', icoon: 'doos' },
+  { id: 'dienst-onderhoud', kop: 'Onderhoud en revisie', tekst: 'Complete servicebeurt: inspectie, schoonmaken, smeren en afstellen, en waar nodig onderdelen vervangen.', foto: groen, alt: 'Geopend chronograafuurwerk op een groene werkmat' },
+  { id: 'dienst-reparaties', kop: 'Reparaties', tekst: 'Van een nieuwe kroon of wijzer tot complexe uurwerkreparaties.', foto: onderdelen, alt: 'Losse onderdelen van een gedemonteerd Omega-horloge' },
+  { id: 'dienst-polijsten', kop: 'Polijsten en herstel', tekst: 'Kast en band herstellen en polijsten, van staal tot keramiek, met behoud van de originele uitstraling.', foto: seamaster, alt: 'Klassieke Omega Seamaster-chronograaf in een horlogedoos' },
+  { id: 'dienst-waterdichtheid', kop: 'Waterdichtheid', tekst: 'Controle en herstel van de waterdichtheid, essentieel voor sportieve en duikmodellen.', icoon: 'druppel' },
+  { id: 'dienst-onderdelen', kop: 'Originele onderdelen', tekst: 'Uitsluitend originele onderdelen van het merk, voor kwaliteit en behoud van waarde.', icoon: 'doos' },
 ];
 
 const stappen = [
@@ -89,7 +89,7 @@ const rolex = [
     </section>
 
     <!-- Merkenrij: snelkeuze, op mobiel swipebaar. -->
-    <nav aria-label="Merken" class="border-b border-lijn bg-wit">
+    <nav id="merken" aria-label="Merken" class="scroll-mt-28 border-b border-lijn bg-wit">
       <ul class="slider wrap py-4 lg:justify-between">
         {merken.map((m) => <li><a href={m === 'Omega' ? '#omega' : m === 'Rolex' ? '#rolex' : '#diensten'} class={`inline-flex h-10 items-center rounded-pill px-4 font-display text-[0.9375rem] font-semibold no-underline ring-1 transition-colors ${m === 'Omega' ? 'bg-marine text-wit ring-marine' : 'ring-lijn hover:ring-marine'}`}>{m}</a></li>)}
       </ul>
@@ -136,7 +136,7 @@ const rolex = [
         </div>
         <ul class="grid min-w-0 grid-cols-1 gap-4 lg:col-span-8">
           {diensten.map((d) => (
-            <li>
+            <li id={d.id} class="scroll-mt-28">
               <a href="#contact" class="group kaart flex items-stretch overflow-hidden no-underline transition-transform duration-200 hover:-translate-y-0.5">
                 <span class="relative w-20 shrink-0 overflow-hidden bg-marine-licht min-[400px]:w-24 sm:w-40">
                   {d.foto ? <Image src={d.foto} alt={d.alt} widths={[200, 320]} sizes="10rem" class="absolute inset-0 h-full w-full object-cover" /> : <span class="absolute inset-0 flex items-center justify-center text-marine"><Icoon naam={d.icoon!} maat={36} dik={1.5} /></span>}

@@ -1,37 +1,91 @@
 ---
-// USP-balk met de feiten van hun eigen site en de Google-score, daaronder een zwevende witte navigatiekaart
-// die bovenaan blijft plakken. Op de homepage schuift de hero eronder door.
+// Bovenin: een dunne balk met vinkjes, de Google-score en snelle contactopties. Daaronder een zwevende witte
+// navigatiekaart met uitklapmenu's voor merken, diensten en contact (hover en toetsenbord), plus telefoon en afspraakknop.
 import Icoon from './Icoon.astro';
 import Sterren from './Sterren.astro';
+import Logo from './Logo.astro';
 import { url, site, waAfspraak } from '../data/site';
 interface Props { thuis?: boolean }
 const { thuis = true } = Astro.props;
 const h = (id: string) => (thuis ? `#${id}` : url(`#${id}`));
-const menu = [['Omega', 'omega'], ['Diensten', 'diensten'], ['Werkwijze', 'werkwijze'], ['Over Hugo', 'over'], ['Rolex', 'rolex']];
-const usps = ['Officieel Omega Service Center', 'Originele onderdelen', 'Eerst onderzoek, dan een prijs'];
 const reviews = 'https://www.google.com/maps/search/?api=1&query=Joris+Uurwerkreparatie+Herten';
+
+const menu = [
+  { naam: 'Merken', kolommen: 2, items: [
+    { naam: 'Omega', uitleg: 'Officieel Service Center', id: 'omega', icoon: 'schild' },
+    { naam: 'Longines', uitleg: 'Erkend servicecenter', id: 'merken', icoon: 'horloge' },
+    { naam: 'Rado', uitleg: 'Erkend servicecenter', id: 'merken', icoon: 'horloge' },
+    { naam: 'Rolex', uitleg: 'Vaste servicebeurtprijzen', id: 'rolex', icoon: 'euro' },
+    { naam: 'Swatch Group', uitleg: 'Hamilton, Tissot, Mido, Certina', id: 'merken', icoon: 'tandwiel' },
+    { naam: 'Ebel, Nomos, Mühle', uitleg: 'Met originele onderdelen', id: 'merken', icoon: 'doos' },
+  ], onder: { naam: 'Alle merken', uitleg: 'Geen modemerken, geen batterijservice en geen imitaties.', id: 'merken' } },
+  { naam: 'Diensten', kolommen: 1, items: [
+    { naam: 'Onderhoud en revisie', uitleg: 'Complete servicebeurt', id: 'dienst-onderhoud', icoon: 'tandwiel' },
+    { naam: 'Reparaties', uitleg: 'Van kroon tot uurwerk', id: 'dienst-reparaties', icoon: 'pincet' },
+    { naam: 'Polijsten en herstel', uitleg: 'Kast en band, staal tot keramiek', id: 'dienst-polijsten', icoon: 'glans' },
+    { naam: 'Waterdichtheid', uitleg: 'Controle en herstel', id: 'dienst-waterdichtheid', icoon: 'druppel' },
+    { naam: 'Originele onderdelen', uitleg: 'Behoud van kwaliteit en waarde', id: 'dienst-onderdelen', icoon: 'doos' },
+  ], onder: { naam: 'Werkwijze', uitleg: 'Eerst onderzoek, dan pas een prijs.', id: 'werkwijze' } },
+  { naam: 'Werkwijze', id: 'werkwijze' },
+  { naam: 'Over Hugo', id: 'over' },
+  { naam: 'Contact', kolommen: 1, items: [
+    { naam: 'Afspraak maken', uitleg: 'Bericht met merk, type en foto’s', id: 'contact', icoon: 'kalender' },
+    { naam: 'WhatsApp', uitleg: site.tel, href: waAfspraak, icoon: 'bericht' },
+    { naam: 'Bellen', uitleg: site.tel, href: site.telHref, icoon: 'telefoon' },
+    { naam: 'E-mail', uitleg: site.mail, href: `mailto:${site.mail}`, icoon: 'mail' },
+    { naam: 'Route', uitleg: `${site.straat}, ${site.plaats}`, href: site.maps, icoon: 'pin' },
+  ] },
+] as const;
+type Item = { naam: string; uitleg: string; id?: string; href?: string; icoon: string };
+const link = (i: { id?: string; href?: string }) => i.href ?? h(i.id!);
 ---
 <div class="relative z-50 bg-wit text-ink">
   <div class="wrap flex h-10 items-center justify-between gap-6 text-xs sm:text-sm">
     <ul class="flex min-w-0 items-center gap-6 overflow-hidden">
-      {usps.map((u, i) => <li class={`flex items-center gap-1.5 whitespace-nowrap ${i > 0 ? 'hidden md:flex' : ''}`}><Icoon naam="vink" maat={16} dik={2.6} class="text-vink" /><span>{u}</span></li>)}
+      {['Officieel Omega Service Center', 'Originele onderdelen', 'Alleen op afspraak'].map((u, i) => <li class={`flex items-center gap-1.5 whitespace-nowrap ${i > 0 ? 'hidden md:flex' : ''} ${i > 1 ? 'md:hidden lg:flex xl:hidden' : ''}`}><Icoon naam="vink" maat={16} dik={2.6} class="text-vink" />{i === 0 ? <span><span class="max-[399px]:hidden">Officieel </span>Omega Service Center</span> : <span>{u}</span>}</li>)}
     </ul>
-    <a href={reviews} target="_blank" rel="noopener" class="flex shrink-0 items-center gap-2 no-underline hover:underline"><Sterren maat={14} /><span><strong class="num font-semibold">{site.google.score}</strong><span class="hidden sm:inline"> op Google</span></span><span class="sr-only"> (opent in een nieuw tabblad)</span></a>
+    <div class="flex shrink-0 items-center gap-5">
+      <a href={waAfspraak} class="hidden items-center gap-1.5 no-underline hover:underline xl:flex"><Icoon naam="bericht" maat={16} />WhatsApp</a>
+      <a href={`mailto:${site.mail}`} class="hidden items-center gap-1.5 no-underline hover:underline xl:flex"><Icoon naam="mail" maat={16} />{site.mail}</a>
+      <a href={reviews} target="_blank" rel="noopener" class="flex items-center gap-2 no-underline hover:underline"><Sterren maat={14} /><span><strong class="num font-semibold">{site.google.score}</strong><span class="hidden sm:inline"> op Google ({site.google.aantal})</span></span><span class="sr-only"> (opent in een nieuw tabblad)</span></a>
+    </div>
   </div>
 </div>
 <header class="sticky top-0 z-40 px-3 pt-3 md:px-6">
-  <div class="mx-auto flex h-16 max-w-[78rem] items-center justify-between gap-3 rounded-xl bg-wit/95 pl-4 pr-2 shadow-kaart ring-1 ring-lijn backdrop-blur-sm lg:h-[4.5rem] lg:pl-6">
-    <a href={url('')} class="flex items-center gap-3 no-underline">
-      <span class="flex h-10 w-10 items-center justify-center rounded-md bg-marine text-wit"><Icoon naam="horloge" maat={24} dik={1.7} /></span>
-      <span class="font-display leading-none"><span class="block text-[1.25rem] font-extrabold tracking-[-0.02em]">Joris</span> <span class="mt-0.5 block text-[0.8125rem] font-semibold text-ink-zacht">Uurwerkreparatie</span></span>
-    </a>
+  <div class="mx-auto flex h-[4.5rem] max-w-[78rem] items-center justify-between gap-3 rounded-xl bg-wit/95 pl-5 pr-2 shadow-kaart ring-1 ring-lijn backdrop-blur-sm lg:h-20 lg:pl-7">
+    <a href={url('')} class="shrink-0 no-underline"><Logo /></a>
     <nav aria-label="Hoofdmenu" class="hidden lg:block">
-      <ul class="flex gap-1 font-display text-[1rem] font-semibold">
-        {menu.map(([n, id]) => <li><a href={h(id)} class="block rounded-md px-3.5 py-2 no-underline transition-colors hover:bg-ijs">{n}</a></li>)}
+      <ul class="flex items-center gap-0.5 font-display text-[1rem] font-semibold">
+        {menu.map((m) => 'items' in m ? (
+          <li class="group relative">
+            <a href={link(m.items[0])} class="flex items-center gap-1 rounded-md px-3 py-2 no-underline transition-colors hover:bg-ijs group-focus-within:bg-ijs" aria-haspopup="true">{m.naam}<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="text-ink-zacht transition-transform group-hover:rotate-180 group-focus-within:rotate-180"><path d="M6 9l6 6 6-6"/></svg></a>
+            <div class={`invisible absolute left-1/2 top-full z-50 pt-3 opacity-0 transition-[opacity,transform] duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 ${m.kolommen === 2 ? 'w-[36rem] -translate-x-1/2' : 'w-[22rem] -translate-x-1/2'}`}>
+              <div class="overflow-hidden rounded-xl bg-wit shadow-kaart ring-1 ring-lijn">
+                <ul class={`grid gap-1 p-3 ${m.kolommen === 2 ? 'grid-cols-2' : ''}`}>
+                  {(m.items as readonly Item[]).map((i) => (
+                    <li><a href={link(i)} {...(i.href?.startsWith('http') ? { target: '_blank', rel: 'noopener' } : {})} class="flex items-center gap-3 rounded-md p-2.5 no-underline hover:bg-ijs focus-visible:bg-ijs">
+                      <span class="icoonvlak !h-11 !w-11"><Icoon naam={i.icoon} maat={22} /></span>
+                      <span class="min-w-0 leading-tight"><span class="block">{i.naam}</span><span class="mt-0.5 block truncate font-body text-sm font-normal text-ink-zacht">{i.uitleg}</span></span>
+                    </a></li>
+                  ))}
+                </ul>
+                {'onder' in m && m.onder && (
+                  <a href={h(m.onder.id)} class="flex items-center justify-between gap-4 bg-ijs px-5 py-4 no-underline hover:bg-marine-licht">
+                    <span class="leading-tight"><span class="block text-marine">{m.onder.naam}</span><span class="mt-0.5 block font-body text-sm font-normal text-ink-zacht">{m.onder.uitleg}</span></span>
+                    <Icoon naam="pijl" maat={18} dik={2.2} class="text-marine" />
+                  </a>
+                )}
+              </div>
+            </div>
+          </li>
+        ) : (
+          <li><a href={h(m.id)} class="block rounded-md px-3 py-2 no-underline transition-colors hover:bg-ijs">{m.naam}</a></li>
+        ))}
       </ul>
     </nav>
     <div class="flex items-center gap-2">
       <a href={site.telHref} class="btn btn-wit hidden !min-h-11 !px-4 !text-[0.9375rem] xl:inline-flex"><Icoon naam="telefoon" maat={18} /><span class="num">{site.tel}</span></a>
+      <a href={site.telHref} class="flex h-11 w-11 items-center justify-center rounded-md text-marine ring-1 ring-lijn sm:hidden" aria-label={`Bel ${site.tel}`}><Icoon naam="telefoon" maat={20} /></a>
       <a href={h('contact')} class="btn btn-marine hidden !min-h-11 !px-4 !text-[0.9375rem] sm:inline-flex">Afspraak maken</a>
       <button type="button" class="flex h-11 w-11 items-center justify-center rounded-md ring-1 ring-lijn lg:hidden" aria-expanded="false" aria-controls="menu-mobiel" aria-label="Menu" data-menu-knop>
         <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16" data-open-icoon /><path d="M6 6l12 12M18 6L6 18" class="hidden" data-dicht-icoon /></svg>
@@ -39,13 +93,24 @@ const reviews = 'https://www.google.com/maps/search/?api=1&query=Joris+Uurwerkre
     </div>
   </div>
   <div class="fixed inset-0 z-[-1] hidden bg-ink/40 lg:!hidden" data-menu-sluier aria-hidden="true"></div>
-  <nav id="menu-mobiel" aria-label="Menu" class="mx-auto mt-2 hidden max-h-[calc(100dvh-6rem)] max-w-[78rem] overflow-y-auto rounded-xl bg-wit p-4 shadow-kaart ring-1 ring-lijn lg:!hidden" data-menu>
+  <nav id="menu-mobiel" aria-label="Menu" class="mx-auto mt-2 hidden max-h-[calc(100dvh-7rem)] max-w-[78rem] overflow-y-auto rounded-xl bg-wit p-4 shadow-kaart ring-1 ring-lijn lg:!hidden" data-menu>
     <ul class="grid font-display text-lg font-semibold">
-      {menu.map(([n, id]) => <li class="border-b border-lijn last:border-0"><a href={h(id)} class="block py-3 no-underline">{n}</a></li>)}
+      {menu.map((m) => 'items' in m ? (
+        <li class="border-b border-lijn last:border-0">
+          <details class="group">
+            <summary class="flex cursor-pointer list-none items-center justify-between py-3 [&::-webkit-details-marker]:hidden">{m.naam}<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="text-ink-zacht transition-transform group-open:rotate-180"><path d="M6 9l6 6 6-6"/></svg></summary>
+            <ul class="mb-3 grid gap-1 font-body text-base font-normal">
+              {(m.items as readonly Item[]).map((i) => <li><a href={link(i)} class="flex items-center gap-3 rounded-md px-2 py-2 no-underline hover:bg-ijs"><span class="text-marine"><Icoon naam={i.icoon} maat={20} /></span><span>{i.naam}</span></a></li>)}
+            </ul>
+          </details>
+        </li>
+      ) : (
+        <li class="border-b border-lijn last:border-0"><a href={h(m.id)} class="block py-3 no-underline">{m.naam}</a></li>
+      ))}
     </ul>
     <div class="mt-4 grid gap-2 sm:grid-cols-2">
+      <a href={h('contact')} class="btn btn-marine w-full">Afspraak maken</a>
       <a href={waAfspraak} class="btn btn-wit w-full"><Icoon naam="bericht" maat={18} />WhatsApp</a>
-      <a href={site.telHref} class="btn btn-wit w-full"><Icoon naam="telefoon" maat={18} /><span class="num">{site.tel}</span></a>
     </div>
   </nav>
 </header>
@@ -66,4 +131,10 @@ const reviews = 'https://www.google.com/maps/search/?api=1&query=Joris+Uurwerkre
     sluier?.addEventListener('click', () => zet(false));
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !menu.classList.contains('hidden')) { zet(false); knop.focus(); } });
   }
+  // Uitklapmenu op desktop met Escape sluiten: focus terug naar het menu-item.
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    const open = (document.activeElement as HTMLElement | null)?.closest('.group');
+    if (open) (open.querySelector('a') as HTMLElement | null)?.focus();
+  });
 </script>

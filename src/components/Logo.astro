@@ -1,0 +1,18 @@
+---
+// Logo van Joris Uurwerkreparatie. Staat er een logobestand in src/assets (logo.svg, logo.png, logo.webp of logo.jpg),
+// dan wordt dat gebruikt. Zolang dat er niet is, een typografische weergave van hun woordmerk:
+// JORIS ruim gespatieerd, Uurwerkreparatie klein in messing eronder (zoals op jorisuurwerkreparatie.nl).
+import { Image } from 'astro:assets';
+interface Props { licht?: boolean; class?: string }
+const { licht = false, class: klasse = '' } = Astro.props;
+const bestanden = import.meta.glob<{ default: ImageMetadata }>('../assets/logo.{svg,png,webp,jpg}', { eager: true });
+const logo = Object.values(bestanden)[0]?.default;
+---
+{logo ? (
+  <Image src={logo} alt="Joris Uurwerkreparatie" height={48} class={`h-10 w-auto lg:h-12 ${licht ? 'brightness-0 invert' : ''} ${klasse}`} loading="eager" />
+) : (
+  <span class={`inline-flex flex-col items-center leading-none ${klasse}`} aria-label="Joris Uurwerkreparatie" role="img">
+    <span class={`font-display text-[1.55rem] font-bold tracking-[0.42em] [margin-right:-0.42em] lg:text-[1.75rem] ${licht ? 'text-wit' : 'text-marine'}`}>JORIS</span>
+    <span class={`mt-1 text-[0.6rem] font-semibold uppercase tracking-[0.3em] [margin-right:-0.3em] lg:text-[0.66rem] ${licht ? 'text-[#d6b98a]' : 'text-[#86683f]'}`}>Uurwerkreparatie</span>
+  </span>
+)}
