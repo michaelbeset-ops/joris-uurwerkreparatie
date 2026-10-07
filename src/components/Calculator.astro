@@ -1,125 +1,60 @@
 ---
-// Reparatiecalculator: merk kiezen, onderdelen aanvinken, prijsindicatie zien en de selectie via WhatsApp sturen.
-// Prijzen komen uit src/data/prijzen.ts. Onbekende prijzen tonen "prijs na onderzoek"; er wordt niets verzonnen.
+// BASIS prijsindicatie (pakket van 100 euro): merk kiezen, één dienst kiezen, vanaf-prijs zien en via WhatsApp
+// een prijsopgave aanvragen. Prijzen uit src/data/prijzen.ts; onbekende prijzen tonen "prijs na onderzoek".
+// De uitgebreide versie (meerdere onderdelen, totaal, Rolex-model) staat in CalculatorUitgebreid.astro.
 import Icoon from './Icoon.astro';
 import { merken, onderdelen, rolexServicebeurt } from '../data/prijzen';
 import { site } from '../data/site';
-const data = JSON.stringify({ merken, onderdelen, rolexServicebeurt, wa: site.wa });
+const rolexVanaf = Math.min(...rolexServicebeurt.map((r) => r.prijs));
+const data = JSON.stringify({ merken, onderdelen, rolexVanaf, wa: site.wa });
 ---
-<section id="prijzen" class="scroll-mt-28 py-16 lg:py-24" aria-labelledby="t-prijzen">
-  <div class="wrap">
-    <div class="grid gap-6 lg:grid-cols-12 lg:items-end">
-      <div class="lg:col-span-7">
-        <p class="kicker text-ink-zacht">Prijsindicatie</p>
-        <h2 id="t-prijzen" class="mt-3 text-3xl">Prijsindicatie op basis van uw keuze.</h2>
-      </div>
-      <p class="text-ink-zacht lg:col-span-5 lg:pb-1">Kies het merk en vink aan wat er moet gebeuren. De definitieve prijs hoort u na onderzoek: de werkelijke slijtage is pas te zien als het horloge gedemonteerd is.</p>
+<section id="prijzen" class="wrap scroll-mt-28 py-16 lg:py-24" aria-labelledby="t-prijzen">
+  <div class="kaart grid gap-8 p-6 sm:p-8 lg:grid-cols-12 lg:items-center lg:gap-10 lg:p-12" data-basis={data}>
+    <div class="lg:col-span-5">
+      <p class="kicker text-ink-zacht">Prijsindicatie</p>
+      <h2 id="t-prijzen" class="mt-3 text-3xl">Wat kost het ongeveer?</h2>
+      <p class="mt-4 text-ink-zacht">Kies merk en dienst voor een vanaf-prijs. De definitieve prijs hoort u na onderzoek.</p>
     </div>
-
-    <div class="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-12" data-calc={data}>
-      <div class="grid min-w-0 gap-6 lg:col-span-8">
-        <fieldset class="kaart min-w-0 p-5 sm:p-7">
-          <legend class="sr-only">Stap 1: merk</legend>
-          <p class="flex items-center gap-3 font-display text-lg font-bold"><span class="flex h-7 w-7 items-center justify-center rounded-pill bg-marine text-sm text-wit">1</span>Welk merk?</p>
-          <div class="mt-5 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-            {merken.map((m, i) => (
-              <label class="keuze block">
-                <input type="radio" name="merk" value={m.id} checked={i === 0} class="sr-only" />
-                <span class="block font-display font-bold">{m.naam}</span>
-                <span class="block text-sm text-ink-zacht">{m.uitleg}</span>
-              </label>
-            ))}
-          </div>
-        </fieldset>
-
-        <fieldset class="kaart min-w-0 p-5 sm:p-7">
-          <legend class="sr-only">Stap 2: wat moet er gebeuren</legend>
-          <p class="flex items-center gap-3 font-display text-lg font-bold"><span class="flex h-7 w-7 items-center justify-center rounded-pill bg-marine text-sm text-wit">2</span>Wat moet er gebeuren?</p>
-          <div class="mt-5 grid gap-2 sm:grid-cols-2">
-            {onderdelen.map((o) => (
-              <label class="keuze flex items-start gap-3" data-onderdeel={o.id}>
-                <input type="checkbox" name="onderdeel" value={o.id} class="mt-1 h-5 w-5 shrink-0 accent-[#0f2a4a]" />
-                <span class="text-marine"><Icoon naam={o.icoon} maat={22} /></span>
-                <span class="min-w-0 flex-1"><span class="block font-display font-bold leading-tight">{o.naam}</span><span class="block text-sm text-ink-zacht">{o.uitleg}</span></span>
-                <span class="num shrink-0 whitespace-nowrap text-sm font-semibold" data-prijs></span>
-              </label>
-            ))}
-          </div>
-          <div class="mt-4 hidden rounded-md bg-marine-licht p-4" data-rolex>
-            <label for="rolex-model" class="text-sm font-medium">Welk Rolex-model?</label>
-            <select id="rolex-model" name="rolexModel" class="veld mt-1.5">
-              {rolexServicebeurt.map((r) => <option value={r.id}>{r.naam}</option>)}
-            </select>
-          </div>
-        </fieldset>
-      </div>
-
-      <aside class="min-w-0 lg:col-span-4">
-        <div class="donker sticky top-28 rounded-2xl bg-marine p-6 text-wit shadow-kaart sm:p-7" aria-live="polite">
-          <p class="kicker text-staal">Uw prijsindicatie</p>
-          <p class="mt-3 font-display text-2xl font-extrabold leading-tight" data-totaal>Kies merk en dienst</p>
-          <p class="mt-2 text-sm text-staal" data-toelichting>Vink aan wat er moet gebeuren.</p>
-          <ul class="mt-5 grid gap-2 border-t border-wit/15 pt-4 text-sm" data-lijst></ul>
-          <a href={site.wa} class="btn mt-6 w-full bg-wit text-marine hover:bg-ijs" data-calc-wa><Icoon naam="bericht" maat={20} />Stuur via WhatsApp</a>
-          <p class="mt-3 text-xs text-staal">Indicatie, geen offerte. Elk horloge wordt eerst onderzocht. Aan de prijsopgave zijn onderzoeks- en administratiekosten verbonden; die betaalt u alleen als u de reparatie niet laat uitvoeren.</p>{/* [[AANLEVEREN: bedrag onderzoekskosten en of prijzen inclusief btw zijn]] */}
+    <div class="grid gap-4 lg:col-span-7">
+      <div class="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label for="b-merk" class="text-sm font-medium">Merk</label>
+          <select id="b-merk" class="veld mt-1.5">{merken.map((m) => <option value={m.id}>{m.naam}</option>)}</select>
         </div>
-      </aside>
+        <div>
+          <label for="b-dienst" class="text-sm font-medium">Wat moet er gebeuren?</label>
+          <select id="b-dienst" class="veld mt-1.5">{onderdelen.map((o) => <option value={o.id}>{o.naam}</option>)}</select>
+        </div>
+      </div>
+      <div class="flex flex-col gap-4 rounded-xl bg-marine p-5 text-wit sm:flex-row sm:items-center sm:justify-between" aria-live="polite">
+        <div>
+          <p class="font-display text-2xl font-extrabold leading-tight" data-uitkomst>&nbsp;</p>
+          <p class="mt-1 text-sm text-staal" data-noot>&nbsp;</p>
+        </div>
+        <a href={site.wa} class="btn shrink-0 bg-wit text-marine hover:bg-ijs" data-basis-wa><Icoon naam="bericht" maat={20} />Vraag prijsopgave</a>
+      </div>
     </div>
   </div>
 </section>
 
-<style>
-  .keuze { cursor: pointer; border-radius: var(--radius-md); padding: .9rem 1rem; background: #fff; box-shadow: inset 0 0 0 1.5px var(--color-lijn); transition: box-shadow .15s, background-color .15s; }
-  .keuze:hover { box-shadow: inset 0 0 0 1.5px #0f2a4a66; }
-  .keuze:has(input:checked) { box-shadow: inset 0 0 0 2px var(--color-marine); background: var(--color-marine-licht); }
-  .keuze:has(input:focus-visible) { outline: 3px solid var(--color-marine); outline-offset: 2px; }
-  .keuze:has(input:disabled) { opacity: .5; cursor: not-allowed; }
-</style>
-
 <script>
-  type Data = { merken: { id: string; naam: string }[]; onderdelen: { id: string; naam: string; prijs: Record<string, number | null>; alleenMetServicebeurt?: boolean }[]; rolexServicebeurt: { id: string; naam: string; prijs: number }[]; wa: string };
-  const root = document.querySelector<HTMLElement>('[data-calc]');
+  type Data = { merken: { id: string; naam: string }[]; onderdelen: { id: string; naam: string; prijs: Record<string, number | null>; alleenMetServicebeurt?: boolean }[]; rolexVanaf: number; wa: string };
+  const root = document.querySelector<HTMLElement>('[data-basis]');
   if (root) {
-    const d: Data = JSON.parse(root.dataset.calc!);
-    const eur = (n: number) => '€ ' + n.toLocaleString('nl-NL');
-    const q = <T extends Element>(s: string) => root.querySelector<T>(s)!;
-    const prijsVan = (o: Data['onderdelen'][number], merk: string): number | null => {
-      if (o.id === 'servicebeurt' && merk === 'rolex') {
-        const m = (q<HTMLSelectElement>('#rolex-model')).value;
-        return d.rolexServicebeurt.find((r) => r.id === m)?.prijs ?? null;
-      }
-      const p = o.prijs[merk] ?? o.prijs.alle;
-      return typeof p === 'number' ? p : null;
-    };
+    const d: Data = JSON.parse(root.dataset.basis!);
+    const merk = root.querySelector<HTMLSelectElement>('#b-merk')!;
+    const dienst = root.querySelector<HTMLSelectElement>('#b-dienst')!;
     const bereken = () => {
-      const merk = (root.querySelector<HTMLInputElement>('input[name=merk]:checked'))?.value ?? 'omega';
-      const service = root.querySelector<HTMLInputElement>('input[value=servicebeurt]')!;
-      q<HTMLElement>('[data-rolex]').classList.toggle('hidden', !(merk === 'rolex' && service.checked));
-      let totaal = 0; let onbekend = 0; const regels: string[] = []; const tekst: string[] = [];
-      for (const o of d.onderdelen) {
-        const label = root.querySelector<HTMLElement>(`[data-onderdeel="${o.id}"]`)!;
-        const box = label.querySelector<HTMLInputElement>('input')!;
-        if (o.alleenMetServicebeurt) { box.disabled = !service.checked; if (!service.checked) box.checked = false; }
-        const p = prijsVan(o, merk);
-        label.querySelector<HTMLElement>('[data-prijs]')!.textContent = p === null ? '' : 'v.a. ' + eur(p);
-        if (!box.checked) continue;
-        const naam = o.id === 'servicebeurt' && merk === 'rolex' ? `${o.naam} (${q<HTMLSelectElement>('#rolex-model').selectedOptions[0].text})` : o.naam;
-        const extra = o.alleenMetServicebeurt ? ' <span class="text-staal">(optioneel)</span>' : '';
-        if (p === null) { onbekend++; regels.push(`<li class="flex justify-between gap-3"><span>${naam}${extra}</span><span class="shrink-0 text-staal">na onderzoek</span></li>`); }
-        else { totaal += p; regels.push(`<li class="flex justify-between gap-3"><span>${naam}${extra}</span><span class="num shrink-0">v.a. ${eur(p)}</span></li>`); }
-        tekst.push('- ' + naam);
-      }
-      q<HTMLElement>('[data-lijst]').innerHTML = regels.join('');
-      const t = q<HTMLElement>('[data-totaal]');
-      t.textContent = totaal ? 'v.a. ' + eur(totaal) : onbekend ? 'Prijs na onderzoek' : 'Kies merk en dienst';
-      t.classList.toggle('text-cijfer', !!totaal); t.classList.toggle('text-2xl', !totaal);
-      q<HTMLElement>('[data-toelichting]').textContent = !tekst.length ? 'Vink aan wat er moet gebeuren.'
-        : onbekend ? `${onbekend === 1 ? 'Eén onderdeel krijgt' : onbekend + ' onderdelen krijgen'} een prijs na onderzoek.` : 'Definitieve prijs na onderzoek.';
-      const merkNaam = d.merken.find((m) => m.id === merk)?.naam ?? '';
-      const bericht = ['Goedendag, ik wil graag een prijsopgave voor mijn horloge.', 'Merk: ' + merkNaam, ...(tekst.length ? ['Wat er moet gebeuren:', ...tekst] : []), ...(totaal ? ['Indicatie op de website: v.a. ' + eur(totaal)] : []), 'Foto’s stuur ik hierna mee.'];
-      q<HTMLAnchorElement>('[data-calc-wa]').href = d.wa + '?text=' + encodeURIComponent(bericht.join('\n'));
+      const o = d.onderdelen.find((x) => x.id === dienst.value)!;
+      const p = o.id === 'servicebeurt' && merk.value === 'rolex' ? d.rolexVanaf : (o.prijs[merk.value] ?? o.prijs.alle ?? null);
+      root.querySelector('[data-uitkomst]')!.textContent = typeof p === 'number' ? 'Vanaf € ' + p.toLocaleString('nl-NL') : 'Prijs na onderzoek';
+      root.querySelector('[data-noot]')!.textContent = o.alleenMetServicebeurt ? 'Alleen samen met een servicebeurt.' : typeof p === 'number' ? 'Indicatie. Definitieve prijs na onderzoek.' : 'U krijgt een prijsopgave na onderzoek.';
+      const merkNaam = d.merken.find((m) => m.id === merk.value)?.naam ?? '';
+      const tekst = ['Goedendag, ik wil graag een prijsopgave voor mijn horloge.', 'Merk: ' + merkNaam, 'Wat er moet gebeuren: ' + o.naam, 'Foto’s stuur ik hierna mee.'];
+      root.querySelector<HTMLAnchorElement>('[data-basis-wa]')!.href = d.wa + '?text=' + encodeURIComponent(tekst.join('\n'));
     };
-    root.addEventListener('change', bereken);
+    merk.addEventListener('change', bereken);
+    dienst.addEventListener('change', bereken);
     bereken();
   }
 </script>

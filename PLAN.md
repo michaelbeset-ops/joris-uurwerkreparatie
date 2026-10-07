@@ -87,3 +87,11 @@ jorisuurwerkreparatie.nl (bron/site-tekst.txt, 2 oktober 2026), Google-profiel (
   prominent. Polijsten alleen als de klant dat wil.
 - Waarom-blok: alleen bevestigde feiten (garantie, doorlooptijd, verzekering, opsturen volgen na bevestiging).
 - Niet gedaan, wacht op Hugo: aparte pagina's, gedocumenteerde intake/ontvangstbewijs, garantie, FAQ, "sinds 2017 niveau 3".
+
+## Prijsindicatie: twee pakketten (verkoop Sitefront)
+- Basis, 100 euro (staat op de site): src/components/Calculator.astro. Merk en één dienst kiezen, vanaf-prijs of
+  "prijs na onderzoek", knop "Vraag prijsopgave" opent WhatsApp met merk en dienst.
+- Uitgebreid, 250 euro (klaar, niet op de site): src/components/CalculatorUitgebreid.astro. Meerdere onderdelen,
+  keuze per Rolex-model, optioneel cosmetisch werk, opgeteld totaal en samenvatting die mee gaat naar WhatsApp.
+  Activeren: in src/pages/index.astro <Calculator /> vervangen door <CalculatorUitgebreid /> (en de import).
+- Beide lezen dezelfde prijzen uit src/data/prijzen.ts.
