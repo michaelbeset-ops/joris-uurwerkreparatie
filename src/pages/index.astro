@@ -88,29 +88,8 @@ const rolex = [
       </div>
     </section>
 
-    <!-- Verificatie: controleerbaar bewijs direct onder de hero, met links naar de officiële merkvermeldingen. -->
-    <section id="merken" class="scroll-mt-28 border-b border-lijn bg-wit" aria-label="Erkenning controleren">
-      <ul class="wrap grid gap-3 py-5 md:grid-cols-3 md:gap-5 md:py-6">
-        <li><a href={site.omegaLocator} target="_blank" rel="noopener" class="group flex h-full items-center gap-4 rounded-xl p-3 no-underline ring-1 ring-lijn transition-colors hover:ring-marine">
-          <span class="icoonvlak"><Icoon naam="schild" maat={24} /></span>
-          <span class="min-w-0 flex-1 leading-snug"><strong class="block font-display">Door OMEGA vermeld servicecenter</strong><span class="text-sm text-ink-zacht">Bekijk de officiële OMEGA-vermelding</span></span>
-          <Icoon naam="pijl" maat={18} dik={2.2} class="text-marine transition-transform group-hover:translate-x-0.5" /><span class="sr-only"> (opent in een nieuw tabblad)</span>
-        </a></li>
-        <li><a href={site.longinesLocator} target="_blank" rel="noopener" class="group flex h-full items-center gap-4 rounded-xl p-3 no-underline ring-1 ring-lijn transition-colors hover:ring-marine">
-          <span class="icoonvlak"><Icoon naam="horloge" maat={24} /></span>
-          <span class="min-w-0 flex-1 leading-snug"><strong class="block font-display">Door Longines vermeld</strong><span class="text-sm text-ink-zacht">Bekijk de officiële Longines-vermelding</span></span>
-          <Icoon naam="pijl" maat={18} dik={2.2} class="text-marine transition-transform group-hover:translate-x-0.5" /><span class="sr-only"> (opent in een nieuw tabblad)</span>
-        </a></li>
-        <li><a href={reviewsUrl} target="_blank" rel="noopener" class="group flex h-full items-center gap-4 rounded-xl p-3 no-underline ring-1 ring-lijn transition-colors hover:ring-marine">
-          <span class="icoonvlak text-ster"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/></svg></span>
-          <span class="min-w-0 flex-1 leading-snug"><strong class="block font-display">{site.google.score} uit 5 op Google</strong><span class="text-sm text-ink-zacht">{site.google.aantal} beoordelingen van klanten</span></span>
-          <Icoon naam="pijl" maat={18} dik={2.2} class="text-marine transition-transform group-hover:translate-x-0.5" /><span class="sr-only"> (opent in een nieuw tabblad)</span>
-        </a></li>
-      </ul>
-    </section>
-
     <!-- Merkenrij: alle merken als knoppen, op mobiel swipebaar. Omega uitgelicht. -->
-    <nav aria-label="Merken" class="border-b border-lijn bg-ijs">
+    <nav id="merken" aria-label="Merken" class="scroll-mt-28 border-b border-lijn bg-ijs">
       <ul class="slider wrap items-center py-4 lg:justify-between">
         <li class="mr-2 hidden font-display text-sm font-bold uppercase tracking-[.12em] text-ink-zacht lg:block">Merken</li>
         {merken.map((m) => <li><a href={m === 'Omega' ? '#omega' : m === 'Rolex' ? '#rolex' : '#diensten'} class={`inline-flex h-10 items-center rounded-pill px-4 font-display text-[0.9375rem] font-semibold no-underline ring-1 transition-colors ${m === 'Omega' ? 'bg-marine text-wit ring-marine' : 'bg-wit ring-lijn hover:ring-marine'}`}>{m}</a></li>)}
