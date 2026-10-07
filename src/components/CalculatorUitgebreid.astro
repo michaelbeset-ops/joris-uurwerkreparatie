@@ -28,16 +28,23 @@ const stappen = ['Uw horloge', 'Werkzaamheden', 'Uw gegevens', 'Overzicht'];
         <h3 class="text-xl">Welk horloge heeft u?</h3>
         <p class="mt-1 text-sm text-ink-zacht">Hoe preciezer, hoe beter de indicatie. Weet u iets niet, kies dan "weet ik niet".</p>
 
+        <div data-merkkeuze>
         <p class="kicker mt-6 text-ink-zacht">Merk</p>
         <div class="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-          {merken.map((m, i) => (
-            <label class="keuze"><input type="radio" name="u-merk" value={m.id} checked={i === 0} class="sr-only" />
+          {merken.map((m) => (
+            <label class="keuze"><input type="radio" name="u-merk" value={m.id} class="sr-only" />
               <span class="block font-display font-bold">{m.naam}</span><span class="block text-sm text-ink-zacht">{m.uitleg}</span>
             </label>
           ))}
         </div>
+        </div>
+        <div class="mt-6 hidden items-center justify-between gap-3 rounded-xl bg-marine-licht px-4 py-3" data-merkgekozen>
+          <p><span class="text-sm text-ink-zacht">Merk</span><br /><strong class="font-display text-lg" data-merkgekozen-naam></strong></p>
+          <button type="button" class="btn btn-wit !min-h-10 !px-4 !text-sm" data-wijzig-merk>Wijzig</button>
+        </div>
+        <p class="fout" data-fout="u-merk">Kies eerst een merk.</p>
 
-        <div class="mt-6" data-modelblok>
+        <div class="mt-6 hidden" data-modelblok>
           <p class="kicker text-ink-zacht">Model</p>
           {merken.map((m) => (
             <div class="mt-2 flex flex-wrap gap-2" data-modellen={m.id} hidden>
@@ -51,7 +58,7 @@ const stappen = ['Uw horloge', 'Werkzaamheden', 'Uw gegevens', 'Overzicht'];
           </div>
         </div>
 
-        <div class="mt-6 grid gap-4 sm:grid-cols-2">
+        <div class="mt-6 hidden gap-4 sm:grid-cols-2" data-details>
           <div>
             <label for="u-jaar" class="text-sm font-medium">Bouwjaar (ongeveer)</label>
             <select id="u-jaar" name="u-jaar" class="veld mt-1.5">
@@ -187,7 +194,8 @@ const stappen = ['Uw horloge', 'Werkzaamheden', 'Uw gegevens', 'Overzicht'];
     const herstel = () => { try { const f = JSON.parse(localStorage.getItem(OPSLAG) ?? 'null'); if (!f) return; velden().forEach((el) => { if (!(el.name in f)) return; const v = f[el.name]; if (el instanceof HTMLInputElement && el.type === 'checkbox') el.checked = (v as string[]).includes(el.value); else if (el instanceof HTMLInputElement && el.type === 'radio') el.checked = el.value === v; else el.value = v; }); } catch {} };
 
     const veld = (n: string) => (root.querySelector<Veld>(`[name="${n}"]`)?.value ?? '').trim();
-    const merk = () => root.querySelector<HTMLInputElement>('input[name="u-merk"]:checked')!.value;
+    const gekozenMerk = () => root.querySelector<HTMLInputElement>('input[name="u-merk"]:checked')?.value ?? '';
+    const merk = () => gekozenMerk() || 'omega';
 
     const keuze = (n: string) => root.querySelector<HTMLInputElement>(`input[name="${n}"]:checked`)?.value ?? '';
     const model = () => { const k = keuze('u-model-keuze'); return k === 'anders' ? veld('u-model-anders') : k; };
@@ -207,15 +215,26 @@ const stappen = ['Uw horloge', 'Werkzaamheden', 'Uw gegevens', 'Overzicht'];
 
     const bereken = () => {
       const m = merk();
+      const gekozen = gekozenMerk();
       const service = $<HTMLInputElement>('input[value="servicebeurt"]');
+      // Stapsgewijs: eerst merk, dan model, dan de details. Gekozen merk klapt in tot één regel.
+      $('[data-merkkeuze]').classList.toggle('hidden', !!gekozen);
+      $('[data-merkgekozen]').classList.toggle('hidden', !gekozen);
+      $('[data-merkgekozen]').classList.toggle('flex', !!gekozen);
+      $('[data-merkgekozen-naam]').textContent = d.merken.find((x) => x.id === gekozen)?.naam ?? '';
+      $('[data-modelblok]').classList.toggle('hidden', !gekozen);
+      const modelGekozen = !!keuze('u-model-keuze');
+      $('[data-details]').classList.toggle('hidden', !modelGekozen);
+      $('[data-details]').classList.toggle('grid', modelGekozen);
+      if (gekozen) fout('u-merk', false);
       // Juiste modellijst tonen; bij wisselen van merk de modelkeuze wissen.
-      $$('[data-modellen]').forEach((g) => { const zicht = g.dataset.modellen === m; if (!zicht) g.querySelectorAll<HTMLInputElement>('input').forEach((i) => { i.checked = false; }); g.hidden = !zicht; });
+      $$('[data-modellen]').forEach((g) => { const zicht = g.dataset.modellen === gekozen; if (!zicht) g.querySelectorAll<HTMLInputElement>('input').forEach((i) => { i.checked = false; }); g.hidden = !zicht; });
       $('[data-model-anders]').classList.toggle('hidden', keuze('u-model-keuze') !== 'anders');
-      $('[data-uitvoering]').classList.toggle('hidden', m !== 'rolex');
+      $('[data-uitvoering]').classList.toggle('hidden', gekozen !== 'rolex');
       const mat = veld('u-materiaal');
       const jaarTekst = veld('u-jaar') === '1949' ? 'voor 1950' : veld('u-jaar');
       $('[data-materiaal-noot]').classList.toggle('hidden', !/goud|platina/i.test(mat));
-      const cat = m === 'rolex' ? rolexCategorie() : null;
+      const cat = gekozen === 'rolex' ? rolexCategorie() : null;
       const rolex = cat ? d.rolexServicebeurt.find((r) => r.id === cat.id) : undefined;
       const catEl = $('[data-categorie]');
       catEl.classList.toggle('hidden', !cat);
@@ -232,7 +251,7 @@ const stappen = ['Uw horloge', 'Werkzaamheden', 'Uw gegevens', 'Overzicht'];
         if (typeof p === 'number') { totaal += p; regels.push(`<li class="flex justify-between gap-3"><span>${naam}</span><span class="num shrink-0">v.a. ${eur(p)}</span></li>`); tekst.push(`- ${naam}: v.a. ${eur(p)}`); }
         else { onbekend++; regels.push(`<li class="flex justify-between gap-3"><span>${naam}</span><span class="shrink-0 text-staal">na onderzoek</span></li>`); tekst.push(`- ${naam}: prijs na onderzoek`); }
       }
-      const merkNaam = d.merken.find((x) => x.id === m)?.naam ?? '';
+      const merkNaam = d.merken.find((x) => x.id === gekozen)?.naam ?? '';
       $('[data-merknaam]').textContent = [merkNaam, model(), jaarTekst].filter(Boolean).join(', ');
       const t = $('[data-totaal]');
       t.textContent = totaal ? 'v.a. ' + eur(totaal) : tekst.length ? 'Op aanvraag' : 'Kies uw werkzaamheden';
@@ -300,9 +319,10 @@ const stappen = ['Uw horloge', 'Werkzaamheden', 'Uw gegevens', 'Overzicht'];
       try { localStorage.removeItem(OPSLAG); } catch {}
     });
 
-    $('[data-volgende]').addEventListener('click', () => { toon(stap + 1); naarBoven(); });
+    $('[data-wijzig-merk]').addEventListener('click', () => { $$<HTMLInputElement>('input[name="u-merk"], input[name="u-model-keuze"]').forEach((i) => { i.checked = false; }); bereken(); root.querySelector<HTMLElement>('input[name="u-merk"]')?.focus(); });
+    $('[data-volgende]').addEventListener('click', () => { if (stap === 0 && !gekozenMerk()) { fout('u-merk', true); return; } toon(stap + 1); naarBoven(); });
     $('[data-vorige]').addEventListener('click', () => { toon(stap - 1); naarBoven(); });
-    $$('[data-naar]').forEach((b) => b.addEventListener('click', () => toon(Number(b.dataset.naar))));
+    $$('[data-naar]').forEach((b) => b.addEventListener('click', () => { const n = Number(b.dataset.naar); if (n > 0 && !gekozenMerk()) { toon(0); fout('u-merk', true); return; } toon(n); }));
     $('[data-kopieer]').addEventListener('click', async () => { try { await navigator.clipboard.writeText(overzicht); $('[data-kopieer-tekst]').textContent = 'Gekopieerd'; setTimeout(() => { $('[data-kopieer-tekst]').textContent = 'Kopieer overzicht'; }, 2000); } catch {} });
     $('[data-print]').addEventListener('click', () => { document.body.classList.add('print-overzicht'); window.print(); document.body.classList.remove('print-overzicht'); });
     root.addEventListener('input', bereken);
