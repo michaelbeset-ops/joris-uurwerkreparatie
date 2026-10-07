@@ -26,8 +26,10 @@ Google-blok met groot cijfer, afspraakkaart met formulier, afsluitende vraag, fo
 mobiel. Geen pill-knoppen en geen afrondingen: rechte hoeken passen bij de serif en bij precisiewerk.
 
 ## Opbouw (één pagina plus privacy)
-1. USP-balk (feiten van hun site) en navigatie met WhatsApp en Afspraak maken.
-2. Hero: "Officieel Omega Service Center in Herten.", knoppen Afspraak maken en WhatsApp, bellen en mailen als links,
+1. USP-balk (feiten van hun site) en navigatie met WhatsApp en Afspraak maken, zwevend over de hero.
+2. Hero schermvullend (100svh) in inktblauw; foto kaliber 321 over de volle hoogte rechts (op ware grootte, 720x900),
+   loopt naar links over in het blauw; op mobiel ligt de foto achter de tekst. "Officieel Omega Service Center in Herten.",
+   knoppen Afspraak maken en WhatsApp, bellen en mailen als links,
    drie feiten met icoon (Omega, Longines en Rado, Google 4,5 uit 38), foto kaliber 321 met feitenkaart.
 3. Merkenrij: alle merken van hun site als pills, Omega vol.
 4. Omega Service Center (donker): vier punten met vinkjes, foto Omega-houder, plek voor certificaat, modellenkaart.
