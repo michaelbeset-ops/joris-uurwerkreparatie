@@ -6,17 +6,20 @@ Status: klant (geen demo). Preview op github.io, noindex, zolang er `[[AANLEVERE
 - Zwaartepunt: officieel Omega Service Center. Kop in de hero, eigen sectie direct eronder, vertrouwensblok met drie feiten.
 - Sfeer: luxe, rustig, betrouwbaar. Geen brochuretaal, geen designertrucs (de grote vage JORIS-letters zijn weg).
 
-## Typografie (bewuste afwijking van de zware standaardkoppen)
-- Koppen: Cormorant Variable, gewicht 500, regelafstand 1,08, bijna geen letterspatiëring. Klassieke serif met karakter,
-  licht genoeg om niet te schreeuwen. Dit is een horlogemaker; een zware grotesk zou de sfeer breken.
-- Tekst: Hanken Grotesk Variable 400, 18px (1,125rem), regelafstand 1,6. Bijtekst in #3a4158 (8,6:1 op papier),
-  nergens meer lichtgrijs of bruinig klein.
-- Labels: 12px kapitaal, spatiëring .14em, in messing (#7d6233, 4,9:1) of licht-zacht op donker.
-- Woordmerk: JORIS in de serif (1,75rem mobiel, 2rem desktop) met .3em spatiëring, Uurwerkreparatie in kapitaal eronder in messing.
+## Typografie (variant A "Nacht", gekozen door Michael 7 okt 2026)
+- Eén letter voor alles: Instrument Sans Variable. Koppen 500 met -0.03em, h1 tot 92px; tekst 400, 18px.
+  Geen serif en geen gespatieerde kapitalen meer: die gaven de AI-luxe-look.
+- Woordmerk "Joris Uurwerkreparatie" in tekst, Joris half vet. Leesbaar op mobiel.
 
 ## Kleur
-- Papier #f5f1ea (warm gebroken wit), vlak #ebe5da, inkt #14213b (inktblauw, ook het donkere contactblok),
-  messing #7d6233 / #d2b27a op donker. Niets anders.
+- Zwart #0b0b0c (hero, contact), warm wit #f4f2ee, tekst #121314 en #474a51. Geen kleuraccent; alleen de Google-sterren.
+- Rechte hoeken, dunne lijnen, geen schaduwen.
+
+## Hero
+- Schermvullend (100svh) zwart. Foto: de Omega Seamaster uit hun Google-profiel (1600x1600), zwart-wit en gedimd,
+  rechts op 62% van de breedte, met een CSS-masker dat naar links in het zwart overloopt. Op 1440 en 1920 breed
+  kleiner dan de bron, dus scherp. Mobiel: horloge bovenin, tekst eronder op zwart.
+- Kop vast bovenaan: transparant op de hero, donkere balk na scrollen.
 
 ## Afwerking (maatstaf: ZBN en B-Advice, bekeken uit hun repo's; de domeinen zijn hier geblokkeerd)
 Dezelfde dichtheid als die sites, in de eigen sfeer van een horlogemaker: USP-balk, plakkende navigatie als kaart met

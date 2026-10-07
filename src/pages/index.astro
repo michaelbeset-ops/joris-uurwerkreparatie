@@ -10,6 +10,7 @@ import houder from '../assets/omega-houder.jpg';
 import groen from '../assets/uurwerk-groen.jpg';
 import seamaster from '../assets/seamaster.jpg';
 import onderdelen from '../assets/onderdelen.jpg';
+import heroFoto from '../assets/hero/hero-seamaster.jpg';
 
 // Alle feiten komen van jorisuurwerkreparatie.nl (bron/site-tekst.txt) of het Google-profiel.
 // Wat daar niet staat, is gemarkeerd met [[AANLEVEREN]].
@@ -71,34 +72,33 @@ const rolex = [
 const reviewsUrl = 'https://www.google.com/maps/search/?api=1&query=Joris+Uurwerkreparatie+Herten';
 ---
 <Base title={`${site.naam} | Officieel Omega Service Center in Herten`} description="Officieel Omega Service Center en servicecenter voor Longines en Rado in Herten. Onderhoud en reparatie met originele onderdelen, alleen op afspraak.">
-  <Kop />
+  <Kop overHero />
   <main id="inhoud">
 
-    <!-- 1. Hero, schermvullend. Links tekst op wit, rechts de foto van het kaliber 321 over de volle hoogte
-         met een harde rand. De foto is 720 x 900 en staat op 1440 breed op ware grootte, dus scherp.
-         Op mobiel eerst de tekst, daaronder de foto tot onderaan het scherm. -->
-    <section class="grid min-h-[calc(100svh-4.5rem)] lg:grid-cols-2" aria-labelledby="t-hero">
-      <div class="flex flex-col justify-between gap-10 px-5 pb-8 pt-8 md:px-10 lg:py-14 lg:pl-[max(2.5rem,calc((100vw-78rem)/2+2.5rem))] lg:pr-16">
-        <div class="my-auto max-w-[36rem]">
-          <p class="text-tekst">Horlogemaker in Herten<span class="hidden sm:inline">, alleen op afspraak</span></p>
-          <h1 id="t-hero" class="mt-4">Officieel Omega Service Center in Herten.</h1>
-          <p class="mt-6 max-w-[31rem] text-lg text-tekst">Onderhoud en reparatie van Omega, Longines en Rado, met originele onderdelen. Ook voor Rolex en andere Zwitserse merken.</p>
-          <div class="mt-8 flex flex-wrap gap-3">
-            <a href="#contact" class="knop knop-vol">Afspraak maken</a>
-            <a href={waAfspraak} class="knop knop-licht">WhatsApp</a>
-          </div>
-          <p class="mt-5 text-[1rem] text-tekst">Of bel <a href={site.telHref} class="num font-medium text-inkt underline underline-offset-4">{site.tel}</a> of mail <a href={`mailto:${site.mail}`} class="font-medium text-inkt underline underline-offset-4">{site.mail}</a></p>
+    <!-- 1. Hero (variant A, "Nacht"), schermvullend zwart. De Seamaster (1600x1600) staat rechts op 62% van de
+         breedte en is op 1440x900 kleiner dan de bron, dus scherp. Tekst links op puur zwart. -->
+    <section class="donker relative isolate flex min-h-svh flex-col overflow-hidden bg-nacht text-white" aria-labelledby="t-hero">
+      <!-- Foto rechts, zacht overlopend in zwart. Op mobiel bovenin, met onderaan dezelfde overloop. -->
+      <div class="hero-foto absolute inset-x-0 top-0 -z-10 h-[58svh] md:inset-y-0 md:left-auto md:h-full md:w-[62%]">
+        <Image src={heroFoto} alt="Een klassieke Omega Seamaster-chronograaf in een horlogedoos, in zwart-wit" widths={[600, 900, 1200, 1600]} sizes="(min-width: 768px) 62vw, 100vw" loading="eager" fetchpriority="high" class="h-full w-full object-cover object-[50%_30%] md:object-[40%_35%]" />
+      </div>
+
+      <div class="wrap relative mt-auto pb-24 pt-[44svh] md:pb-10 md:pt-28 lg:pb-12">
+        <p class="text-[1rem] text-white/70">Horlogemaker in Herten<span class="hidden sm:inline">, alleen op afspraak</span></p>
+        <h1 id="t-hero" class="mt-4 max-w-[13ch] text-white">Officieel Omega Service Center in Herten.</h1>
+        <p class="mt-6 max-w-[31rem] text-[1.1875rem] leading-relaxed text-white/80">Onderhoud en reparatie van Omega, Longines en Rado, met originele onderdelen. Ook voor Rolex en andere Zwitserse merken.</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="#contact" class="knop knop-vol">Afspraak maken</a>
+          <a href={waAfspraak} class="knop knop-glas">WhatsApp</a>
         </div>
-        <ul class="grid gap-3 border-t border-lijn pt-5 text-[1rem] leading-snug sm:grid-cols-3 sm:gap-0 sm:divide-x sm:divide-lijn" aria-label="Waarom u hier terecht kunt">
-          <li class="sm:pr-5"><strong class="font-semibold sm:block">Officieel</strong> Omega Service Center</li>
-          <li class="sm:px-5"><strong class="font-semibold sm:block">Servicecenter</strong> Longines en Rado</li>
-          <li class="sm:pl-5"><a href={reviewsUrl} target="_blank" rel="noopener" class="hover:underline"><strong class="font-semibold sm:block">{site.google.score} op Google <Sterren klein /></strong> {site.google.aantal} beoordelingen<span class="sr-only"> (opent in een nieuw tabblad)</span></a></li>
+        <p class="mt-5 text-[1rem] text-white/70">Of bel <a href={site.telHref} class="num text-white underline decoration-white/40 underline-offset-4 hover:decoration-white">{site.tel}</a><span class="hidden sm:inline"> of mail <a href={`mailto:${site.mail}`} class="text-white underline decoration-white/40 underline-offset-4 hover:decoration-white">{site.mail}</a></span></p>
+
+        <ul class="mt-12 grid gap-2 border-t border-white/20 pt-5 text-[1rem] text-white/75 md:mt-14 md:grid-cols-3 md:gap-8 lg:max-w-[60rem]" aria-label="Waarom u hier terecht kunt">
+          <li><strong class="font-medium text-white">Officieel</strong> Omega Service Center</li>
+          <li><strong class="font-medium text-white">Servicecenter</strong> Longines en Rado</li>
+          <li><a href={reviewsUrl} target="_blank" rel="noopener" class="hover:text-white"><strong class="font-medium text-white">{site.google.score}</strong> <Sterren klein /> op Google ({site.google.aantal})<span class="sr-only"> (opent in een nieuw tabblad)</span></a></li>
         </ul>
       </div>
-      <figure class="relative order-first aspect-[16/11] bg-vlak sm:aspect-[16/9] lg:order-none lg:aspect-auto">
-        <Image src={kaliber} alt="Een opengewerkt Omega-chronograafuurwerk, kaliber 321, in een uurwerkhouder op de werkbank" widths={[480, 720]} sizes="(min-width: 1024px) 50vw, 100vw" loading="eager" fetchpriority="high" quality={80} class="absolute inset-0 h-full w-full object-cover object-[50%_58%] lg:object-[50%_50%]" />
-        <figcaption class="absolute bottom-3 right-3 hidden rounded bg-papier/90 px-3 py-1.5 text-sm text-inkt sm:block lg:bottom-4 lg:right-4">Omega kaliber 321, in de werkplaats</figcaption>
-      </figure>
     </section>
 
     <!-- Merkenrij: rustige tekstregel. -->
@@ -107,21 +107,21 @@ const reviewsUrl = 'https://www.google.com/maps/search/?api=1&query=Joris+Uurwer
     </div>
 
     <!-- 2. Omega Service Center, donker blok -->
-    <section id="omega" class="donker scroll-mt-24 bg-nacht text-licht" aria-labelledby="t-omega">
+    <section id="omega" class="scroll-mt-24 bg-papier" aria-labelledby="t-omega">
       <div class="wrap grid gap-10 py-16 lg:grid-cols-12 lg:items-center lg:gap-8 lg:py-24">
         <div class="lg:col-span-6">
-          <p class="ui text-messing-licht">Omega Service Center</p>
+          <p class="ui text-inkt">Omega Service Center</p>
           <h2 id="t-omega" class="mt-4">Wat een officieel Omega Service Center voor u betekent.</h2>
-          <p class="mt-5 max-w-lg text-licht-zacht">Uw Omega wordt onderhouden door een werkplaats die Omega zelf erkent. Dat betekent originele onderdelen en vakmanschap op het niveau dat het merk vraagt.</p>
+          <p class="mt-5 max-w-lg text-tekst">Uw Omega wordt onderhouden door een werkplaats die Omega zelf erkent. Dat betekent originele onderdelen en vakmanschap op het niveau dat het merk vraagt.</p>
           <ul class="mt-7 grid gap-3">
             {omegaPunten.map((t) => (
-              <li class="flex items-start gap-3"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0 text-messing-licht"><path d="M4 12.5l5 5L20 6.5"/></svg><span>{t}</span></li>
+              <li class="flex items-start gap-3"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="mt-0.5 shrink-0 text-inkt"><path d="M4 12.5l5 5L20 6.5"/></svg><span>{t}</span></li>
             ))}
           </ul>
-          <p class="mt-6 max-w-lg text-sm text-licht-zacht">[[AANLEVEREN: sinds wanneer de erkenning geldt en wat die inhoudt, bijvoorbeeld opleiding bij Omega, werken volgens de Omega-voorschriften, garantie]]</p>
+          <p class="mt-6 max-w-lg text-sm text-tekst">[[AANLEVEREN: sinds wanneer de erkenning geldt en wat die inhoudt, bijvoorbeeld opleiding bij Omega, werken volgens de Omega-voorschriften, garantie]]</p>
           <div class="mt-8 flex flex-wrap gap-3">
             <a href="#contact" class="knop knop-vol">Afspraak voor uw Omega</a>
-            <a href="#diensten" class="knop knop-glas">Alle diensten</a>
+            <a href="#diensten" class="knop knop-licht">Alle diensten</a>
           </div>
         </div>
         <div class="grid gap-4 lg:col-span-6">
@@ -131,8 +131,8 @@ const reviewsUrl = 'https://www.google.com/maps/search/?api=1&query=Joris+Uurwer
           <div class="grid gap-4 sm:grid-cols-2">
             <div class="aanleveren aspect-[3/2] w-full">[[AANLEVEREN: foto van het Omega-certificaat of het Service Center-bordje, liggend]]</div>
             <dl class="kaart grid content-start gap-2 p-5 text-sm">
-              <dt class="ui text-licht-zacht">Modellen</dt>
-              {omegaModellen.map(([m, s]) => <dd><strong class="font-medium">{m}</strong> <span class="text-licht-zacht">{s}</span></dd>)}
+              <dt class="ui text-tekst">Modellen</dt>
+              {omegaModellen.map(([m, s]) => <dd><strong class="font-medium">{m}</strong> <span class="text-tekst">{s}</span></dd>)}
             </dl>
           </div>
         </div>

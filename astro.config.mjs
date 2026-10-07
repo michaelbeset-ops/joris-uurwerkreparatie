@@ -10,6 +10,6 @@ export default defineConfig({
   trailingSlash: 'ignore',
   devToolbar: { enabled: false },
   build: { inlineStylesheets: 'always' },
-  integrations: [sitemap({ filter: (p) => !p.includes('/hero/') })],
+  integrations: [sitemap()],
   vite: { plugins: [tailwindcss()] },
 });

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
-/* Eén lettertype voor alles: Schibsted Grotesk, een krantengrotesk. Stevig en zakelijk, zonder luxe-pose. */
-@import "@fontsource-variable/schibsted-grotesk/index.css";
+/* Eén lettertype voor alles: Instrument Sans. Strak en verfijnd, zonder de pose van een luxe-serif. */
+@import "@fontsource-variable/instrument-sans/index.css";
 
 @theme {
   --color-*: initial;
@@ -9,25 +9,24 @@
   --radius-*: initial;
   --shadow-*: initial;
 
-  /* Warm wit, bijna-zwart met een blauwe zweem, één inktblauw voor knoppen en het donkere vlak.
-     Geen goud: dat maakte het een luxe-sjabloon. */
-  --color-papier: #f7f6f2;        /* pagina */
-  --color-vlak: #efede7;          /* rustig vlak */
+  /* Zwart en warm wit, zoals de hero: zwart-witfoto's, geen kleuraccent. Alleen de Google-sterren hebben kleur. */
+  --color-papier: #f4f2ee;        /* pagina */
+  --color-vlak: #e9e6e0;          /* rustig vlak */
   --color-wit: #ffffff;
   --color-white: #ffffff;         /* nodig voor de hero-varianten */
-  --color-inkt: #121a2b;          /* koppen, tekst, knoppen; 16,8:1 op papier */
-  --color-tekst: #444b5a;         /* bijtekst; 8,3:1 op papier */
-  --color-lijn: #121a2b1f;
-  --color-lijn-sterk: #121a2b4d;
-  --color-messing: #121a2b;       /* labels in dezelfde inkt; bewust geen tweede kleur */
-  --color-nacht: #121a2b;         /* donker vlak */
-  --color-licht: #f7f6f2;
-  --color-licht-zacht: #c2c6d0;   /* bijtekst op nacht, 9,9:1 */
-  --color-lijn-licht: #f7f6f22e;
-  --color-messing-licht: #f7f6f2;
+  --color-inkt: #121314;          /* koppen, tekst, knoppen; 17,2:1 op papier */
+  --color-tekst: #474a51;         /* bijtekst; 8,0:1 op papier */
+  --color-lijn: #1213141f;
+  --color-lijn-sterk: #1213144d;
+  --color-messing: #121314;       /* labels in dezelfde inkt; bewust geen tweede kleur */
+  --color-nacht: #0b0b0c;         /* donker vlak, gelijk aan de hero */
+  --color-licht: #f4f2ee;
+  --color-licht-zacht: #b9b9bb;   /* bijtekst op nacht, 9,6:1 */
+  --color-lijn-licht: #ffffff26;
+  --color-messing-licht: #f4f2ee;
   --color-ster: #b8862b;          /* alleen de Google-sterren */
 
-  --font-sans: "Schibsted Grotesk Variable", "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Instrument Sans Variable", "Helvetica Neue", Arial, sans-serif;
 
   --text-micro: 0.875rem;    /* 14px labels */
   --text-xs: 0.875rem;       /* 14px voetnoten */
@@ -35,8 +34,8 @@
   --text-base: 1.125rem;     /* 18px lopende tekst */
   --text-lg: 1.25rem;
   --text-k3: clamp(1.25rem, 0.4vw + 1.15rem, 1.4375rem);   /* h3 */
-  --text-k2: clamp(1.875rem, 1.6vw + 1.3rem, 2.75rem);     /* h2 */
-  --text-k1: clamp(2.375rem, 2.6vw + 1.5rem, 4rem);        /* h1 */
+  --text-k2: clamp(2rem, 2.2vw + 1.3rem, 3.25rem);         /* h2 */
+  --text-k1: clamp(2.375rem, 5.2vw + 0.25rem, 5.75rem);    /* h1 */
   --text-cijfer: clamp(2.5rem, 2vw + 1.8rem, 3.25rem);
 
   --ease-zacht: cubic-bezier(.22, .61, .36, 1);
@@ -54,10 +53,11 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  h1, h2, h3 { font-weight: 650; letter-spacing: -0.022em; line-height: 1.08; text-wrap: balance; overflow-wrap: anywhere; }
-  h1 { font-size: var(--text-k1); font-weight: 700; letter-spacing: -0.03em; line-height: 1.02; }
+  /* Koppen in gewicht 500: groot en rustig, zoals in de hero. */
+  h1, h2, h3 { font-weight: 500; letter-spacing: -0.03em; line-height: 1.04; text-wrap: balance; overflow-wrap: anywhere; }
+  h1 { font-size: var(--text-k1); letter-spacing: -0.035em; line-height: 0.98; }
   h2 { font-size: var(--text-k2); }
-  h3 { font-size: var(--text-k3); line-height: 1.25; letter-spacing: -0.012em; font-weight: 600; }
+  h3 { font-size: var(--text-k3); line-height: 1.25; letter-spacing: -0.015em; font-weight: 600; }
   p { text-wrap: pretty; }
   ::selection { background: var(--color-inkt); color: var(--color-papier); }
   :focus-visible { outline: 2px solid var(--color-inkt); outline-offset: 3px; }
@@ -73,13 +73,14 @@
   @media (min-width: 768px) { .wrap { padding-inline: 2.5rem; } }
 
   /* Label boven een kop: gewone zin, half vet. Geen gespatieerde hoofdletters. */
-  .ui { font-size: var(--text-micro); line-height: 1.4; font-weight: 600; letter-spacing: 0; }
+  .ui { font-size: var(--text-micro); line-height: 1.4; font-weight: 500; letter-spacing: 0; color: var(--color-tekst); }
+  .donker .ui { color: var(--color-licht-zacht); }
   .num { font-variant-numeric: tabular-nums; }
   .kop-serif { font-weight: 600; letter-spacing: -0.015em; }
 
   /* Woordmerk: Joris vet, Uurwerkreparatie gewoon erachter. Leesbaar op mobiel, geen spatiëring. */
   .merk { display: inline-flex; align-items: baseline; gap: .4em; line-height: 1; text-decoration: none; color: inherit; font-size: 1.25rem; letter-spacing: -0.02em; white-space: nowrap; }
-  .merk b { font-weight: 750; }
+  .merk b { font-weight: 600; }
   .merk small { font-size: inherit; font-weight: 400; }
   @media (min-width: 768px) { .merk { font-size: 1.375rem; } }
 
@@ -88,21 +89,36 @@
   .lijn-in:hover { text-decoration: underline; text-underline-offset: 4px; }
 
   /* Knop: rechthoek, gewone tekst, geen animatie-effect. */
-  .knop { display: inline-flex; align-items: center; justify-content: center; gap: .6rem; min-height: 3.25rem; padding: 0 1.5rem; border: 1px solid currentColor; font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.005em; text-decoration: none; border-radius: 4px; transition: background-color .15s, color .15s, border-color .15s; cursor: pointer; white-space: nowrap; }
+  .knop { display: inline-flex; align-items: center; justify-content: center; gap: .6rem; min-height: 3.25rem; padding: 0 1.5rem; border: 1px solid currentColor; font-size: 1.0625rem; font-weight: 500; letter-spacing: -0.005em; text-decoration: none; border-radius: 0; transition: background-color .15s, color .15s, border-color .15s; cursor: pointer; white-space: nowrap; }
   .knop-vol { background: var(--color-inkt); color: var(--color-papier); border-color: var(--color-inkt); }
-  .knop-vol:hover { background: #24304a; border-color: #24304a; }
+  .knop-vol:hover { background: #33353a; border-color: #33353a; }
   .knop-licht { background: var(--color-wit); color: var(--color-inkt); border-color: var(--color-lijn-sterk); }
   .knop-licht:hover { border-color: var(--color-inkt); }
-  .knop-glas { color: var(--color-licht); border-color: #f7f6f266; background: transparent; }
+  .knop-glas { color: var(--color-licht); border-color: #ffffff73; background: transparent; }
   .knop-glas:hover { border-color: var(--color-licht); }
   .donker .knop-vol { background: var(--color-licht); color: var(--color-nacht); border-color: var(--color-licht); }
   .donker .knop-vol:hover { background: #fff; }
 
-  .aanleveren { display: flex; align-items: flex-end; padding: 1.25rem; background: var(--color-vlak); color: var(--color-tekst); font-size: var(--text-xs); line-height: 1.5; border: 1px solid var(--color-lijn); border-radius: 4px; }
-  .donker .aanleveren { background: #1c2538; color: var(--color-licht-zacht); border-color: var(--color-lijn-licht); }
+  .aanleveren { display: flex; align-items: flex-end; padding: 1.25rem; background: var(--color-vlak); color: var(--color-tekst); font-size: var(--text-xs); line-height: 1.5; border: 1px solid var(--color-lijn); border-radius: 0; }
+  .donker .aanleveren { background: #18191b; color: var(--color-licht-zacht); border-color: var(--color-lijn-licht); }
 
-  .kaart { background: var(--color-wit); border: 1px solid var(--color-lijn); border-radius: 4px; }
-  .donker .kaart { background: #1c2538; border-color: var(--color-lijn-licht); }
+  .kaart { background: var(--color-wit); border: 1px solid var(--color-lijn); border-radius: 0; }
+  .donker .kaart { background: #18191b; border-color: var(--color-lijn-licht); }
   .ster { color: var(--color-ster); }
-  .donker .ster { color: #e2b964; }
+  .donker .ster { color: #e8c37a; }
+}
+
+@layer components {
+  /* Hero-foto loopt zacht over in het zwart: op mobiel naar onderen, op desktop naar links. */
+  .hero-foto { -webkit-mask-image: linear-gradient(to bottom, #000 50%, transparent 100%); mask-image: linear-gradient(to bottom, #000 50%, transparent 100%); }
+  /* Bovenrand iets donkerder, zodat het menu op de lichte horlogedoos leesbaar blijft. */
+  .hero-foto::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to bottom, #0b0b0ca6 0%, #0b0b0c00 22%); pointer-events: none; }
+  @media (min-width: 768px) {
+    .hero-foto { -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 55%); mask-image: linear-gradient(to right, transparent 0%, #000 55%); }
+    .hero-foto::after { background: linear-gradient(to bottom, #0b0b0ca6 0%, #0b0b0c00 18%, #0b0b0c00 75%, #0b0b0cb3 100%); }
+  }
+}
+
+@layer components {
+  .kop-over.gescrold { background: #0b0b0cf2; border-bottom: 1px solid #ffffff1f; }
 }
