@@ -1,6 +1,6 @@
 ---
-// Bovenin: een dunne balk met vinkjes, de Google-score en snelle contactopties. Daaronder een zwevende witte
-// navigatiekaart met uitklapmenu's voor merken, diensten en contact (hover en toetsenbord), plus telefoon en afspraakknop.
+// Bovenin: een dunne donkere balk met vinkjes, de Google-score en snelle contactopties. Daaronder een vaste witte
+// kopbalk over de volle breedte met uitklapmenu's voor merken, diensten en contact (hover en toetsenbord), plus telefoon en afspraakknop.
 import Icoon from './Icoon.astro';
 import Sterren from './Sterren.astro';
 import Logo from './Logo.astro';
@@ -26,6 +26,7 @@ const menu = [
     { naam: 'Waterdichtheid', uitleg: 'Controle en herstel', id: 'dienst-waterdichtheid', icoon: 'druppel' },
     { naam: 'Originele onderdelen', uitleg: 'Behoud van kwaliteit en waarde', id: 'dienst-onderdelen', icoon: 'doos' },
   ], onder: { naam: 'Werkwijze', uitleg: 'Eerst onderzoek, dan pas een prijs.', id: 'werkwijze' } },
+  { naam: 'Prijzen', id: 'prijzen' },
   { naam: 'Werkwijze', id: 'werkwijze' },
   { naam: 'Over Hugo', id: 'over' },
   { naam: 'Contact', kolommen: 1, items: [
@@ -39,10 +40,10 @@ const menu = [
 type Item = { naam: string; uitleg: string; id?: string; href?: string; icoon: string };
 const link = (i: { id?: string; href?: string }) => i.href ?? h(i.id!);
 ---
-<div class="relative z-50 bg-wit text-ink">
-  <div class="wrap flex h-10 items-center justify-between gap-6 text-xs sm:text-sm">
+<div class="donker relative z-50 bg-marine-diep text-wit/90">
+  <div class="wrap flex h-9 items-center justify-between gap-6 text-xs sm:text-sm">
     <ul class="flex min-w-0 items-center gap-6 overflow-hidden">
-      {['Officieel Omega Service Center', 'Originele onderdelen', 'Alleen op afspraak'].map((u, i) => <li class={`flex items-center gap-1.5 whitespace-nowrap ${i > 0 ? 'hidden md:flex' : ''} ${i > 1 ? 'md:hidden lg:flex xl:hidden' : ''}`}><Icoon naam="vink" maat={16} dik={2.6} class="text-vink" />{i === 0 ? <span><span class="max-[399px]:hidden">Officieel </span>Omega Service Center</span> : <span>{u}</span>}</li>)}
+      {['Officieel Omega Service Center', 'Originele onderdelen', 'Alleen op afspraak'].map((u, i) => <li class={`flex items-center gap-1.5 whitespace-nowrap ${i > 0 ? 'hidden md:flex' : ''} ${i > 1 ? 'md:hidden lg:flex xl:hidden' : ''}`}><Icoon naam="vink" maat={16} dik={2.6} class="text-vink-licht" />{i === 0 ? <span><span class="max-[399px]:hidden">Officieel </span>Omega Service Center</span> : <span>{u}</span>}</li>)}
     </ul>
     <div class="flex shrink-0 items-center gap-5">
       <a href={waAfspraak} class="hidden items-center gap-1.5 no-underline hover:underline xl:flex"><Icoon naam="bericht" maat={16} />WhatsApp</a>
@@ -51,8 +52,8 @@ const link = (i: { id?: string; href?: string }) => i.href ?? h(i.id!);
     </div>
   </div>
 </div>
-<header class="sticky top-0 z-40 px-3 pt-3 md:px-6">
-  <div class="mx-auto flex h-[4.5rem] max-w-[78rem] items-center justify-between gap-3 rounded-xl bg-wit/95 pl-5 pr-2 shadow-kaart ring-1 ring-lijn backdrop-blur-sm lg:h-20 lg:pl-7">
+<header class="sticky top-0 z-40 border-b border-lijn bg-wit/97 shadow-[0_6px_20px_-12px_#0f172a40] backdrop-blur-sm">
+  <div class="wrap flex h-[4.5rem] items-center justify-between gap-3 lg:h-20">
     <a href={url('')} class="shrink-0 no-underline"><Logo /></a>
     <nav aria-label="Hoofdmenu" class="hidden lg:block">
       <ul class="flex items-center gap-0.5 font-display text-[1rem] font-semibold">
@@ -93,7 +94,7 @@ const link = (i: { id?: string; href?: string }) => i.href ?? h(i.id!);
     </div>
   </div>
   <div class="fixed inset-0 z-[-1] hidden bg-ink/40 lg:!hidden" data-menu-sluier aria-hidden="true"></div>
-  <nav id="menu-mobiel" aria-label="Menu" class="mx-auto mt-2 hidden max-h-[calc(100dvh-7rem)] max-w-[78rem] overflow-y-auto rounded-xl bg-wit p-4 shadow-kaart ring-1 ring-lijn lg:!hidden" data-menu>
+  <nav id="menu-mobiel" aria-label="Menu" class="hidden max-h-[calc(100dvh-7rem)] overflow-y-auto border-t border-lijn bg-wit px-5 py-4 lg:!hidden" data-menu>
     <ul class="grid font-display text-lg font-semibold">
       {menu.map((m) => 'items' in m ? (
         <li class="border-b border-lijn last:border-0">

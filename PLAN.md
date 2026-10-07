@@ -70,3 +70,10 @@ jorisuurwerkreparatie.nl (bron/site-tekst.txt, 2 oktober 2026), Google-profiel (
 - Menu: uitklapmenu's voor Merken (zes merkgroepen), Diensten (vijf diensten plus werkwijze) en Contact (afspraak,
   WhatsApp, bellen, e-mail, route), met icoon en uitleg per regel; werkt met hover en toetsenbord. Bovenbalk met
   WhatsApp, e-mail en de Google-score. Mobiel: uitklapbare groepen en een belknop naast het menu.
+
+## Kop en calculator (7 okt 2026)
+- Kop: dunne donkere balk (vinkjes, WhatsApp, mail, Google) en daaronder een vaste witte menubalk over de volle breedte.
+  De hero begint onder de kop en vult de rest van het scherm.
+- Reparatiecalculator (#prijzen): merk kiezen, onderdelen aanvinken, prijsindicatie en de selectie via WhatsApp sturen.
+  Prijzen in src/data/prijzen.ts. Alleen echte prijzen: Rolex-servicebeurten en polijsten (125, alleen bij servicebeurt).
+  Alle andere prijzen zijn null = [[AANLEVEREN]] en tonen "prijs na onderzoek".

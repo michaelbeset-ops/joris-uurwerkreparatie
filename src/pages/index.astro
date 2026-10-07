@@ -5,6 +5,7 @@ import Kop from '../components/Kop.astro';
 import Voet from '../components/Voet.astro';
 import Icoon from '../components/Icoon.astro';
 import Sterren from '../components/Sterren.astro';
+import Calculator from '../components/Calculator.astro';
 import { site, waAfspraak } from '../data/site';
 import heroFoto from '../assets/hero/hero-werkbank.jpg';
 import houder from '../assets/omega-houder.jpg';
@@ -67,10 +68,10 @@ const rolex = [
 
     <!-- 1. Hero, schermvullend: foto over de volle breedte, de navigatie zweeft erover, kop groot en wit onderin,
          de feiten rechts. De foto (1600 breed) wordt op 1440 kleiner getoond dan de bron. -->
-    <section class="donker relative -mt-[4.75rem] flex min-h-[calc(100svh-2.5rem)] flex-col justify-end overflow-hidden bg-marine pt-[4.75rem] text-wit lg:-mt-[5.25rem] lg:pt-[5.25rem]" aria-labelledby="t-hero">
+    <section class="donker relative flex min-h-[calc(100svh-6.75rem)] flex-col justify-end overflow-hidden bg-marine text-wit lg:min-h-[calc(100svh-7.25rem)]" aria-labelledby="t-hero">
       <Image src={heroFoto} alt="Een geopend chronograafuurwerk in een houder op de groene werkmat in de werkplaats" widths={[640, 1000, 1600]} sizes="100vw" loading="eager" fetchpriority="high" class="absolute inset-0 h-full w-full object-cover object-[60%_45%]" />
       <div aria-hidden="true" class="absolute inset-0 bg-[linear-gradient(to_top,#0a1d35f2_0%,#0a1d35b3_35%,#0a1d3526_70%,#0a1d3540_100%)] lg:bg-[linear-gradient(to_right,#0a1d35f2_0%,#0a1d35cc_42%,#0a1d3500_75%),linear-gradient(to_top,#0a1d35cc_0%,#0a1d3500_40%)]"></div>
-      <div class="wrap relative grid gap-8 pb-24 pt-20 md:pb-12 lg:grid-cols-12 lg:items-end lg:gap-10 lg:pb-16">
+      <div class="wrap relative grid gap-8 pb-24 pt-14 md:pb-12 lg:grid-cols-12 lg:items-end lg:gap-10 lg:pb-16">
         <div class="lg:col-span-8">
           <p class="inline-flex items-center gap-2 rounded-pill bg-wit/12 px-3 py-1.5 text-sm font-medium ring-1 ring-wit/25 backdrop-blur-sm"><Icoon naam="schild" maat={18} class="text-vink-licht" />Servicecenter voor Omega, Longines en Rado</p>
           <h1 class="mt-5 max-w-[15ch] text-4xl text-wit">Officieel Omega Service Center in Herten.</h1>
@@ -151,6 +152,8 @@ const rolex = [
         </ul>
       </div>
     </section>
+
+    <Calculator />
 
     <!-- 4. Werkwijze: donker paneel met vier stappen. -->
     <section id="werkwijze" class="wrap scroll-mt-28 py-16 lg:py-24" aria-labelledby="t-werkwijze">
