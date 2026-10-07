@@ -109,6 +109,14 @@ const rolex = [
       </ul>
     </section>
 
+    <!-- Merkenrij: alle merken als knoppen, op mobiel swipebaar. Omega uitgelicht. -->
+    <nav aria-label="Merken" class="border-b border-lijn bg-ijs">
+      <ul class="slider wrap items-center py-4 lg:justify-between">
+        <li class="mr-2 hidden font-display text-sm font-bold uppercase tracking-[.12em] text-ink-zacht lg:block">Merken</li>
+        {merken.map((m) => <li><a href={m === 'Omega' ? '#omega' : m === 'Rolex' ? '#rolex' : '#diensten'} class={`inline-flex h-10 items-center rounded-pill px-4 font-display text-[0.9375rem] font-semibold no-underline ring-1 transition-colors ${m === 'Omega' ? 'bg-marine text-wit ring-marine' : 'bg-wit ring-lijn hover:ring-marine'}`}>{m}</a></li>)}
+      </ul>
+    </nav>
+
     <!-- 2. Omega Service Center -->
     <section id="omega" class="scroll-mt-28 py-16 lg:py-24" aria-labelledby="t-omega">
       <div class="wrap grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center lg:gap-10">
