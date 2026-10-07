@@ -28,6 +28,19 @@ export const merken: { id: Merk; naam: string; uitleg: string }[] = [
   { id: 'overig', naam: 'Ebel, Nomos, Mühle', uitleg: 'Met originele onderdelen' },
 ];
 
+// Modellen per merk, alleen zoals Hugo ze op zijn eigen site noemt. Bij elk merk kan de klant ook "Ander model" invullen.
+export const modellen: Partial<Record<Merk, string[]>> = {
+  omega: ['Speedmaster', 'Seamaster', 'Constellation', 'De Ville'],
+  longines: ['Master Collection', 'HydroConquest', 'Conquest', 'Spirit', 'DolceVita', 'Heritage'],
+  rado: ['DiaStar', 'True', 'Centrix', 'HyperChrome', 'Captain Cook', 'DiaMaster', 'Integral'],
+  rolex: ['Submariner', 'Datejust', 'Day-Date', 'Air-King', 'GMT-Master', 'Explorer', 'Oyster Perpetual', 'Super Precision'],
+};
+// Rolex-modellen met een GMT-kaliber (bepaalt de prijscategorie, zoals op Hugo's Rolex-pagina).
+export const rolexGmtModellen = ['GMT-Master'];
+// Grens voor "30 jaar en ouder" (Hugo's Rolex-pagina).
+export const rolexOudVanaf = 30;
+export const materialen = ['Staal', 'Staal en goud (bicolor)', 'Goud', 'Platina', 'Keramiek', 'Titanium'];
+
 type Prijs = Partial<Record<Merk | 'alle', number | null>>;
 export type Onderdeel = {
   id: string;

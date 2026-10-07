@@ -5,13 +5,15 @@
 // eigen aanvraagnummer. Zonder sleutel draait hij in demostand: alles werkt, maar er wordt niets verstuurd.
 // Prijzen uit src/data/prijzen.ts (echte prijzen, of voorbeeldprijzen zolang die aan staan).
 import Icoon from './Icoon.astro';
-import { merken, onderdelen, rolexServicebeurt, prijstabel } from '../data/prijzen';
+import { merken, onderdelen, rolexServicebeurt, prijstabel, modellen, rolexGmtModellen, rolexOudVanaf, materialen } from '../data/prijzen';
 import { site, url } from '../data/site';
 const sleutel = import.meta.env.PUBLIC_WEB3FORMS_KEY ?? '';
-const data = JSON.stringify({ merken, onderdelen, rolexServicebeurt, tabel: prijstabel(merken.map((m) => m.id)), wa: site.wa, sleutel });
+const data = JSON.stringify({ merken, onderdelen, rolexServicebeurt, tabel: prijstabel(merken.map((m) => m.id)), modellen, rolexGmtModellen, rolexOudVanaf, wa: site.wa, sleutel });
+const ditJaar = new Date().getFullYear();
+const jaren = Array.from({ length: ditJaar - 1949 }, (_, i) => ditJaar - i);
 const noodzakelijk = onderdelen.filter((o) => !o.alleenMetServicebeurt);
 const optioneel = onderdelen.filter((o) => o.alleenMetServicebeurt);
-const stappen = ['Merk', 'Werkzaamheden', 'Uw gegevens', 'Overzicht'];
+const stappen = ['Uw horloge', 'Werkzaamheden', 'Uw gegevens', 'Overzicht'];
 ---
 <form class="grid gap-6 lg:grid-cols-12" novalidate data-plus={data}>
   <div class="kaart min-w-0 lg:col-span-8">
@@ -23,14 +25,58 @@ const stappen = ['Merk', 'Werkzaamheden', 'Uw gegevens', 'Overzicht'];
 
     <div class="p-5 sm:p-7" data-wizard>
       <section data-stap="0">
-        <h3 class="text-xl">Welk merk heeft uw horloge?</h3>
-        <div class="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+        <h3 class="text-xl">Welk horloge heeft u?</h3>
+        <p class="mt-1 text-sm text-ink-zacht">Hoe preciezer, hoe beter de indicatie. Weet u iets niet, kies dan "weet ik niet".</p>
+
+        <p class="kicker mt-6 text-ink-zacht">Merk</p>
+        <div class="mt-2 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
           {merken.map((m, i) => (
             <label class="keuze"><input type="radio" name="u-merk" value={m.id} checked={i === 0} class="sr-only" />
               <span class="block font-display font-bold">{m.naam}</span><span class="block text-sm text-ink-zacht">{m.uitleg}</span>
             </label>
           ))}
         </div>
+
+        <div class="mt-6" data-modelblok>
+          <p class="kicker text-ink-zacht">Model</p>
+          {merken.map((m) => (
+            <div class="mt-2 flex flex-wrap gap-2" data-modellen={m.id} hidden>
+              {(modellen[m.id] ?? []).map((naam) => <label class="pil-keuze"><input type="radio" name="u-model-keuze" value={naam} class="sr-only" />{naam}</label>)}
+              <label class="pil-keuze"><input type="radio" name="u-model-keuze" value="anders" class="sr-only" />{(modellen[m.id] ?? []).length ? 'Ander model' : 'Model invullen'}</label>
+            </div>
+          ))}
+          <div class="mt-3 hidden" data-model-anders>
+            <label for="u-model-anders" class="text-sm font-medium">Welk model?</label>
+            <input id="u-model-anders" name="u-model-anders" autocomplete="off" maxlength="80" placeholder="Bijvoorbeeld Tissot PRX of Hamilton Khaki" class="veld mt-1.5" />
+          </div>
+        </div>
+
+        <div class="mt-6 grid gap-4 sm:grid-cols-2">
+          <div>
+            <label for="u-jaar" class="text-sm font-medium">Bouwjaar (ongeveer)</label>
+            <select id="u-jaar" name="u-jaar" class="veld mt-1.5">
+              <option value="">Weet ik niet</option>
+              {jaren.map((j) => <option value={j}>{j}</option>)}
+              <option value="1949">Voor 1950</option>
+            </select>
+          </div>
+          <div>
+            <label for="u-materiaal" class="text-sm font-medium">Materiaal van kast en band</label>
+            <select id="u-materiaal" name="u-materiaal" class="veld mt-1.5">
+              <option value="">Weet ik niet</option>
+              {materialen.map((m) => <option>{m}</option>)}
+            </select>
+          </div>
+          <fieldset class="hidden sm:col-span-2" data-uitvoering>
+            <legend class="text-sm font-medium">Heren- of damesmodel?</legend>
+            <div class="mt-1.5 flex flex-wrap gap-2">
+              <label class="pil-keuze"><input type="radio" name="u-uitvoering" value="Heren" checked class="sr-only" />Heren</label>
+              <label class="pil-keuze"><input type="radio" name="u-uitvoering" value="Dames" class="sr-only" />Dames</label>
+            </div>
+          </fieldset>
+        </div>
+        <p class="mt-4 hidden rounded-md bg-marine-licht p-3 text-sm text-ink" data-categorie></p>
+        <p class="mt-3 hidden text-sm text-ink-zacht" data-materiaal-noot>Bij goud of platina kunnen onderdelen en polijsten duurder uitvallen. Dat hoort u vooraf in de prijsopgave.</p>
       </section>
 
       <section data-stap="1" hidden>
@@ -49,12 +95,6 @@ const stappen = ['Merk', 'Werkzaamheden', 'Uw gegevens', 'Overzicht'];
                     <span class="num shrink-0 whitespace-nowrap text-sm font-semibold" data-prijs></span>
                   </label>
                   <details class="border-t border-lijn px-4 py-2 text-sm"><summary class="cursor-pointer font-medium text-marine">Wat houdt dit in?</summary><p class="mt-2 text-ink-zacht">{o.toelichting}</p></details>
-                  {o.id === 'servicebeurt' && (
-                    <div class="hidden border-t border-lijn px-4 py-3" data-rolex>
-                      <label for="u-rolex" class="text-sm font-medium">Welk Rolex-model?</label>
-                      <select id="u-rolex" name="u-rolex" class="veld mt-1.5">{rolexServicebeurt.map((r) => <option value={r.id}>{r.naam} (v.a. € {r.prijs})</option>)}</select>
-                    </div>
-                  )}
                 </div>
               ))}
             </div>
@@ -70,7 +110,7 @@ const stappen = ['Merk', 'Werkzaamheden', 'Uw gegevens', 'Overzicht'];
           <div><label for="u-email" class="text-sm font-medium">E-mail *</label><input id="u-email" name="u-email" type="email" autocomplete="email" required maxlength="120" class="veld mt-1.5" /><p class="fout" data-fout="u-email">Vul een geldig e-mailadres in.</p></div>
           <div><label for="u-tel" class="text-sm font-medium">Telefoon</label><input id="u-tel" name="u-tel" type="tel" autocomplete="tel" maxlength="30" class="veld mt-1.5" /></div>
           <div><label for="u-contact" class="text-sm font-medium">Liefst contact via</label><select id="u-contact" name="u-contact" class="veld mt-1.5"><option>E-mail</option><option>WhatsApp</option><option>Telefoon</option></select></div>
-          <div><label for="u-model" class="text-sm font-medium">Model of referentienummer</label><input id="u-model" name="u-model" autocomplete="off" placeholder="Bijvoorbeeld Speedmaster 3861" class="veld mt-1.5" /></div>
+          <div><label for="u-ref" class="text-sm font-medium">Referentienummer (als u het weet)</label><input id="u-ref" name="u-ref" autocomplete="off" placeholder="Staat vaak op de achterkant of in de papieren" class="veld mt-1.5" /></div>
           <div><label for="u-type" class="text-sm font-medium">Type uurwerk</label><select id="u-type" name="u-type" class="veld mt-1.5"><option value="">Weet ik niet</option><option>Automaat</option><option>Handopwind</option><option>Quartz</option><option>Chronograaf</option></select></div>
           <div class="sm:col-span-2"><label for="u-klacht" class="text-sm font-medium">Wat merkt u aan het horloge?</label><textarea id="u-klacht" name="u-klacht" rows="3" maxlength="1500" placeholder="Bijvoorbeeld: loopt achter, blijft stilstaan, vocht onder het glas" class="veld mt-1.5"></textarea></div>
           <div><label for="u-sinds" class="text-sm font-medium">Sinds wanneer?</label><input id="u-sinds" name="u-sinds" autocomplete="off" placeholder="Bijvoorbeeld: een paar weken" class="veld mt-1.5" /></div>
@@ -121,7 +161,7 @@ const stappen = ['Merk', 'Werkzaamheden', 'Uw gegevens', 'Overzicht'];
       <p class="mt-1 text-sm text-staal" data-merknaam></p>
       <p class="mt-3 font-display font-extrabold leading-none" data-totaal></p>
       <p class="mt-2 text-sm text-staal" data-toelichting></p>
-      <ul class="mt-5 grid gap-2 border-t border-wit/15 pt-4 text-sm" data-lijst></ul>
+      <ul class="mt-5 grid gap-2 border-t border-wit/15 pt-4 text-sm empty:hidden" data-lijst></ul>
       <p class="mt-5 border-t border-wit/15 pt-4 text-xs text-staal">Indicatie, geen offerte. Elk horloge wordt eerst onderzocht. Aan de prijsopgave zijn onderzoeks- en administratiekosten verbonden; die betaalt u alleen als u de reparatie niet laat uitvoeren.</p>
     </div>
   </aside>
@@ -129,7 +169,7 @@ const stappen = ['Merk', 'Werkzaamheden', 'Uw gegevens', 'Overzicht'];
 
 <script>
   type O = { id: string; naam: string; alleenMetServicebeurt?: boolean };
-  type Data = { merken: { id: string; naam: string }[]; onderdelen: O[]; rolexServicebeurt: { id: string; naam: string; prijs: number }[]; tabel: Record<string, Record<string, { prijs: number | null }>>; wa: string; sleutel: string };
+  type Data = { merken: { id: string; naam: string }[]; onderdelen: O[]; rolexServicebeurt: { id: string; naam: string; prijs: number }[]; tabel: Record<string, Record<string, { prijs: number | null }>>; modellen: Record<string, string[]>; rolexGmtModellen: string[]; rolexOudVanaf: number; wa: string; sleutel: string };
   const root = document.querySelector<HTMLFormElement>('[data-plus]');
   if (root) {
     const d: Data = JSON.parse(root.dataset.plus!);
@@ -149,11 +189,37 @@ const stappen = ['Merk', 'Werkzaamheden', 'Uw gegevens', 'Overzicht'];
     const veld = (n: string) => (root.querySelector<Veld>(`[name="${n}"]`)?.value ?? '').trim();
     const merk = () => root.querySelector<HTMLInputElement>('input[name="u-merk"]:checked')!.value;
 
+    const keuze = (n: string) => root.querySelector<HTMLInputElement>(`input[name="${n}"]:checked`)?.value ?? '';
+    const model = () => { const k = keuze('u-model-keuze'); return k === 'anders' ? veld('u-model-anders') : k; };
+
+    // Rolex-prijscategorie uit model, bouwjaar en uitvoering, volgens Hugo's indeling.
+    const rolexCategorie = (): { id: string; reden: string; zeker: boolean } => {
+      const gmt = d.rolexGmtModellen.includes(keuze('u-model-keuze'));
+      const jaar = Number(veld('u-jaar'));
+      const oud = jaar ? new Date().getFullYear() - jaar >= d.rolexOudVanaf : false;
+      const dames = keuze('u-uitvoering') === 'Dames';
+      if (gmt && oud) return { id: 'gmtoud', reden: `GMT-model van ${d.rolexOudVanaf} jaar of ouder`, zeker: true };
+      if (gmt) return { id: 'gmt', reden: jaar ? 'Model met GMT-kaliber' : 'Model met GMT-kaliber (bouwjaar onbekend)', zeker: !!jaar };
+      if (oud) return { id: 'oud', reden: `Model van ${d.rolexOudVanaf} jaar of ouder`, zeker: true };
+      if (dames) return { id: 'dames', reden: 'Damesmodel', zeker: !!jaar };
+      return { id: 'tot30', reden: jaar ? `Model jonger dan ${d.rolexOudVanaf} jaar` : 'Bouwjaar onbekend, laagste prijs getoond', zeker: !!jaar };
+    };
+
     const bereken = () => {
       const m = merk();
       const service = $<HTMLInputElement>('input[value="servicebeurt"]');
-      $('[data-rolex]').classList.toggle('hidden', !(m === 'rolex' && service.checked));
-      const rolex = d.rolexServicebeurt.find((r) => r.id === veld('u-rolex'));
+      // Juiste modellijst tonen; bij wisselen van merk de modelkeuze wissen.
+      $$('[data-modellen]').forEach((g) => { const zicht = g.dataset.modellen === m; if (!zicht) g.querySelectorAll<HTMLInputElement>('input').forEach((i) => { i.checked = false; }); g.hidden = !zicht; });
+      $('[data-model-anders]').classList.toggle('hidden', keuze('u-model-keuze') !== 'anders');
+      $('[data-uitvoering]').classList.toggle('hidden', m !== 'rolex');
+      const mat = veld('u-materiaal');
+      const jaarTekst = veld('u-jaar') === '1949' ? 'voor 1950' : veld('u-jaar');
+      $('[data-materiaal-noot]').classList.toggle('hidden', !/goud|platina/i.test(mat));
+      const cat = m === 'rolex' ? rolexCategorie() : null;
+      const rolex = cat ? d.rolexServicebeurt.find((r) => r.id === cat.id) : undefined;
+      const catEl = $('[data-categorie]');
+      catEl.classList.toggle('hidden', !cat);
+      if (cat && rolex) catEl.textContent = `Rolex-servicebeurt: ${cat.reden}, vanaf € ${rolex.prijs}.`;
       let totaal = 0, onbekend = 0; const regels: string[] = []; const tekst: string[] = [];
       for (const o of d.onderdelen) {
         const blok = $(`[data-onderdeel="${o.id}"]`);
@@ -162,12 +228,12 @@ const stappen = ['Merk', 'Werkzaamheden', 'Uw gegevens', 'Overzicht'];
         const p = o.id === 'servicebeurt' && m === 'rolex' ? (rolex?.prijs ?? null) : d.tabel[o.id][m].prijs;
         blok.querySelector('[data-prijs]')!.textContent = typeof p === 'number' ? 'v.a. ' + eur(p) : 'na onderzoek';
         if (!box.checked) continue;
-        const naam = (o.id === 'servicebeurt' && m === 'rolex' && rolex ? `${o.naam} (${rolex.naam})` : o.naam) + (o.alleenMetServicebeurt ? ' (optioneel)' : '');
+        const naam = (o.id === 'servicebeurt' && m === 'rolex' && cat ? `${o.naam} (${cat.reden.toLowerCase()})` : o.naam) + (o.alleenMetServicebeurt ? ' (optioneel)' : '');
         if (typeof p === 'number') { totaal += p; regels.push(`<li class="flex justify-between gap-3"><span>${naam}</span><span class="num shrink-0">v.a. ${eur(p)}</span></li>`); tekst.push(`- ${naam}: v.a. ${eur(p)}`); }
         else { onbekend++; regels.push(`<li class="flex justify-between gap-3"><span>${naam}</span><span class="shrink-0 text-staal">na onderzoek</span></li>`); tekst.push(`- ${naam}: prijs na onderzoek`); }
       }
       const merkNaam = d.merken.find((x) => x.id === m)?.naam ?? '';
-      $('[data-merknaam]').textContent = merkNaam;
+      $('[data-merknaam]').textContent = [merkNaam, model(), jaarTekst].filter(Boolean).join(', ');
       const t = $('[data-totaal]');
       t.textContent = totaal ? 'v.a. ' + eur(totaal) : tekst.length ? 'Op aanvraag' : 'Kies uw werkzaamheden';
       t.className = 'mt-3 font-display font-extrabold leading-none ' + (totaal ? 'text-cijfer' : 'text-2xl');
@@ -175,7 +241,7 @@ const stappen = ['Merk', 'Werkzaamheden', 'Uw gegevens', 'Overzicht'];
       $('[data-lijst]').innerHTML = regels.join('');
       $('[data-mini]').textContent = totaal ? 'v.a. ' + eur(totaal) : '';
 
-      const info = [['Naam', veld('u-naam')], ['E-mail', veld('u-email')], ['Telefoon', veld('u-tel')], ['Contact liefst via', veld('u-contact')], ['Model of referentie', veld('u-model')], ['Type uurwerk', veld('u-type')], ['Wat ik merk', veld('u-klacht')], ['Sinds', veld('u-sinds')], ['Laatste servicebeurt', veld('u-laatste')], ['Voorkeur afspraak', veld('u-moment')]].filter(([, v]) => v);
+      const info = [['Naam', veld('u-naam')], ['E-mail', veld('u-email')], ['Telefoon', veld('u-tel')], ['Contact liefst via', veld('u-contact')], ['Model', model()], ['Bouwjaar', jaarTekst], ['Uitvoering', m === 'rolex' ? keuze('u-uitvoering') : ''], ['Materiaal', mat], ['Referentienummer', veld('u-ref')], ['Type uurwerk', veld('u-type')], ['Wat ik merk', veld('u-klacht')], ['Sinds', veld('u-sinds')], ['Laatste servicebeurt', veld('u-laatste')], ['Voorkeur afspraak', veld('u-moment')]].filter(([, v]) => v);
       overzicht = [
         'Merk: ' + merkNaam, ...info.map(([k, v]) => `${k}: ${v}`), '',
         'Gewenste werkzaamheden:', ...(tekst.length ? tekst : ['- Nog niet gekozen']),
@@ -250,6 +316,10 @@ const stappen = ['Merk', 'Werkzaamheden', 'Uw gegevens', 'Overzicht'];
   .keuze:hover { box-shadow: inset 0 0 0 1.5px #0f2a4a66; }
   .keuze:has(input:checked) { box-shadow: inset 0 0 0 2px var(--color-marine); background: var(--color-marine-licht); }
   .keuze:has(input:focus-visible) { outline: 3px solid var(--color-marine); outline-offset: 2px; }
+  .pil-keuze { display: inline-flex; align-items: center; min-height: 2.5rem; padding: 0 .9rem; border-radius: 999px; cursor: pointer; font-family: var(--font-display); font-weight: 600; font-size: .9375rem; background: #fff; box-shadow: inset 0 0 0 1.5px var(--color-lijn); }
+  .pil-keuze:hover { box-shadow: inset 0 0 0 1.5px #0f2a4a66; }
+  .pil-keuze:has(input:checked) { background: var(--color-marine); color: #fff; box-shadow: none; }
+  .pil-keuze:has(input:focus-visible) { outline: 3px solid var(--color-marine); outline-offset: 2px; }
   .stap-tab { display: flex; width: 100%; align-items: center; justify-content: center; gap: .5rem; padding: 1rem .5rem; font-family: var(--font-display); font-weight: 700; font-size: .9375rem; color: var(--color-ink-zacht); border-bottom: 3px solid transparent; cursor: pointer; }
   .stap-nr { display: inline-flex; height: 1.75rem; width: 1.75rem; align-items: center; justify-content: center; border-radius: 999px; background: var(--color-ijs); font-size: .8125rem; }
   .stap-tab[data-actief] { color: var(--color-marine); border-bottom-color: var(--color-marine); }

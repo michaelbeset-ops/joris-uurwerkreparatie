@@ -101,3 +101,7 @@ jorisuurwerkreparatie.nl (bron/site-tekst.txt, 2 oktober 2026), Google-profiel (
 - Uitgebreid verstuurt per e-mail via Web3Forms (PUBLIC_WEB3FORMS_KEY bij de build), met aanvraagnummer (JU-jjmmdd-...),
   antwoordadres van de klant en het hele overzicht. Zonder sleutel: demostand, er wordt niets verstuurd.
 - Voorbeeldprijzen in src/data/prijzen.ts (toonVoorbeeldprijzen). Op false zetten zodra Hugo echte prijzen levert.
+- Uitgebreid, stap 1 "Uw horloge": merk, model (modellen zoals op Hugo's site, plus "Ander model"), bouwjaar,
+  materiaal en bij Rolex heren/dames. Bij Rolex kiest de calculator zelf de prijscategorie (GMT, 30 jaar of ouder,
+  dames) en toont waarom. Bij goud/platina een noot dat onderdelen en polijsten duurder kunnen uitvallen.
+  Basis blijft bewust merk + één dienst.
