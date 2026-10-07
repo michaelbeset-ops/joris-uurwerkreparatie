@@ -15,6 +15,12 @@ export const site = {
   instagram: 'https://www.instagram.com/jorisuurwerkreparatie/',
   maps: 'https://www.google.com/maps/search/?api=1&query=Joris+Uurwerkreparatie+Aan+de+Dijk+126+Herten',
   google: { score: '4,5', aantal: 38 },
+  // Officiële vermeldingen bij de merken (gevonden 7 okt 2026). Controleerbaar bewijs voor de erkenning.
+  omegaLocator: 'https://www.omegawatches.com/en-us/store/storedetails/2085045',
+  longinesLocator: 'https://www.longines.com/nl/store/id/joris-uurwerkreparatie-stevensweert-1586738',
+  // Pas tonen als Hugo ze aanlevert; tot dan verbergt de site de regel. [[AANLEVEREN: KvK-nummer en btw-id]]
+  kvk: null as string | null,
+  btw: null as string | null,
   themeColor: '#0f2a4a',
   // Zolang er [[AANLEVEREN]]-markeringen in de site staan: niet indexeren en alleen op github.io.
   // Bij oplevering op false zetten, samen met public/robots.txt en het domein in astro.config.mjs.

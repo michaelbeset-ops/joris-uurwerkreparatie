@@ -16,9 +16,9 @@ const data = JSON.stringify({ merken, onderdelen, rolexServicebeurt, wa: site.wa
       <p class="text-ink-zacht lg:col-span-5 lg:pb-1">Kies het merk en vink aan wat er moet gebeuren. De definitieve prijs hoort u na onderzoek: de werkelijke slijtage is pas te zien als het horloge gedemonteerd is.</p>
     </div>
 
-    <div class="mt-10 grid gap-6 lg:grid-cols-12" data-calc={data}>
-      <div class="grid gap-6 lg:col-span-8">
-        <fieldset class="kaart p-5 sm:p-7">
+    <div class="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-12" data-calc={data}>
+      <div class="grid min-w-0 gap-6 lg:col-span-8">
+        <fieldset class="kaart min-w-0 p-5 sm:p-7">
           <legend class="sr-only">Stap 1: merk</legend>
           <p class="flex items-center gap-3 font-display text-lg font-bold"><span class="flex h-7 w-7 items-center justify-center rounded-pill bg-marine text-sm text-wit">1</span>Welk merk?</p>
           <div class="mt-5 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
@@ -32,7 +32,7 @@ const data = JSON.stringify({ merken, onderdelen, rolexServicebeurt, wa: site.wa
           </div>
         </fieldset>
 
-        <fieldset class="kaart p-5 sm:p-7">
+        <fieldset class="kaart min-w-0 p-5 sm:p-7">
           <legend class="sr-only">Stap 2: wat moet er gebeuren</legend>
           <p class="flex items-center gap-3 font-display text-lg font-bold"><span class="flex h-7 w-7 items-center justify-center rounded-pill bg-marine text-sm text-wit">2</span>Wat moet er gebeuren?</p>
           <div class="mt-5 grid gap-2 sm:grid-cols-2">
@@ -54,7 +54,7 @@ const data = JSON.stringify({ merken, onderdelen, rolexServicebeurt, wa: site.wa
         </fieldset>
       </div>
 
-      <aside class="lg:col-span-4">
+      <aside class="min-w-0 lg:col-span-4">
         <div class="donker sticky top-28 rounded-2xl bg-marine p-6 text-wit shadow-kaart sm:p-7" aria-live="polite">
           <p class="kicker text-staal">Uw prijsindicatie</p>
           <p class="mt-3 font-display text-cijfer font-extrabold leading-none" data-totaal>&euro; 0</p>

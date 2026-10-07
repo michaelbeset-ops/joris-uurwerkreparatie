@@ -77,3 +77,13 @@ jorisuurwerkreparatie.nl (bron/site-tekst.txt, 2 oktober 2026), Google-profiel (
 - Reparatiecalculator (#prijzen): merk kiezen, onderdelen aanvinken, prijsindicatie en de selectie via WhatsApp sturen.
   Prijzen in src/data/prijzen.ts. Alleen echte prijzen: Rolex-servicebeurten en polijsten (125, alleen bij servicebeurt).
   Alle andere prijzen zijn null = [[AANLEVEREN]] en tonen "prijs na onderzoek".
+
+## Audit verwerkt (7 okt 2026)
+- Geen zichtbare [[AANLEVEREN]] meer op de site: ontbrekende gegevens zijn verborgen tot Hugo ze aanlevert. De markeringen
+  staan als commentaar in de bron (grep -rn AANLEVEREN src/). KvK en btw via site.kvk/site.btw, verschijnen vanzelf.
+- Verificatiebalk onder de hero met links naar de officiële OMEGA-vermelding (storedetails/2085045, Aan de Dijk 126 Herten),
+  de Longines-vermelding en Google. Ook in de Omega-sectie en de footer.
+- Rolex: "Onafhankelijke service voor uw Rolex", origineel-of-generiek als apart blok met de waarde-afweging, disclaimer
+  prominent. Polijsten alleen als de klant dat wil.
+- Waarom-blok: alleen bevestigde feiten (garantie, doorlooptijd, verzekering, opsturen volgen na bevestiging).
+- Niet gedaan, wacht op Hugo: aparte pagina's, gedocumenteerde intake/ontvangstbewijs, garantie, FAQ, "sinds 2017 niveau 3".

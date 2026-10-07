@@ -11,8 +11,8 @@ const { thuis = true } = Astro.props;
 const h = (id: string) => (thuis ? `#${id}` : url(`#${id}`));
 ---
 <section id="contact" class="wrap scroll-mt-28 py-16 lg:py-24" aria-labelledby="t-contact">
-  <div class="donker grid overflow-hidden rounded-2xl bg-marine text-wit shadow-kaart lg:grid-cols-12">
-    <div class="p-6 md:p-10 lg:col-span-5 lg:p-12">
+  <div class="donker grid grid-cols-1 overflow-hidden rounded-2xl bg-marine text-wit shadow-kaart lg:grid-cols-12">
+    <div class="min-w-0 p-6 md:p-10 lg:col-span-5 lg:p-12">
       <p class="kicker text-staal">Afspraak maken</p>
       <h2 id="t-contact" class="mt-3 text-3xl text-wit">Vertel wat er met uw horloge is.</h2>
       <p class="mt-5 text-staal">Ik ontvang u alleen op afspraak. Bellen mag, maar tijdens het werk neem ik meestal niet op. Een bericht met een paar foto's werkt het best.</p>
@@ -28,7 +28,7 @@ const h = (id: string) => (thuis ? `#${id}` : url(`#${id}`));
       </ul>
     </div>
 
-    <form class="bg-wit p-6 text-ink md:p-10 lg:col-span-7 lg:p-12" data-wa aria-describedby="wa-uitleg">
+    <form class="min-w-0 bg-wit p-6 text-ink md:p-10 lg:col-span-7 lg:p-12" data-wa aria-describedby="wa-uitleg">
       <h3 class="text-xl">Uw bericht aan Hugo</h3>
       <p id="wa-uitleg" class="mt-2 text-ink-zacht">Vul in wat u weet. De knop opent WhatsApp of uw mail met het bericht al ingevuld. Er wordt niets verstuurd voordat u dat zelf doet.</p>
       <div class="mt-6 grid gap-5 sm:grid-cols-2">
@@ -64,7 +64,8 @@ const h = (id: string) => (thuis ? `#${id}` : url(`#${id}`));
       <div class="lg:col-span-4">
         <Logo licht />
         <p class="mt-3 max-w-xs text-staal">Officieel Omega Service Center en servicecenter voor Longines en Rado.</p>
-        <p class="mt-4 text-sm text-staal">KvK [[AANLEVEREN: KvK-nummer]]<br />Btw-id [[AANLEVEREN: btw-nummer]]</p>
+        <p class="mt-3 text-sm"><a href={site.omegaLocator} target="_blank" rel="noopener" class="text-staal underline hover:text-wit">Bekijk de OMEGA-vermelding<span class="sr-only"> (opent in een nieuw tabblad)</span></a></p>
+        {(site.kvk || site.btw) && <p class="mt-4 text-sm text-staal">{site.kvk && <>KvK {site.kvk}<br /></>}{site.btw && <>Btw-id {site.btw}</>}</p>}
       </div>
       <div class="lg:col-span-3">
         <p class="kicker text-staal">Contact</p>
