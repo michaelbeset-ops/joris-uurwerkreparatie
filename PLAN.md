@@ -65,9 +65,8 @@ Dat mechanisme is helemaal verwijderd; alle inhoud staat nu zonder JavaScript op
 jorisuurwerkreparatie.nl (bron/site-tekst.txt, 2 oktober 2026), Google-profiel (4,5 uit 38, eigenaar Hugo Joris).
 
 ## Logo en menu (8 okt 2026)
-- Logo: src/components/Logo.astro. Zet het echte logobestand van jorisuurwerkreparatie.nl als src/assets/logo.svg
-  (of .png/.webp/.jpg) neer; het wordt dan automatisch in kop en footer gebruikt. Tot dan een typografische weergave van
-  hun woordmerk (JORIS gespatieerd, Uurwerkreparatie in messing). De site zelf was vanuit de bouwomgeving niet bereikbaar.
+- Logo: aangeleverd door Michael (bron/logo/logo-origineel.png), witte achtergrond transparant gemaakt met tools/logo.mjs
+  naar src/assets/logo.png. In de kop op wit, in de footer op een wit vlak (donkere letters zijn op marine niet leesbaar).
 - Menu: uitklapmenu's voor Merken (zes merkgroepen), Diensten (vijf diensten plus werkwijze) en Contact (afspraak,
   WhatsApp, bellen, e-mail, route), met icoon en uitleg per regel; werkt met hover en toetsenbord. Bovenbalk met
   WhatsApp, e-mail en de Google-score. Mobiel: uitklapbare groepen en een belknop naast het menu.
