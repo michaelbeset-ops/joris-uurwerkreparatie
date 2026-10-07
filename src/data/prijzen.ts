@@ -42,6 +42,6 @@ export const onderdelen: Onderdeel[] = [
   { id: 'wijzers', naam: 'Wijzers vervangen', uitleg: 'Uur-, minuut- of secondewijzer', icoon: 'klok', prijs: { alle: null } }, // [[AANLEVEREN]]
   { id: 'kroon', naam: 'Kroon en tube vervangen', uitleg: 'Opwindkroon en tube', icoon: 'pincet', prijs: { alle: null } }, // [[AANLEVEREN]]
   { id: 'waterdicht', naam: 'Waterdichtheid testen en herstellen', uitleg: 'Nieuwe dichtingen en test', icoon: 'druppel', prijs: { alle: null } }, // [[AANLEVEREN]]
-  { id: 'polijsten', naam: 'Kast en band polijsten', uitleg: 'Alleen bij een servicebeurt', icoon: 'glans', prijs: { alle: 125 }, alleenMetServicebeurt: true },
+  { id: 'polijsten', naam: 'Kast en band polijsten', uitleg: 'Optioneel, alleen bij een servicebeurt', icoon: 'glans', prijs: { alle: 125 }, alleenMetServicebeurt: true },
   { id: 'band', naam: 'Band vervangen', uitleg: 'Leer, rubber of staal', icoon: 'horloge', prijs: { alle: null } }, // [[AANLEVEREN]]
 ];

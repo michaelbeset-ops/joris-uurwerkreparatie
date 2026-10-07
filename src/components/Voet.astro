@@ -40,6 +40,8 @@ const h = (id: string) => (thuis ? `#${id}` : url(`#${id}`));
         </div>
         <div><label for="f-ref" class="text-sm font-medium">Model of referentienummer</label><input id="f-ref" name="ref" autocomplete="off" placeholder="Bijvoorbeeld Speedmaster 3861" class="veld mt-1.5" /></div>
         <div><label for="f-band" class="text-sm font-medium">Soort band</label><input id="f-band" name="band" autocomplete="off" placeholder="Staal, leer of rubber" class="veld mt-1.5" /></div>
+        <div><label for="f-sinds" class="text-sm font-medium">Sinds wanneer?</label><input id="f-sinds" name="sinds" autocomplete="off" placeholder="Bijvoorbeeld: sinds een week" class="veld mt-1.5" /></div>
+        <div><label for="f-contact" class="text-sm font-medium">Liefst contact via</label><select id="f-contact" name="contact" class="veld mt-1.5"><option>WhatsApp</option><option>Telefoon</option><option>E-mail</option></select></div>
         <div class="sm:col-span-2"><label for="f-vraag" class="text-sm font-medium">Wat is er aan de hand?</label><textarea id="f-vraag" name="vraag" rows="4" placeholder="Bijvoorbeeld: loopt achter, toe aan een servicebeurt of glas gebroken" class="veld mt-1.5"></textarea></div>
       </div>
       <div class="mt-6 flex flex-wrap items-center gap-3">
@@ -116,6 +118,8 @@ const h = (id: string) => (thuis ? `#${id}` : url(`#${id}`));
       if (v('ref')) r.push('Model of referentienummer: ' + v('ref'));
       if (v('band')) r.push('Band: ' + v('band'));
       if (v('vraag')) r.push('Wat er aan de hand is: ' + v('vraag'));
+      if (v('sinds')) r.push('Sinds: ' + v('sinds'));
+      if (r.length > 1 && v('contact')) r.push('Contact liefst via: ' + v('contact'));
       if (r.length > 1) r.push('Foto’s stuur ik hierna mee.');
       k.href = basis + '?text=' + encodeURIComponent(r.join('\n'));
       if (m) m.href = mailBasis + '?subject=' + encodeURIComponent('Afspraak voor mijn horloge') + '&body=' + encodeURIComponent(r.join('\n'));
