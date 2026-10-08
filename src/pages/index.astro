@@ -7,7 +7,7 @@ import Icoon from '../components/Icoon.astro';
 import Sterren from '../components/Sterren.astro';
 import Prijsindicatie from '../components/Prijsindicatie.astro';
 import { site, waAfspraak } from '../data/site';
-import heroFoto from '../assets/hero/hero-werkbank.jpg';
+import heroFoto from '../assets/hero/seamaster-wit.jpg';
 import houder from '../assets/omega-houder.jpg';
 import groen from '../assets/uurwerk-groen.jpg';
 import seamaster from '../assets/seamaster.jpg';
@@ -65,26 +65,17 @@ const rolex = [
   <Kop />
   <main id="inhoud">
 
-    <!-- 1. Hero, schermvullend: foto over de volle breedte, de navigatie zweeft erover, kop groot en wit onderin,
-         de feiten rechts. De foto (1600 breed) wordt op 1440 kleiner getoond dan de bron. -->
-    <section class="donker relative flex min-h-[calc(100svh-6.75rem)] flex-col justify-end overflow-hidden bg-marine text-wit lg:min-h-[calc(100svh-7.25rem)]" aria-labelledby="t-hero">
-      <Image src={heroFoto} alt="Een geopend chronograafuurwerk in een houder op de groene werkmat in de werkplaats" widths={[640, 1000, 1600]} sizes="100vw" loading="eager" fetchpriority="high" class="absolute inset-0 h-full w-full object-cover object-[60%_45%]" />
-      <div aria-hidden="true" class="absolute inset-0 bg-[linear-gradient(to_top,#0a1d35f2_0%,#0a1d35b3_35%,#0a1d3526_70%,#0a1d3540_100%)] lg:bg-[linear-gradient(to_right,#0a1d35f2_0%,#0a1d35cc_42%,#0a1d3500_75%),linear-gradient(to_top,#0a1d35cc_0%,#0a1d3500_40%)]"></div>
-      <div class="wrap relative grid gap-8 pb-24 pt-14 md:pb-12 lg:grid-cols-12 lg:items-end lg:gap-10 lg:pb-16">
-        <div class="lg:col-span-8">
-          <p class="inline-flex items-center gap-2 rounded-pill bg-wit/12 px-3 py-1.5 text-sm font-medium ring-1 ring-wit/25 backdrop-blur-sm"><Icoon naam="schild" maat={18} class="text-vink-licht" />Officieel Omega Service Center in Herten</p>
-          <h1 class="mt-5 max-w-[16ch] text-4xl text-wit">Uw horloge in handen van erkend vakmanschap.</h1>
-          <p class="mt-5 max-w-xl text-lg text-wit/90 lg:text-xl">Uw horloge wordt persoonlijk onderzocht en onderhouden door Hugo Joris. U krijgt vooraf een duidelijke prijsopgave en er gebeurt niets zonder uw akkoord. Ook onafhankelijke service voor Rolex, alleen op afspraak.</p>
-          <div class="mt-8 flex flex-wrap items-center gap-3">
-            <a href="#contact" class="btn bg-wit text-marine shadow-zacht hover:bg-ijs">Afspraak maken</a>
-            <a href={waAfspraak} class="btn btn-glas"><Icoon naam="bericht" maat={20} />WhatsApp</a>
-          </div>
+    <!-- 1. Hero (gekozen proef K): wit, de klassieke Seamaster groot in zwart-wit en vervagend in het wit, alsof hij
+         op de pagina ligt, met een grote kop ernaast. Precies schermvullend onder de kopbalk (5rem, vanaf lg 6rem). -->
+    <section class="relative flex min-h-[calc(100svh-5rem)] flex-col overflow-hidden bg-wit lg:min-h-[calc(100svh-6rem)]" aria-labelledby="t-hero">
+      <Image src={heroFoto} alt="Een klassieke Omega Seamaster-chronograaf in zwart-wit" widths={[600, 1088]} sizes="(min-width: 1024px) 50vw, 100vw" loading="eager" fetchpriority="high" class="hero-foto pointer-events-none absolute right-[-12%] top-0 h-[48svh] w-auto object-contain sm:right-[-4%] lg:right-[2%] lg:top-[-4%] lg:h-[112%]" />
+      <div class="wrap relative mt-auto pb-28 pt-[52svh] md:pb-12 lg:pb-16 lg:pt-16">
+        <p class="font-display text-sm font-bold uppercase tracking-[.2em] text-goud-donker">Officieel Omega Service Center · {site.plaats}</p>
+        <h1 id="t-hero" class="mt-4 max-w-[11ch] text-[clamp(2.8rem,6.4vw+0.8rem,7.25rem)] font-extrabold leading-[.95] tracking-[-0.045em] text-marine">Uw horloge in handen van erkend vakmanschap.</h1>
+        <div class="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
+          <a href="#contact" class="btn btn-marine">Afspraak maken<Icoon naam="pijl" maat={20} /></a>
+          <a href={reviewsUrl} target="_blank" rel="noopener" class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-ink-zacht no-underline hover:underline"><Sterren maat={15} /><strong class="num font-display text-ink">{site.google.score}</strong> op Google<span aria-hidden="true">·</span>Ook Longines, Rado en Rolex<span class="sr-only"> (opent in een nieuw tabblad)</span></a>
         </div>
-        <ul class="grid gap-3 text-wit/90 sm:grid-cols-3 lg:col-span-4 lg:grid-cols-1 lg:justify-items-end lg:text-right">
-          <li><a href={reviewsUrl} target="_blank" rel="noopener" class="inline-flex flex-wrap items-center gap-2 no-underline hover:underline lg:justify-end"><Sterren /><strong class="num font-display text-wit">{site.google.score}</strong> op Google ({site.google.aantal})<span class="sr-only"> (opent in een nieuw tabblad)</span></a></li>
-          <li class="inline-flex items-center gap-2 lg:justify-end"><Icoon naam="pin" maat={18} />{site.plaats}, alleen op afspraak</li>
-          <li><a href={site.telHref} class="num font-display text-2xl font-extrabold text-wit no-underline hover:underline">{site.tel}</a></li>
-        </ul>
       </div>
     </section>
 
@@ -277,3 +268,8 @@ const rolex = [
   </main>
   <Voet />
 </Base>
+
+<style>
+  /* Laat de randen van de herofoto in het wit oplossen, zodat de horlogedoos niet als rechthoek zichtbaar is. */
+  .hero-foto { -webkit-mask-image: radial-gradient(closest-side, #000 62%, transparent 100%); mask-image: radial-gradient(closest-side, #000 62%, transparent 100%); }
+</style>

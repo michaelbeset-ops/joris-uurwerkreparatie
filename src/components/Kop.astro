@@ -1,14 +1,12 @@
 ---
-// Bovenin: een dunne donkere balk met vinkjes, de Google-score en snelle contactopties. Daaronder een vaste witte
-// kopbalk over de volle breedte met uitklapmenu's voor merken, diensten en contact (hover en toetsenbord), plus telefoon en afspraakknop.
+// Vaste witte kopbalk in de stijl van hero-proef K: logo, menu en telefoon in drie vakken met dunne lijnen ertussen.
+// Uitklapmenu's voor merken, diensten en contact (hover en toetsenbord). Onder xl een uitklapmenu voor mobiel.
 import Icoon from './Icoon.astro';
-import Sterren from './Sterren.astro';
 import Logo from './Logo.astro';
 import { url, site, waAfspraak } from '../data/site';
 interface Props { thuis?: boolean }
 const { thuis = true } = Astro.props;
 const h = (id: string) => (thuis ? `#${id}` : url(`#${id}`));
-const reviews = 'https://www.google.com/maps/search/?api=1&query=Joris+Uurwerkreparatie+Herten';
 
 const menu = [
   { naam: 'Merken', kolommen: 2, items: [
@@ -40,27 +38,17 @@ const menu = [
 type Item = { naam: string; uitleg: string; id?: string; href?: string; icoon: string };
 const link = (i: { id?: string; href?: string }) => i.href ?? h(i.id!);
 ---
-<div class="donker relative z-50 bg-marine-diep text-wit/90">
-  <div class="wrap flex h-9 items-center justify-between gap-6 text-xs sm:text-sm">
-    <ul class="flex min-w-0 items-center gap-6 overflow-hidden">
-      {['Officieel Omega Service Center', 'Originele onderdelen', 'Alleen op afspraak'].map((u, i) => <li class={`flex items-center gap-1.5 whitespace-nowrap ${i > 0 ? 'hidden md:flex' : ''} ${i > 1 ? 'md:hidden lg:flex xl:hidden' : ''}`}><Icoon naam="vink" maat={16} dik={2.6} class="text-vink-licht" />{i === 0 ? <span><span class="max-[399px]:hidden">Officieel </span>Omega Service Center</span> : <span>{u}</span>}</li>)}
-    </ul>
-    <div class="flex shrink-0 items-center gap-5">
-      <a href={waAfspraak} class="hidden items-center gap-1.5 no-underline hover:underline xl:flex"><Icoon naam="bericht" maat={16} />WhatsApp</a>
-      <a href={`mailto:${site.mail}`} class="hidden items-center gap-1.5 no-underline hover:underline xl:flex"><Icoon naam="mail" maat={16} />{site.mail}</a>
-      <a href={reviews} target="_blank" rel="noopener" class="flex items-center gap-2 no-underline hover:underline"><Sterren maat={14} /><span><strong class="num font-semibold">{site.google.score}</strong><span class="hidden sm:inline"> op Google ({site.google.aantal})</span></span><span class="sr-only"> (opent in een nieuw tabblad)</span></a>
-    </div>
-  </div>
-</div>
-<header class="sticky top-0 z-40 border-b border-lijn bg-wit/97 shadow-[0_6px_20px_-12px_#0f172a40] backdrop-blur-sm">
-  <div class="wrap flex h-[4.5rem] items-center justify-between gap-3 lg:h-20">
-    <a href={url('')} class="shrink-0 no-underline"><Logo /></a>
-    <nav aria-label="Hoofdmenu" class="hidden lg:block">
-      <ul class="flex items-center gap-0.5 font-display text-[1rem] font-semibold">
+<!-- Sluier achter het mobiele menu: buiten de header, zodat de kopbalk zelf niet mee verdonkert. -->
+<div class="fixed inset-0 z-30 hidden bg-ink/40 xl:!hidden" data-menu-sluier aria-hidden="true"></div>
+<header class="sticky top-0 z-40 border-b border-lijn bg-wit">
+  <div class="wrap flex h-20 items-stretch justify-between gap-3 lg:h-24">
+    <a href={url('')} class="flex shrink-0 items-center no-underline xl:border-r xl:border-lijn xl:pr-8"><Logo /></a>
+    <nav aria-label="Hoofdmenu" class="hidden flex-1 xl:flex">
+      <ul class="flex flex-1 items-stretch justify-center font-display text-[0.9375rem] font-semibold">
         {menu.map((m) => 'items' in m ? (
-          <li class="group relative">
-            <a href={link(m.items[0])} class="flex items-center gap-1 rounded-md px-3 py-2 no-underline transition-colors hover:bg-ijs group-focus-within:bg-ijs" aria-haspopup="true">{m.naam}<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="text-ink-zacht transition-transform group-hover:rotate-180 group-focus-within:rotate-180"><path d="M6 9l6 6 6-6"/></svg></a>
-            <div class={`invisible absolute left-1/2 top-full z-50 pt-3 opacity-0 transition-[opacity,transform] duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 ${m.kolommen === 2 ? 'w-[36rem] -translate-x-1/2' : 'w-[22rem] -translate-x-1/2'}`}>
+          <li class="group relative flex">
+            <a href={link(m.items[0])} class="flex items-center gap-1 px-4 no-underline transition-colors hover:bg-ijs group-focus-within:bg-ijs" aria-haspopup="true">{m.naam}<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="text-ink-zacht transition-transform group-hover:rotate-180 group-focus-within:rotate-180"><path d="M6 9l6 6 6-6"/></svg></a>
+            <div class={`invisible absolute left-1/2 top-full z-50 pt-px opacity-0 transition-[opacity,transform] duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 ${m.kolommen === 2 ? 'w-[36rem] -translate-x-1/2' : 'w-[22rem] -translate-x-1/2'}`}>
               <div class="overflow-hidden rounded-xl bg-wit shadow-kaart ring-1 ring-lijn">
                 <ul class={`grid gap-1 p-3 ${m.kolommen === 2 ? 'grid-cols-2' : ''}`}>
                   {(m.items as readonly Item[]).map((i) => (
@@ -80,21 +68,19 @@ const link = (i: { id?: string; href?: string }) => i.href ?? h(i.id!);
             </div>
           </li>
         ) : (
-          <li><a href={h(m.id)} class="block rounded-md px-3 py-2 no-underline transition-colors hover:bg-ijs">{m.naam}</a></li>
+          <li class="flex"><a href={h(m.id)} class="flex items-center px-4 no-underline transition-colors hover:bg-ijs">{m.naam}</a></li>
         ))}
       </ul>
     </nav>
-    <div class="flex items-center gap-2">
-      <a href={site.telHref} class="btn btn-wit hidden !min-h-11 !px-4 !text-[0.9375rem] xl:inline-flex"><Icoon naam="telefoon" maat={18} /><span class="num">{site.tel}</span></a>
-      <a href={site.telHref} class="flex h-11 w-11 items-center justify-center rounded-md text-marine ring-1 ring-lijn sm:hidden" aria-label={`Bel ${site.tel}`}><Icoon naam="telefoon" maat={20} /></a>
-      <a href={h('contact')} class="btn btn-marine hidden !min-h-11 !px-4 !text-[0.9375rem] sm:inline-flex">Afspraak maken</a>
-      <button type="button" class="flex h-11 w-11 items-center justify-center rounded-md ring-1 ring-lijn lg:hidden" aria-expanded="false" aria-controls="menu-mobiel" aria-label="Menu" data-menu-knop>
+    <div class="flex items-center gap-2 xl:border-l xl:border-lijn xl:pl-8">
+      <a href={site.telHref} class="num hidden items-center gap-2 font-display font-bold text-marine no-underline hover:underline md:flex"><Icoon naam="telefoon" maat={18} />{site.tel}</a>
+      <a href={site.telHref} class="flex h-11 w-11 items-center justify-center text-marine md:hidden" aria-label={`Bel ${site.tel}`}><Icoon naam="telefoon" maat={20} /></a>
+      <button type="button" class="flex h-11 w-11 items-center justify-center text-marine xl:hidden" aria-expanded="false" aria-controls="menu-mobiel" aria-label="Menu" data-menu-knop>
         <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16" data-open-icoon /><path d="M6 6l12 12M18 6L6 18" class="hidden" data-dicht-icoon /></svg>
       </button>
     </div>
   </div>
-  <div class="fixed inset-0 z-[-1] hidden bg-ink/40 lg:!hidden" data-menu-sluier aria-hidden="true"></div>
-  <nav id="menu-mobiel" aria-label="Menu" class="hidden max-h-[calc(100dvh-7rem)] overflow-y-auto border-t border-lijn bg-wit px-5 py-4 lg:!hidden" data-menu>
+  <nav id="menu-mobiel" aria-label="Menu" class="hidden max-h-[calc(100dvh-5rem)] overflow-y-auto border-t border-lijn bg-wit px-5 py-4 xl:!hidden" data-menu>
     <ul class="grid font-display text-lg font-semibold">
       {menu.map((m) => 'items' in m ? (
         <li class="border-b border-lijn last:border-0">

@@ -1,7 +1,6 @@
 name: Deploy naar GitHub Pages
+# Alleen handmatig: Pages draait vanaf de gh-pages-branch. Automatisch draaien botste met die deploy.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
