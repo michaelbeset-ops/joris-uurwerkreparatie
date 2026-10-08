@@ -10,7 +10,6 @@ import { site, waAfspraak } from '../data/site';
 import heroFoto from '../assets/hero/seamaster-wit.jpg';
 import houder from '../assets/omega-houder.jpg';
 import groen from '../assets/uurwerk-groen.jpg';
-import seamaster from '../assets/seamaster.jpg';
 import onderdelen from '../assets/onderdelen.jpg';
 import kaliber from '../assets/kaliber-321.jpg';
 
@@ -30,8 +29,8 @@ const omegaPunten = [
 // Diensten: samengevat uit de servicepagina's voor Omega, Longines en Rado.
 const diensten = [
   { id: 'dienst-onderhoud', kop: 'Onderhoud en revisie', tekst: 'Complete servicebeurt: inspectie, schoonmaken, smeren en afstellen, en waar nodig onderdelen vervangen.', foto: groen, alt: 'Geopend chronograafuurwerk op een groene werkmat' },
-  { id: 'dienst-reparaties', kop: 'Reparaties', tekst: 'Van een nieuwe kroon of wijzer tot complexe uurwerkreparaties.', foto: onderdelen, alt: 'Losse onderdelen van een gedemonteerd Omega-horloge' },
-  { id: 'dienst-polijsten', kop: 'Polijsten en herstel', tekst: 'Kast en band herstellen en polijsten, van staal tot keramiek, met behoud van de originele uitstraling.', foto: seamaster, alt: 'Klassieke Omega Seamaster-chronograaf in een horlogedoos' },
+  { id: 'dienst-reparaties', kop: 'Reparaties', tekst: 'Van een nieuwe kroon of wijzer tot complexe uurwerkreparaties.', foto: houder, alt: 'Een Omega-uurwerk in een rode Omega-uurwerkhouder, met een Omega-pincet ernaast' },
+  { id: 'dienst-polijsten', kop: 'Polijsten en herstel', tekst: 'Kast en band herstellen en polijsten, van staal tot keramiek, met behoud van de originele uitstraling.', icoon: 'glans' },
   { id: 'dienst-waterdichtheid', kop: 'Waterdichtheid', tekst: 'Controle en herstel van de waterdichtheid, essentieel voor sportieve en duikmodellen.', icoon: 'druppel' },
   { id: 'dienst-onderdelen', kop: 'Originele onderdelen', tekst: 'Uitsluitend originele onderdelen van het merk, voor kwaliteit en behoud van waarde.', icoon: 'doos' },
 ];
@@ -106,7 +105,7 @@ const rolex = [
         </div>
         <div class="relative lg:col-span-6">
           <div class="overflow-hidden rounded-2xl shadow-kaart">
-            <Image src={houder} alt="Een Omega-uurwerk in een rode Omega-uurwerkhouder, met een Omega-pincet ernaast" widths={[640, 960, 1150]} sizes="(min-width: 1024px) 40vw, 100vw" class="aspect-[4/3] w-full object-cover" />
+            <Image src={kaliber} alt="Een opengewerkt Omega-chronograafuurwerk, kaliber 321, op de werkbank van Hugo Joris" widths={[480, 720]} sizes="(min-width: 1024px) 40vw, 100vw" class="aspect-[4/3] w-full object-cover object-[50%_58%]" />
           </div>
           <div class="kaart absolute -bottom-6 left-4 right-4 flex items-center gap-4 p-4 sm:left-auto sm:right-6 sm:w-80 lg:-left-8 lg:right-auto">
             <span class="icoonvlak"><Icoon naam="schild" maat={26} /></span>
@@ -181,7 +180,7 @@ const rolex = [
         <div class="lg:col-span-5">
           {/* [[AANLEVEREN: portret van Hugo aan de werkbank, staand formaat; vervangt deze foto]] */}
           <figure class="overflow-hidden rounded-2xl shadow-kaart">
-            <Image src={kaliber} alt="Een opengewerkt Omega-chronograafuurwerk, kaliber 321, op de werkbank van Hugo Joris" widths={[480, 720]} sizes="(min-width: 1024px) 34vw, 100vw" class="aspect-[4/5] w-full object-cover" />
+            <Image src={onderdelen} alt="Een gedemonteerde Omega op de werkbank: de rotor met het Omega-logo, de kastbodem en losse onderdelen" widths={[480, 720, 1000]} sizes="(min-width: 1024px) 34vw, 100vw" class="aspect-[4/5] w-full object-cover object-[80%_50%]" />
           </figure>
         </div>
         <div class="lg:col-span-7">
