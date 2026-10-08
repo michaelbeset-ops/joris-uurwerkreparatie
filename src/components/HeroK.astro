@@ -1,16 +1,14 @@
 ---
 // Hero K: wit, de klassieke Seamaster groot in zwart-wit, vervagend in het wit, met een grote kop ernaast.
-// Desktop (vanaf lg) is altijd gelijk. Voor mobiel zijn er drie opstellingen om uit te kiezen (prop `mobiel`).
+// Desktop (vanaf lg): het horloge groot rechts. Mobiel: het horloge gecentreerd boven de tekst.
 import { Image } from 'astro:assets';
 import Icoon from './Icoon.astro';
 import Sterren from './Sterren.astro';
-import Ring from './proef/Ring.astro';
 import { site } from '../data/site';
 import heroFoto from '../assets/hero/seamaster-wit.jpg';
-import rond from '../assets/hero/seamaster-rond.jpg';
 
-interface Props { mobiel?: 'centraal' | 'onder' | 'rond'; contact?: string }
-const { mobiel = 'centraal', contact = '#contact' } = Astro.props;
+interface Props { contact?: string }
+const { contact = '#contact' } = Astro.props;
 const reviewsUrl = 'https://www.google.com/maps/search/?api=1&query=Joris+Uurwerkreparatie+Herten';
 const alt = 'Een klassieke Omega Seamaster-chronograaf in zwart-wit';
 ---
@@ -19,21 +17,10 @@ const alt = 'Een klassieke Omega Seamaster-chronograaf in zwart-wit';
   <!-- lazy: op mobiel staat deze verborgen en wordt hij dan niet geladen; op desktop staat hij direct in beeld. -->
   <Image src={heroFoto} alt={alt} widths={[600, 1088]} sizes="50vw" loading="lazy" class="hero-foto pointer-events-none absolute right-[2%] top-[-4%] hidden h-[112%] w-auto object-contain lg:block" />
 
-  {mobiel === 'centraal' && (
-    <div class="flex justify-center pt-4 lg:hidden">
+  <div class="flex justify-center pt-4 lg:hidden">
       <Image src={heroFoto} alt={alt} widths={[600]} sizes="80vw" loading="eager" fetchpriority="high" class="hero-foto h-[36svh] w-auto object-contain" />
-    </div>
-  )}
-  {mobiel === 'rond' && (
-    <div class="relative mx-auto mt-6 aspect-square w-[min(64vw,17rem)] lg:hidden">
-      <Ring accent="#a8834a" streep="#0f2a4a" />
-      <div class="absolute inset-[7.5%] overflow-hidden rounded-full shadow-[0_0_0_1px_#a8834a66,0_24px_40px_-20px_#0f2a4a66]">
-        <Image src={rond} alt="De wijzerplaat van een klassieke Omega Seamaster-chronograaf" widths={[400]} sizes="64vw" loading="eager" class="h-full w-full object-cover" />
-      </div>
-    </div>
-  )}
-
-  <div class:list={['wrap relative md:pb-12 lg:mt-auto lg:pb-16 lg:pt-16', mobiel === 'onder' ? 'pb-2 pt-10' : 'mt-auto pb-24 pt-6']}>
+  </div>
+  <div class="wrap relative mt-auto pb-24 pt-6 md:pb-12 lg:pb-16 lg:pt-16">
     <p class="font-display text-xs font-bold uppercase tracking-[.18em] text-goud-donker sm:text-sm sm:tracking-[.2em]">Officieel Omega Service <span class="whitespace-nowrap">Center · {site.plaats}</span></p>
     <h1 id="t-hero" class="mt-4 max-w-[11ch] text-[clamp(2.8rem,6.4vw+0.8rem,7.25rem)] font-extrabold leading-[.95] tracking-[-0.045em] text-marine">Uw horloge in handen van erkend vakmanschap.</h1>
     <div class="mt-7 flex flex-wrap items-center gap-x-8 gap-y-4 sm:mt-9">
@@ -42,15 +29,9 @@ const alt = 'Een klassieke Omega Seamaster-chronograaf in zwart-wit';
     </div>
   </div>
 
-  {mobiel === 'onder' && (
-    <div class="mt-auto flex justify-center pb-20 lg:hidden">
-      <Image src={heroFoto} alt={alt} widths={[600]} sizes="100vw" loading="eager" class="hero-foto-onder h-[52svh] w-auto object-contain" />
-    </div>
-  )}
 </section>
 
 <style>
   /* Laat de randen van de foto in het wit oplossen, zodat de horlogedoos niet als rechthoek zichtbaar is. */
   .hero-foto { -webkit-mask-image: radial-gradient(closest-side, #000 62%, transparent 100%); mask-image: radial-gradient(closest-side, #000 62%, transparent 100%); }
-  .hero-foto-onder { -webkit-mask-image: radial-gradient(closest-side, #000 55%, transparent 100%); mask-image: radial-gradient(closest-side, #000 55%, transparent 100%); }
 </style>
