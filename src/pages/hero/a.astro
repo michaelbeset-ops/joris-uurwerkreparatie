@@ -1,0 +1,52 @@
+---
+// Hero-proef A, "Werkplaats": de rode Omega-houder schermvullend, menubalk transparant over de foto
+// met het witte logo. Onderin een strook met de drie erkenningen.
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Icoon from '../../components/Icoon.astro';
+import Sterren from '../../components/Sterren.astro';
+import { site, waAfspraak, url } from '../../data/site';
+import { menu } from '../../components/proef/menu';
+import foto from '../../assets/omega-houder.jpg';
+import logoWit from '../../assets/logo-wit.png';
+---
+<Base title="Hero A | Joris Uurwerkreparatie" description="Hero-proef A">
+  <main id="inhoud">
+    <section class="relative flex min-h-svh flex-col overflow-hidden bg-marine-diep text-wit" aria-labelledby="t-hero">
+      <Image src={foto} alt="Een Omega-uurwerk in een rode Omega-uurwerkhouder, met een Omega-pincet ernaast" widths={[800, 1200, 1600]} sizes="100vw" loading="eager" fetchpriority="high" class="absolute inset-0 h-full w-full object-cover object-[62%_50%] lg:object-[70%_50%]" />
+      <div aria-hidden="true" class="absolute inset-0 bg-[linear-gradient(to_top,#0a1d35_0%,#0a1d35e6_45%,#0a1d3540_80%,#0a1d3599_100%)] lg:bg-[linear-gradient(to_right,#0a1d35fa_0%,#0a1d35d9_38%,#0a1d3526_68%,#0a1d3500_100%),linear-gradient(to_bottom,#0a1d3599_0%,#0a1d3500_22%)]"></div>
+
+      <header class="relative border-b border-wit/15">
+        <div class="wrap flex h-20 items-center justify-between gap-6 lg:h-24">
+          <a href={url()}><Image src={logoWit} alt="Joris Uurwerkreparatie" widths={[200, 397]} sizes="190px" loading="eager" class="h-12 w-auto lg:h-16" /></a>
+          <nav aria-label="Hoofdmenu" class="hidden xl:block">
+            <ul class="flex items-center gap-8 font-display text-[1.0625rem] font-semibold">
+              {menu.map((m) => <li><a href={m.href} class="text-wit/90 no-underline hover:text-wit">{m.label}</a></li>)}
+            </ul>
+          </nav>
+          <div class="flex items-center gap-3">
+            <a href={site.telHref} class="num hidden font-display font-bold text-wit no-underline md:inline-flex md:items-center md:gap-2"><Icoon naam="telefoon" maat={18} />{site.tel}</a>
+            <a href={url('#contact')} class="btn hidden !min-h-11 border border-wit/60 text-wit hover:bg-wit hover:text-marine sm:inline-flex">Afspraak maken</a>
+            <button type="button" class="flex h-11 w-11 items-center justify-center rounded-md border border-wit/40 xl:hidden" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+          </div>
+        </div>
+      </header>
+
+      <div class="wrap relative flex flex-1 flex-col justify-end pb-10 pt-16 lg:pb-12">
+        <p class="flex items-center gap-3 font-display text-sm font-bold uppercase tracking-[.16em] text-goud"><span class="h-px w-10 bg-goud"></span>Officieel Omega Service Center</p>
+        <h1 id="t-hero" class="mt-5 max-w-[14ch] text-[clamp(2.6rem,4.6vw+1rem,5.25rem)] leading-[.98] text-wit">Uw horloge in handen van erkend vakmanschap.</h1>
+        <p class="mt-6 max-w-lg text-lg text-wit/85 lg:text-xl">Persoonlijk onderzocht en onderhouden door horlogemaker Hugo Joris in Herten. Eerst een duidelijke prijs, dan pas het werk.</p>
+        <div class="mt-9 flex flex-wrap gap-3">
+          <a href={url('#contact')} class="btn bg-wit text-marine hover:bg-ijs">Afspraak maken<Icoon naam="pijl" maat={20} /></a>
+          <a href={waAfspraak} class="btn border border-wit/50 text-wit hover:bg-wit/10"><Icoon naam="bericht" maat={20} />WhatsApp</a>
+        </div>
+
+        <ul class="mt-12 grid gap-5 border-t border-wit/15 pt-6 text-wit/85 sm:grid-cols-3">
+          <li><strong class="block font-display text-lg text-wit">Omega Service Center</strong>Erkend door Omega, originele onderdelen</li>
+          <li><strong class="block font-display text-lg text-wit">Longines en Rado</strong>Servicecenter binnen de Swatch Group</li>
+          <li><span class="flex items-center gap-2"><Sterren /><strong class="num font-display text-lg text-wit">{site.google.score}</strong></span>{site.google.aantal} reviews op Google</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+</Base>

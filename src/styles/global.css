@@ -24,6 +24,7 @@
   --color-vink: #15803d;          /* vinkjes, 5,0:1 op wit */
   --color-vink-licht: #4ade80;    /* vinkjes op marine */
   --color-ster: #f5a700;
+  --color-goud: #c9a46a;          /* goud uit het logo, alleen als accentlijn op donker */
 
   --font-display: "Red Hat Display Variable", ui-sans-serif, system-ui, sans-serif;
   --font-body: "Red Hat Text Variable", ui-sans-serif, system-ui, sans-serif;

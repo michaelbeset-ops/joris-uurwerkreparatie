@@ -1,0 +1,49 @@
+---
+// Hero-proef B, "Zwevende balk": lichte foto van een gedemonteerde Omega schermvullend, de menubalk zweeft
+// als witte balk met wat ruimte rondom. De kop staat in een wit vlak linksonder, zoals een etiket.
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Icoon from '../../components/Icoon.astro';
+import Sterren from '../../components/Sterren.astro';
+import Logo from '../../components/Logo.astro';
+import { site, waAfspraak, url } from '../../data/site';
+import { menu } from '../../components/proef/menu';
+import foto from '../../assets/onderdelen.jpg';
+---
+<Base title="Hero B | Joris Uurwerkreparatie" description="Hero-proef B">
+  <main id="inhoud">
+    <section class="relative flex min-h-svh flex-col overflow-hidden bg-ijs p-3 sm:p-4" aria-labelledby="t-hero">
+      <Image src={foto} alt="Losse onderdelen van een gedemonteerd Omega-horloge op de werkbank" widths={[800, 1200, 1600]} sizes="100vw" loading="eager" fetchpriority="high" class="absolute inset-0 h-full w-full object-cover object-[70%_50%]" />
+      <div aria-hidden="true" class="absolute inset-0 bg-[linear-gradient(to_top,#0a1d3540_0%,#0a1d3500_50%)]"></div>
+
+      <header class="relative z-10 mx-auto w-full max-w-[84rem] rounded-xl bg-wit shadow-kaart">
+        <div class="flex h-18 items-center justify-between gap-6 px-4 py-2 sm:px-6 lg:h-22">
+          <a href={url()}><Logo /></a>
+          <nav aria-label="Hoofdmenu" class="hidden xl:block">
+            <ul class="flex items-center gap-1 font-display text-[1.0625rem] font-semibold">
+              {menu.map((m) => <li><a href={m.href} class="rounded-md px-3.5 py-2 text-ink no-underline hover:bg-ijs">{m.label}</a></li>)}
+            </ul>
+          </nav>
+          <div class="flex items-center gap-2">
+            <a href={site.telHref} class="hidden h-11 w-11 items-center justify-center rounded-md bg-marine-licht text-marine md:flex" aria-label={`Bel ${site.tel}`}><Icoon naam="telefoon" maat={20} /></a>
+            <a href={url('#contact')} class="btn btn-marine hidden !min-h-11 sm:inline-flex">Afspraak maken</a>
+            <button type="button" class="flex h-11 w-11 items-center justify-center rounded-md ring-1 ring-lijn xl:hidden" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+          </div>
+        </div>
+      </header>
+
+      <div class="relative mx-auto mt-auto w-full max-w-[84rem] pt-[34vh] sm:pt-32">
+        <div class="max-w-2xl rounded-xl bg-wit p-6 shadow-kaart sm:p-10">
+          <p class="inline-flex items-center gap-2 rounded-pill bg-marine px-3 py-1.5 text-sm font-semibold text-wit"><Icoon naam="schild" maat={18} />Officieel Omega Service Center</p>
+          <h1 id="t-hero" class="mt-5 text-[clamp(2.2rem,3vw+1rem,3.75rem)] text-marine">Uw horloge in handen van erkend vakmanschap.</h1>
+          <p class="mt-5 text-lg text-ink-zacht">Persoonlijk onderzocht en onderhouden door horlogemaker Hugo Joris. Eerst een duidelijke prijs, dan pas het werk.</p>
+          <div class="mt-8 flex flex-wrap items-center gap-3">
+            <a href={url('#contact')} class="btn btn-marine">Afspraak maken</a>
+            <a href={waAfspraak} class="btn btn-wit"><Icoon naam="bericht" maat={20} />WhatsApp</a>
+          </div>
+          <p class="mt-7 flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-lijn pt-5 text-ink-zacht"><Sterren /><strong class="num font-display text-ink">{site.google.score}</strong> op Google<span aria-hidden="true">·</span>Ook Longines, Rado en Rolex</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</Base>

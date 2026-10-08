@@ -1,0 +1,52 @@
+---
+// Hero-proef C, "Juwelier": zwart-wit foto van een klassieke Seamaster, logo in het midden van de menubalk
+// met het menu links en rechts ervan, zoals bij een juwelier. Goud alleen als dunne lijn.
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Icoon from '../../components/Icoon.astro';
+import Sterren from '../../components/Sterren.astro';
+import { site, waAfspraak, url } from '../../data/site';
+import { menu } from '../../components/proef/menu';
+import foto from '../../assets/seamaster.jpg';
+import logoWit from '../../assets/logo-wit.png';
+const links = menu.slice(0, 3);
+const rechts = menu.slice(3);
+---
+<Base title="Hero C | Joris Uurwerkreparatie" description="Hero-proef C">
+  <main id="inhoud">
+    <section class="relative flex min-h-svh flex-col overflow-hidden bg-[#0b0d10] text-wit" aria-labelledby="t-hero">
+      <Image src={foto} alt="Een klassieke Omega Seamaster-chronograaf in een horlogedoos" widths={[800, 1200, 1600]} sizes="100vw" loading="eager" fetchpriority="high" class="absolute inset-0 h-full w-full object-cover object-[50%_40%] lg:left-[22%] lg:w-[78%]" />
+      <div aria-hidden="true" class="absolute inset-0 bg-[linear-gradient(to_top,#0b0d10_0%,#0b0d10f2_52%,#0b0d1073_78%,#0b0d10cc_100%)] lg:bg-[linear-gradient(to_right,#0b0d10_0%,#0b0d10_22%,#0b0d10b3_40%,#0b0d1000_65%),linear-gradient(to_bottom,#0b0d10d9_0%,#0b0d1000_25%)]"></div>
+
+      <header class="relative">
+        <div class="wrap grid h-24 grid-cols-[1fr_auto_1fr] items-center gap-6 lg:h-28">
+          <nav aria-label="Hoofdmenu" class="hidden lg:block">
+            <ul class="flex items-center gap-8 font-display text-sm font-semibold uppercase tracking-[.14em]">
+              {links.map((m) => <li><a href={m.href} class="text-wit/85 no-underline hover:text-goud">{m.label}</a></li>)}
+            </ul>
+          </nav>
+          <button type="button" class="flex h-11 w-11 items-center justify-center lg:hidden" aria-label="Menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
+          <a href={url()} class="justify-self-center"><Image src={logoWit} alt="Joris Uurwerkreparatie" widths={[200, 397]} sizes="210px" loading="eager" class="h-12 w-auto lg:h-[4.5rem]" /></a>
+          <div class="flex items-center justify-end gap-8">
+            <ul class="hidden items-center gap-8 font-display text-sm font-semibold uppercase tracking-[.14em] lg:flex">
+              {rechts.map((m) => <li><a href={m.href} class="text-wit/85 no-underline hover:text-goud">{m.label}</a></li>)}
+            </ul>
+            <a href={site.telHref} class="flex h-11 w-11 items-center justify-center text-wit lg:hidden" aria-label={`Bel ${site.tel}`}><Icoon naam="telefoon" maat={22} /></a>
+          </div>
+        </div>
+        <div class="wrap"><div class="h-px bg-[linear-gradient(to_right,transparent,#c9a46a99,transparent)]"></div></div>
+      </header>
+
+      <div class="wrap relative flex flex-1 flex-col justify-end pb-12 pt-[34vh] lg:justify-center lg:pb-20 lg:pt-10">
+        <p class="font-display text-sm font-bold uppercase tracking-[.2em] text-goud">Officieel Omega Service Center · Herten</p>
+        <h1 id="t-hero" class="mt-5 max-w-[13ch] text-[clamp(2.6rem,4.6vw+1rem,5.25rem)] font-bold leading-[1] text-wit">Uw horloge in handen van erkend vakmanschap.</h1>
+        <p class="mt-6 max-w-md text-lg text-wit/80">Onderhoud en reparatie door horlogemaker Hugo Joris. Met originele onderdelen, alleen op afspraak.</p>
+        <div class="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
+          <a href={url('#contact')} class="btn bg-goud text-[#0b0d10] hover:bg-wit">Afspraak maken</a>
+          <a href={waAfspraak} class="inline-flex items-center gap-2 font-display font-bold text-wit underline decoration-goud decoration-2 underline-offset-8 hover:text-goud"><Icoon naam="bericht" maat={20} />Stuur een WhatsApp</a>
+        </div>
+        <p class="mt-12 flex flex-wrap items-center gap-x-3 gap-y-1 text-wit/75"><Sterren /><strong class="num font-display text-wit">{site.google.score}</strong> op Google<span aria-hidden="true" class="text-goud">/</span>Omega, Longines, Rado en Rolex</p>
+      </div>
+    </section>
+  </main>
+</Base>

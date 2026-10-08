@@ -1,0 +1,50 @@
+---
+// Hero-proef D, "Gesplitst": witte menubalk met het logo in kleur, groot. Daaronder links een marine vlak met
+// de boodschap, rechts een geopend uurwerk over de volle hoogte. Alles in één scherm.
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Icoon from '../../components/Icoon.astro';
+import Sterren from '../../components/Sterren.astro';
+import Logo from '../../components/Logo.astro';
+import { site, waAfspraak, url } from '../../data/site';
+import { menu } from '../../components/proef/menu';
+import foto from '../../assets/kaliber-321.jpg';
+---
+<Base title="Hero D | Joris Uurwerkreparatie" description="Hero-proef D">
+  <main id="inhoud" class="flex min-h-svh flex-col">
+    <header class="border-b border-lijn bg-wit">
+      <div class="mx-auto flex h-20 max-w-[90rem] items-center justify-between gap-6 px-5 md:px-10 lg:h-24">
+        <a href={url()}><Logo /></a>
+        <nav aria-label="Hoofdmenu" class="hidden xl:block">
+          <ul class="flex items-center gap-8 font-display text-[1.0625rem] font-semibold">
+            {menu.map((m) => <li><a href={m.href} class="relative py-2 text-ink no-underline after:absolute after:inset-x-0 after:-bottom-0.5 after:h-0.5 after:scale-x-0 after:bg-marine after:transition-transform hover:after:scale-x-100">{m.label}</a></li>)}
+          </ul>
+        </nav>
+        <div class="flex items-center gap-5">
+          <a href={site.telHref} class="num hidden text-right font-display leading-tight no-underline md:block"><span class="block text-xs font-medium text-ink-zacht">Bel voor een afspraak</span><strong class="text-lg text-marine">{site.tel}</strong></a>
+          <button type="button" class="flex h-11 w-11 items-center justify-center rounded-md ring-1 ring-lijn xl:hidden" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+        </div>
+      </div>
+    </header>
+
+    <section class="grid flex-1 bg-marine-diep text-wit lg:grid-cols-[1.15fr_1fr]" aria-labelledby="t-hero">
+      <div class="relative order-2 flex flex-col justify-center px-5 py-12 md:px-10 lg:order-1 lg:py-16 lg:pl-[max(2.5rem,calc((100vw-90rem)/2+2.5rem))] lg:pr-16">
+        <p class="inline-flex w-fit items-center gap-2 rounded-pill bg-wit/10 px-3 py-1.5 text-sm font-semibold ring-1 ring-wit/20"><Icoon naam="schild" maat={18} class="text-vink-licht" />Officieel Omega Service Center in Herten</p>
+        <h1 id="t-hero" class="mt-6 max-w-[15ch] text-[clamp(2.5rem,3.6vw+1rem,4.75rem)] text-wit">Uw horloge in handen van erkend vakmanschap.</h1>
+        <p class="mt-6 max-w-lg text-lg text-staal">Persoonlijk onderzocht en onderhouden door horlogemaker Hugo Joris. U krijgt vooraf een duidelijke prijsopgave, en er gebeurt niets zonder uw akkoord.</p>
+        <div class="mt-9 flex flex-wrap gap-3">
+          <a href={url('#contact')} class="btn bg-wit text-marine hover:bg-ijs">Afspraak maken</a>
+          <a href={waAfspraak} class="btn border border-wit/40 text-wit hover:bg-wit/10"><Icoon naam="bericht" maat={20} />WhatsApp</a>
+        </div>
+        <dl class="mt-12 flex max-w-xl flex-wrap gap-x-10 gap-y-4 border-t border-wit/15 pt-6">
+          <div><dt class="text-sm text-staal">Google</dt><dd class="mt-1 flex items-center gap-1.5 font-display text-xl font-extrabold"><span class="num">{site.google.score}</span><Sterren maat={14} /></dd></div>
+          <div><dt class="text-sm text-staal">Erkend voor</dt><dd class="mt-1 font-display text-xl font-extrabold">Omega</dd></div>
+          <div><dt class="text-sm text-staal">Ook voor</dt><dd class="mt-1 font-display text-xl font-extrabold">Longines en Rado</dd></div>
+        </dl>
+      </div>
+      <div class="relative order-1 h-[46svh] lg:order-2 lg:h-auto">
+        <Image src={foto} alt="Een geopend goudkleurig chronograafuurwerk met robijnen, op de werkbank" widths={[480, 720]} sizes="(min-width: 1024px) 47vw, 100vw" loading="eager" fetchpriority="high" class="absolute inset-0 h-full w-full object-cover" />
+      </div>
+    </section>
+  </main>
+</Base>
