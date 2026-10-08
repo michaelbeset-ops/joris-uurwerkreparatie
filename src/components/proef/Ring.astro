@@ -1,0 +1,16 @@
+---
+// Getekende minutenring voor de hero-proeven: 60 streepjes, elke vijfde langer in de accentkleur.
+// Draait heel langzaam als draai aan staat; stil bij prefers-reduced-motion.
+interface Props { accent?: string; streep?: string; draai?: boolean; class?: string }
+const { accent = '#c9a46a', streep = '#ffffff', draai = true, class: klasse = '' } = Astro.props;
+const streepjes = Array.from({ length: 60 }, (_, i) => i);
+---
+<svg viewBox="0 0 200 200" aria-hidden="true" class:list={['absolute inset-0 h-full w-full', { 'ring-draait': draai }, klasse]}>
+  <circle cx="100" cy="100" r="99" fill="none" stroke={accent} stroke-opacity=".35" stroke-width=".4" />
+  {streepjes.map((i) => <line x1="100" y1="2.5" x2="100" y2={i % 5 === 0 ? 9 : 5.5} stroke={i % 5 === 0 ? accent : streep} stroke-opacity={i % 5 === 0 ? 1 : .35} stroke-width={i % 5 === 0 ? 1 : .5} transform={`rotate(${i * 6} 100 100)`} />)}
+</svg>
+<style>
+  .ring-draait { animation: draai 120s linear infinite; }
+  @keyframes draai { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .ring-draait { animation: none; } }
+</style>

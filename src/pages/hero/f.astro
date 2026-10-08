@@ -1,0 +1,57 @@
+---
+// Hero-proef F, "Loep": de foto van de rode Omega-houder vaag als achtergrondlicht, en hetzelfde uurwerk
+// haarscherp in een ronde loep. Vaag mag groot (geen detail nodig), scherp blijft op bronformaat.
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Icoon from '../../components/Icoon.astro';
+import Sterren from '../../components/Sterren.astro';
+import Ring from '../../components/proef/Ring.astro';
+import { site, waAfspraak, url } from '../../data/site';
+import { menu } from '../../components/proef/menu';
+import scherp from '../../assets/hero/houder-rond.jpg';
+import vaag from '../../assets/hero/houder-vaag.jpg';
+import logoWit from '../../assets/logo-wit.png';
+---
+<Base title="Hero F | Joris Uurwerkreparatie" description="Hero-proef F">
+  <main id="inhoud">
+    <section class="relative flex min-h-svh flex-col overflow-hidden bg-[#120d0e] text-wit" aria-labelledby="t-hero">
+      <Image src={vaag} alt="" widths={[800]} sizes="100vw" loading="eager" class="absolute inset-0 h-full w-full scale-110 object-cover" />
+      <div aria-hidden="true" class="absolute inset-0 bg-[linear-gradient(to_right,#0b0c0ef2_0%,#0b0c0eb3_45%,#0b0c0e4d_100%)]"></div>
+
+      <header class="relative z-10">
+        <div class="wrap flex h-20 items-center justify-between gap-8 lg:h-24">
+          <a href={url()}><Image src={logoWit} alt="Joris Uurwerkreparatie" widths={[200, 397]} sizes="180px" loading="eager" class="h-11 w-auto lg:h-14" /></a>
+          <div class="flex items-center gap-10">
+            <nav aria-label="Hoofdmenu" class="hidden xl:block">
+              <ul class="flex items-center gap-8 font-display text-[0.9375rem] font-medium">
+                {menu.map((m) => <li><a href={m.href} class="text-wit/75 no-underline hover:text-wit">{m.label}</a></li>)}
+              </ul>
+            </nav>
+            <a href={url('#contact')} class="hidden font-display font-bold text-wit no-underline decoration-goud decoration-2 underline-offset-8 hover:underline sm:inline">Afspraak maken</a>
+            <button type="button" class="flex h-11 w-11 items-center justify-center xl:hidden" aria-label="Menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 9h16M8 15h12"/></svg></button>
+          </div>
+        </div>
+      </header>
+
+      <div class="wrap relative grid flex-1 items-center gap-8 pb-12 lg:grid-cols-12 lg:pb-16">
+        <div class="relative order-1 mx-auto aspect-square w-[min(76vw,24rem)] lg:order-2 lg:col-span-5 lg:col-start-8 lg:w-[min(36vw,32rem)]">
+          <Ring accent="#ffffff" streep="#ffffff" />
+          <div class="absolute inset-[7%] overflow-hidden rounded-full shadow-[0_0_0_10px_#0b0c0e,0_0_0_11px_#ffffff33,0_50px_90px_-20px_#000]">
+            <Image src={scherp} alt="Een geopend Omega-uurwerk in een rode Omega-uurwerkhouder" widths={[400, 600]} sizes="(min-width: 1024px) 32rem, 76vw" loading="eager" fetchpriority="high" class="h-full w-full object-cover" />
+            <div aria-hidden="true" class="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_30%_25%,#ffffff2e_0%,#ffffff00_35%)]"></div>
+          </div>
+        </div>
+        <div class="order-2 lg:order-1 lg:col-span-7">
+          <p class="flex items-center gap-3 font-display text-sm font-semibold uppercase tracking-[.2em] text-wit/80"><Icoon naam="schild" maat={18} class="text-goud" />Officieel Omega Service Center</p>
+          <h1 id="t-hero" class="mt-5 max-w-[13ch] text-[clamp(2.6rem,4.6vw+1rem,5.75rem)] font-bold leading-[.98] tracking-[-0.035em] text-wit">Uw horloge in handen van erkend vakmanschap.</h1>
+          <p class="mt-6 max-w-md text-lg text-wit/70">Hugo Joris onderzoekt uw horloge eerst zorgvuldig. U krijgt een duidelijke prijs, en er gebeurt niets zonder uw akkoord.</p>
+          <div class="mt-9 flex flex-wrap gap-3">
+            <a href={url('#contact')} class="btn bg-wit text-[#0b0c0e] hover:bg-goud">Afspraak maken</a>
+            <a href={waAfspraak} class="btn border border-wit/35 text-wit hover:bg-wit/10"><Icoon naam="bericht" maat={20} />WhatsApp</a>
+          </div>
+          <p class="mt-12 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-wit/60"><Sterren maat={15} /><strong class="num font-display text-wit/90">{site.google.score}</strong> op Google<span aria-hidden="true">·</span>{site.plaats}, alleen op afspraak</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</Base>

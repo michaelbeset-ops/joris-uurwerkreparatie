@@ -1,0 +1,55 @@
+---
+// Hero-proef G, "Ivoor": hetzelfde idee als E, maar licht. Warm ivoor met marine en goud, de wijzerplaat van
+// een klassieke Seamaster rond uitgesneden. Voelt als een juweliersetalage overdag.
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Icoon from '../../components/Icoon.astro';
+import Sterren from '../../components/Sterren.astro';
+import Logo from '../../components/Logo.astro';
+import Ring from '../../components/proef/Ring.astro';
+import { site, url } from '../../data/site';
+import { menu } from '../../components/proef/menu';
+import foto from '../../assets/hero/seamaster-rond.jpg';
+---
+<Base title="Hero G | Joris Uurwerkreparatie" description="Hero-proef G">
+  <main id="inhoud">
+    <section class="relative flex min-h-svh flex-col overflow-hidden bg-[#f4f0e8] text-ink" aria-labelledby="t-hero">
+      <div aria-hidden="true" class="absolute inset-0 bg-[radial-gradient(55%_65%_at_74%_55%,#ffffff_0%,#f4f0e800_70%)]"></div>
+
+      <header class="relative z-10 border-b border-[#0f2a4a1a]">
+        <div class="wrap grid h-20 grid-cols-[auto_1fr_auto] items-center gap-6 lg:h-24">
+          <a href={url()}><Logo /></a>
+          <nav aria-label="Hoofdmenu" class="hidden justify-self-center xl:block">
+            <ul class="flex items-center gap-9 font-display text-[0.9375rem] font-semibold">
+              {menu.map((m) => <li><a href={m.href} class="text-marine/80 no-underline hover:text-marine">{m.label}</a></li>)}
+            </ul>
+          </nav>
+          <div class="col-start-3 flex items-center gap-3">
+            <a href={site.telHref} class="num hidden font-display font-bold text-marine no-underline md:block">{site.tel}</a>
+            <a href={url('#contact')} class="btn btn-marine hidden !min-h-11 !rounded-pill !px-5 sm:inline-flex">Afspraak maken</a>
+            <button type="button" class="flex h-11 w-11 items-center justify-center text-marine xl:hidden" aria-label="Menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 9h16M8 15h12"/></svg></button>
+          </div>
+        </div>
+      </header>
+
+      <div class="wrap relative grid flex-1 items-center gap-8 pb-12 pt-6 lg:grid-cols-12 lg:pb-16">
+        <div class="relative order-1 mx-auto aspect-square w-[min(78vw,24rem)] lg:order-2 lg:col-span-6 lg:col-start-7 lg:w-[min(40vw,34rem)]">
+          <Ring accent="#a8834a" streep="#0f2a4a" />
+          <div class="absolute inset-[7.5%] overflow-hidden rounded-full shadow-[0_0_0_1px_#a8834a66,0_40px_70px_-25px_#0f2a4a66]">
+            <Image src={foto} alt="De wijzerplaat van een klassieke Omega Seamaster-chronograaf" widths={[400, 820]} sizes="(min-width: 1024px) 34rem, 78vw" loading="eager" fetchpriority="high" class="h-full w-full object-cover" />
+          </div>
+        </div>
+        <div class="order-2 lg:order-1 lg:col-span-6">
+          <p class="font-display text-sm font-bold uppercase tracking-[.22em] text-[#8a6a35]">Officieel Omega Service Center</p>
+          <h1 id="t-hero" class="mt-5 max-w-[12ch] text-[clamp(2.6rem,4.4vw+1rem,5.5rem)] font-bold leading-[1] tracking-[-0.035em] text-marine">Uw horloge in handen van erkend vakmanschap.</h1>
+          <p class="mt-6 max-w-md text-lg text-ink-zacht">Onderhoud en reparatie door horlogemaker Hugo Joris in Herten. Met originele onderdelen, alleen op afspraak.</p>
+          <div class="mt-9 flex flex-wrap items-center gap-x-7 gap-y-4">
+            <a href={url('#contact')} class="btn btn-marine !rounded-pill !px-7">Afspraak maken</a>
+            <a href={url('#prijzen')} class="inline-flex items-center gap-2 font-display font-bold text-marine no-underline hover:underline">Wat kost het?<Icoon naam="pijl" maat={18} /></a>
+          </div>
+          <p class="mt-12 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-ink-zacht"><Sterren maat={15} /><strong class="num font-display text-ink">{site.google.score}</strong> op Google<span aria-hidden="true" class="text-[#a8834a]">|</span>Ook Longines, Rado en Rolex</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</Base>

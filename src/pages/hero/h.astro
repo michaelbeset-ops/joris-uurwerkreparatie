@@ -1,0 +1,59 @@
+---
+// Hero-proef H, "Typografisch": de kop is het beeld. Twee ronde foto-capsules staan midden in de zin,
+// zoals in een tijdschrift. Weinig foto nodig, dus de telefoonfoto's blijven scherp.
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Icoon from '../../components/Icoon.astro';
+import Sterren from '../../components/Sterren.astro';
+import { site, waAfspraak, url } from '../../data/site';
+import { menu } from '../../components/proef/menu';
+import uurwerk from '../../assets/hero/kaliber-rond.jpg';
+import houder from '../../assets/hero/houder-rond.jpg';
+import logoWit from '../../assets/logo-wit.png';
+---
+<Base title="Hero H | Joris Uurwerkreparatie" description="Hero-proef H">
+  <main id="inhoud">
+    <section class="relative flex min-h-svh flex-col bg-marine-diep text-wit" aria-labelledby="t-hero">
+      <header class="border-b border-wit/10">
+        <div class="wrap flex h-20 items-center justify-between gap-6 lg:h-24">
+          <a href={url()}><Image src={logoWit} alt="Joris Uurwerkreparatie" widths={[200, 397]} sizes="180px" loading="eager" class="h-11 w-auto lg:h-14" /></a>
+          <nav aria-label="Hoofdmenu" class="hidden xl:block">
+            <ul class="flex items-center gap-1 font-display text-[0.9375rem] font-semibold">
+              {menu.map((m) => <li><a href={m.href} class="rounded-pill px-4 py-2 text-wit/75 no-underline hover:bg-wit/10 hover:text-wit">{m.label}</a></li>)}
+            </ul>
+          </nav>
+          <div class="flex items-center gap-3">
+            <a href={site.telHref} class="hidden h-11 items-center gap-2 rounded-pill bg-wit/10 px-4 font-display font-semibold text-wit no-underline hover:bg-wit/15 md:inline-flex"><Icoon naam="telefoon" maat={18} /><span class="num">{site.tel}</span></a>
+            <button type="button" class="flex h-11 w-11 items-center justify-center rounded-pill bg-wit/10 xl:hidden" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 9h16M8 15h12"/></svg></button>
+          </div>
+        </div>
+      </header>
+
+      <div class="wrap flex flex-1 flex-col justify-center py-12 lg:py-16">
+        <p class="font-display text-sm font-semibold uppercase tracking-[.22em] text-goud">Officieel Omega Service Center · Herten</p>
+        <h1 id="t-hero" class="mt-6 text-[clamp(2.6rem,6.4vw+0.8rem,7.5rem)] font-bold leading-[1.02] tracking-[-0.04em] text-wit">
+          Uw horloge
+          <span class="capsule" aria-hidden="true"><Image src={uurwerk} alt="" widths={[400]} sizes="20vw" loading="eager" fetchpriority="high" class="h-full w-full object-cover object-[48%_46%]" /></span>
+          in handen van erkend
+          <span class="capsule" aria-hidden="true"><Image src={houder} alt="" widths={[400]} sizes="20vw" loading="eager" class="h-full w-full object-cover" /></span>
+          vakmanschap.
+        </h1>
+        <div class="mt-10 grid gap-8 border-t border-wit/10 pt-8 md:grid-cols-[1fr_auto] md:items-end">
+          <div>
+            <p class="max-w-xl text-lg text-staal">Onderhoud en reparatie door horlogemaker Hugo Joris. Eerst een duidelijke prijs, dan pas het werk.</p>
+            <p class="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-staal"><Sterren maat={15} /><strong class="num font-display text-wit">{site.google.score}</strong> op Google<span aria-hidden="true">·</span>Ook Longines, Rado en Rolex</p>
+          </div>
+          <div class="flex flex-wrap gap-3">
+            <a href={url('#contact')} class="btn !rounded-pill bg-goud !px-7 text-marine-diep hover:bg-wit">Afspraak maken</a>
+            <a href={waAfspraak} class="btn !rounded-pill border border-wit/30 text-wit hover:bg-wit/10"><Icoon naam="bericht" maat={20} />WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Base>
+
+<style>
+  /* Foto-capsule in de regel: even hoog als de letters, iets naar beneden zodat hij op de basislijn zit. */
+  .capsule { display: inline-block; height: .78em; width: 1.7em; border-radius: 999px; overflow: hidden; vertical-align: -.06em; margin-inline: .14em; box-shadow: 0 0 0 2px #c9a46a66; }
+</style>
