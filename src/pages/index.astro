@@ -67,11 +67,11 @@ const rolex = [
     <!-- 1. Hero (gekozen proef K): wit, de klassieke Seamaster groot in zwart-wit en vervagend in het wit, alsof hij
          op de pagina ligt, met een grote kop ernaast. Precies schermvullend onder de kopbalk (5rem, vanaf lg 6rem). -->
     <section class="relative flex min-h-[calc(100svh-5rem)] flex-col overflow-hidden bg-wit lg:min-h-[calc(100svh-6rem)]" aria-labelledby="t-hero">
-      <Image src={heroFoto} alt="Een klassieke Omega Seamaster-chronograaf in zwart-wit" widths={[600, 1088]} sizes="(min-width: 1024px) 50vw, 100vw" loading="eager" fetchpriority="high" class="hero-foto pointer-events-none absolute right-[-12%] top-0 h-[48svh] w-auto object-contain sm:right-[-4%] lg:right-[2%] lg:top-[-4%] lg:h-[112%]" />
-      <div class="wrap relative mt-auto pb-28 pt-[52svh] md:pb-12 lg:pb-16 lg:pt-16">
-        <p class="font-display text-sm font-bold uppercase tracking-[.2em] text-goud-donker">Officieel Omega Service Center · {site.plaats}</p>
+      <Image src={heroFoto} alt="Een klassieke Omega Seamaster-chronograaf in zwart-wit" widths={[600, 1088]} sizes="(min-width: 1024px) 50vw, 100vw" loading="eager" fetchpriority="high" class="hero-foto pointer-events-none absolute right-[-10%] top-0 h-[38svh] w-auto object-contain sm:right-[-4%] lg:right-[2%] lg:top-[-4%] lg:h-[112%]" />
+      <div class="wrap relative mt-auto pb-24 pt-[35svh] md:pb-12 lg:pb-16 lg:pt-16">
+        <p class="font-display text-xs font-bold uppercase tracking-[.18em] text-goud-donker sm:text-sm sm:tracking-[.2em]">Officieel Omega Service <span class="whitespace-nowrap">Center · {site.plaats}</span></p>
         <h1 id="t-hero" class="mt-4 max-w-[11ch] text-[clamp(2.8rem,6.4vw+0.8rem,7.25rem)] font-extrabold leading-[.95] tracking-[-0.045em] text-marine">Uw horloge in handen van erkend vakmanschap.</h1>
-        <div class="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
+        <div class="mt-7 flex flex-wrap items-center gap-x-8 gap-y-4 sm:mt-9">
           <a href="#contact" class="btn btn-marine">Afspraak maken<Icoon naam="pijl" maat={20} /></a>
           <a href={reviewsUrl} target="_blank" rel="noopener" class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-ink-zacht no-underline hover:underline"><Sterren maat={15} /><strong class="num font-display text-ink">{site.google.score}</strong> op Google<span aria-hidden="true">·</span>Ook Longines, Rado en Rolex<span class="sr-only"> (opent in een nieuw tabblad)</span></a>
         </div>
@@ -250,7 +250,7 @@ const rolex = [
               {rolex.map(([m, p]) => (
                 <tr class="border-b border-lijn">
                   <th scope="row" class="py-4 pr-4 font-normal">{m}</th>
-                  <td class="num py-4 text-right font-display text-lg font-bold sm:whitespace-nowrap">vanaf € {p},-</td>
+                  <td class="num py-4 text-right font-display text-lg font-bold"><span class="block font-body text-xs font-normal text-ink-zacht sm:inline sm:font-display sm:text-lg sm:font-bold sm:text-ink">vanaf </span><span class="whitespace-nowrap">€ {p},-</span></td>
                 </tr>
               ))}
             </tbody>
