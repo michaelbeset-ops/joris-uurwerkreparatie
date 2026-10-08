@@ -1,0 +1,87 @@
+---
+// Hero-proef J, "Levende wijzerplaat": helemaal wit. Rechts een grote, getekende wijzerplaat die de echte tijd
+// aangeeft, met een vloeiend lopende gouden secondewijzer. Geen foto nodig, dus altijd haarscherp.
+import Base from '../../layouts/Base.astro';
+import Icoon from '../../components/Icoon.astro';
+import Sterren from '../../components/Sterren.astro';
+import Logo from '../../components/Logo.astro';
+import { site, waAfspraak, url } from '../../data/site';
+import { menu } from '../../components/proef/menu';
+const minuten = Array.from({ length: 60 }, (_, i) => i);
+---
+<Base title="Hero J | Joris Uurwerkreparatie" description="Hero-proef J">
+  <main id="inhoud">
+    <section class="relative flex min-h-svh flex-col overflow-hidden bg-wit text-ink" aria-labelledby="t-hero">
+      <header class="relative z-10">
+        <div class="wrap flex h-20 items-center justify-between gap-6 lg:h-24">
+          <a href={url()}><Logo /></a>
+          <nav aria-label="Hoofdmenu" class="hidden xl:block">
+            <ul class="flex items-center gap-9 font-display text-[0.9375rem] font-semibold">
+              {menu.map((m) => <li><a href={m.href} class="text-ink-zacht no-underline hover:text-marine">{m.label}</a></li>)}
+            </ul>
+          </nav>
+          <div class="flex items-center gap-4">
+            <a href={site.telHref} class="num hidden font-display font-bold text-marine no-underline md:block">{site.tel}</a>
+            <a href={url('#contact')} class="btn btn-marine hidden !min-h-11 !rounded-pill !px-5 sm:inline-flex">Afspraak maken</a>
+            <button type="button" class="flex h-11 w-11 items-center justify-center text-marine xl:hidden" aria-label="Menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 9h16M8 15h12"/></svg></button>
+          </div>
+        </div>
+      </header>
+
+      <div class="wrap relative grid flex-1 items-center gap-10 pb-12 lg:grid-cols-12 lg:pb-16">
+        <div class="relative order-1 mx-auto w-[min(80vw,24rem)] lg:order-2 lg:col-span-6 lg:col-start-7 lg:w-[min(42vw,36rem)]">
+          <svg viewBox="0 0 400 400" class="h-auto w-full overflow-visible" role="img" aria-label="Wijzerplaat met de huidige tijd">
+            <defs>
+              <radialGradient id="kast" cx="40%" cy="30%" r="80%"><stop offset="0" stop-color="#ffffff" /><stop offset="1" stop-color="#d9dee6" /></radialGradient>
+              <radialGradient id="plaat" cx="45%" cy="35%" r="75%"><stop offset="0" stop-color="#ffffff" /><stop offset="1" stop-color="#f1f3f6" /></radialGradient>
+              <filter id="schaduw" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="22" stdDeviation="22" flood-color="#0f2a4a" flood-opacity=".18" /></filter>
+            </defs>
+            <!-- kroon -->
+            <rect x="388" y="186" width="16" height="28" rx="4" fill="#cbd5e1" />
+            <g filter="url(#schaduw)">
+              <circle cx="200" cy="200" r="196" fill="url(#kast)" />
+            </g>
+            <circle cx="200" cy="200" r="182" fill="url(#plaat)" stroke="#0f2a4a14" />
+            {minuten.map((i) => <line x1="200" y1="26" x2="200" y2={i % 5 === 0 ? 30 : 32} stroke="#0f2a4a" stroke-opacity=".45" stroke-width="1" transform={`rotate(${i * 6} 200 200)`} />)}
+            {minuten.filter((i) => i % 5 === 0).map((i) => <rect x={i === 0 ? 194 : 196.5} y="38" width={i === 0 ? 12 : 7} height={i === 0 ? 34 : 26} rx="1.5" fill="#0f2a4a" transform={`rotate(${i * 6} 200 200)`} />)}
+            <text x="200" y="128" text-anchor="middle" font-family="Red Hat Display Variable, sans-serif" font-weight="800" font-size="17" letter-spacing="5" fill="#0f2a4a">JORIS</text>
+            <text x="200" y="146" text-anchor="middle" font-family="Red Hat Text Variable, sans-serif" font-size="9" letter-spacing="3" fill="#475569">HERTEN</text>
+            <text x="200" y="292" text-anchor="middle" font-family="Red Hat Text Variable, sans-serif" font-size="8.5" letter-spacing="2.5" fill="#a8834a">OMEGA SERVICE CENTER</text>
+            <g data-uur><path d="M196 214 L197.5 104 Q200 96 202.5 104 L204 214 Z" fill="#0f2a4a" /></g>
+            <g data-min><path d="M197 222 L198.4 56 Q200 48 201.6 56 L203 222 Z" fill="#0f2a4a" /></g>
+            <g data-sec><line x1="200" y1="238" x2="200" y2="44" stroke="#c9a46a" stroke-width="1.6" stroke-linecap="round" /><circle cx="200" cy="232" r="5" fill="#c9a46a" /></g>
+            <circle cx="200" cy="200" r="7" fill="#0f2a4a" /><circle cx="200" cy="200" r="3" fill="#c9a46a" />
+          </svg>
+        </div>
+
+        <div class="order-2 lg:order-1 lg:col-span-6">
+          <p class="flex items-center gap-2 font-display text-sm font-bold uppercase tracking-[.2em] text-marine"><span class="h-2 w-2 rounded-full bg-goud"></span>Officieel Omega Service Center</p>
+          <h1 id="t-hero" class="mt-5 max-w-[12ch] text-[clamp(2.6rem,4.6vw+1rem,5.75rem)] font-extrabold leading-[.98] tracking-[-0.04em] text-marine">Uw horloge in handen van erkend vakmanschap.</h1>
+          <p class="mt-6 max-w-md text-lg text-ink-zacht">Onderhoud en reparatie door horlogemaker Hugo Joris in Herten. Eerst een duidelijke prijs, dan pas het werk.</p>
+          <div class="mt-9 flex flex-wrap items-center gap-3">
+            <a href={url('#contact')} class="btn btn-marine !rounded-pill !px-7">Afspraak maken</a>
+            <a href={waAfspraak} class="btn !rounded-pill text-marine ring-1 ring-[#0f2a4a33] hover:bg-ijs"><Icoon naam="bericht" maat={20} />WhatsApp</a>
+          </div>
+          <p class="mt-12 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-ink-zacht"><Sterren maat={15} /><strong class="num font-display text-ink">{site.google.score}</strong> op Google<span aria-hidden="true">·</span>Ook Longines, Rado en Rolex</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</Base>
+
+<script>
+  // Wijzers op de echte tijd. Secondewijzer loopt vloeiend; bij reduced motion springt hij eens per seconde.
+  const uur = document.querySelector<SVGGElement>('[data-uur]')!;
+  const min = document.querySelector<SVGGElement>('[data-min]')!;
+  const sec = document.querySelector<SVGGElement>('[data-sec]')!;
+  const rustig = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const zet = (g: SVGGElement, graden: number) => g.setAttribute('transform', `rotate(${graden} 200 200)`);
+  const tik = () => {
+    const n = new Date();
+    const s = n.getSeconds() + (rustig ? 0 : n.getMilliseconds() / 1000);
+    const m = n.getMinutes() + s / 60;
+    zet(sec, s * 6); zet(min, m * 6); zet(uur, ((n.getHours() % 12) + m / 60) * 30);
+  };
+  tik();
+  if (rustig) setInterval(tik, 1000); else { const lus = () => { tik(); requestAnimationFrame(lus); }; requestAnimationFrame(lus); }
+</script>

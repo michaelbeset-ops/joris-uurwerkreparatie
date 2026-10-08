@@ -1,0 +1,59 @@
+---
+// Hero-proef L, "Wit mozaïek": wit, vijf vakken in een raster. Het grote vak heeft de kop, de andere tonen
+// de werkplaats in kleine, scherpe uitsneden plus de Google-score en het nummer. Veel inhoud, toch rustig.
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Icoon from '../../components/Icoon.astro';
+import Sterren from '../../components/Sterren.astro';
+import Logo from '../../components/Logo.astro';
+import { site, waAfspraak, url } from '../../data/site';
+import { menu } from '../../components/proef/menu';
+import uurwerk from '../../assets/hero/kaliber-rond.jpg';
+import houder from '../../assets/hero/houder-rond.jpg';
+---
+<Base title="Hero L | Joris Uurwerkreparatie" description="Hero-proef L">
+  <main id="inhoud">
+    <section class="flex min-h-svh flex-col bg-wit text-ink" aria-labelledby="t-hero">
+      <header>
+        <div class="wrap flex h-20 items-center justify-between gap-6 lg:h-24">
+          <a href={url()}><Logo /></a>
+          <nav aria-label="Hoofdmenu" class="hidden rounded-pill bg-ijs p-1.5 xl:block">
+            <ul class="flex items-center font-display text-[0.9375rem] font-semibold">
+              {menu.map((m) => <li><a href={m.href} class="block rounded-pill px-4 py-2 text-ink no-underline hover:bg-wit hover:shadow-zacht">{m.label}</a></li>)}
+            </ul>
+          </nav>
+          <div class="flex items-center gap-2">
+            <a href={url('#contact')} class="btn btn-marine hidden !min-h-11 !rounded-pill !px-5 sm:inline-flex">Afspraak maken</a>
+            <button type="button" class="flex h-11 w-11 items-center justify-center rounded-pill bg-ijs text-marine xl:hidden" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 9h16M8 15h12"/></svg></button>
+          </div>
+        </div>
+      </header>
+
+      <div class="wrap grid flex-1 grid-cols-2 gap-3 pb-6 lg:grid-cols-4 lg:grid-rows-2 lg:gap-4 lg:pb-8">
+        <div class="col-span-2 flex flex-col justify-end rounded-2xl bg-marine p-6 text-wit sm:p-10 lg:row-span-2">
+          <p class="flex items-center gap-2 text-sm font-semibold text-staal"><Icoon naam="schild" maat={18} class="text-goud" />Officieel Omega Service Center in Herten</p>
+          <h1 id="t-hero" class="mt-5 text-[clamp(2.4rem,3.4vw+1rem,4.75rem)] font-extrabold leading-[.98] tracking-[-0.04em] text-wit">Uw horloge in handen van erkend vakmanschap.</h1>
+          <p class="mt-5 max-w-md text-lg text-staal">Onderhoud en reparatie door horlogemaker Hugo Joris. Eerst een duidelijke prijs, dan pas het werk.</p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href={url('#contact')} class="btn !rounded-pill bg-wit text-marine hover:bg-ijs">Afspraak maken</a>
+            <a href={waAfspraak} class="btn !rounded-pill border border-wit/30 text-wit hover:bg-wit/10"><Icoon naam="bericht" maat={20} />WhatsApp</a>
+          </div>
+        </div>
+        <div class="relative col-span-2 aspect-[2/1] overflow-hidden rounded-2xl lg:col-span-1 lg:aspect-auto">
+          <Image src={uurwerk} alt="Een geopend goudkleurig chronograafuurwerk op de werkbank" widths={[400, 680]} sizes="(min-width: 1024px) 25vw, 100vw" loading="eager" fetchpriority="high" class="absolute inset-0 h-full w-full object-cover" />
+        </div>
+        <div class="flex flex-col justify-between rounded-2xl bg-ijs p-5 sm:p-6">
+          <Sterren maat={20} />
+          <p><strong class="num block font-display text-[clamp(2.5rem,3vw+1rem,3.5rem)] font-extrabold leading-none text-marine">{site.google.score}</strong><span class="text-ink-zacht">uit {site.google.aantal} reviews op Google</span></p>
+        </div>
+        <div class="relative aspect-square overflow-hidden rounded-2xl lg:aspect-auto">
+          <Image src={houder} alt="Een Omega-uurwerk in een rode Omega-uurwerkhouder" widths={[400, 600]} sizes="(min-width: 1024px) 25vw, 50vw" class="absolute inset-0 h-full w-full object-cover" />
+        </div>
+        <a href={site.telHref} class="group col-span-2 flex flex-col justify-between gap-6 rounded-2xl bg-ijs p-5 no-underline sm:p-6 lg:col-span-1">
+          <span class="flex items-center justify-between text-ink-zacht">Bel voor een afspraak<Icoon naam="pijl" maat={20} class="text-marine transition-transform group-hover:translate-x-1" /></span>
+          <strong class="num font-display text-2xl font-extrabold text-marine">{site.tel}</strong>
+        </a>
+      </div>
+    </section>
+  </main>
+</Base>

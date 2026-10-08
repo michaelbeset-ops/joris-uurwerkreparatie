@@ -1,0 +1,49 @@
+---
+// Hero-proef K, "Wit met horloge": wit, de klassieke Seamaster groot en zwart-wit, vervagend in het wit,
+// alsof hij op de pagina ligt. Een enorme kop eroverheen, half over de foto. Menubalk met dunne lijnen.
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Icoon from '../../components/Icoon.astro';
+import Sterren from '../../components/Sterren.astro';
+import Logo from '../../components/Logo.astro';
+import { site, url } from '../../data/site';
+import { menu } from '../../components/proef/menu';
+import foto from '../../assets/hero/seamaster-wit.jpg';
+---
+<Base title="Hero K | Joris Uurwerkreparatie" description="Hero-proef K">
+  <main id="inhoud">
+    <section class="relative flex min-h-svh flex-col overflow-hidden bg-wit text-ink" aria-labelledby="t-hero">
+      <header class="relative z-10 border-b border-lijn">
+        <div class="wrap flex h-20 items-stretch justify-between lg:h-24">
+          <a href={url()} class="flex items-center pr-8 lg:border-r lg:border-lijn"><Logo /></a>
+          <nav aria-label="Hoofdmenu" class="hidden flex-1 xl:flex">
+            <ul class="flex flex-1 items-stretch justify-center font-display text-[0.9375rem] font-semibold">
+              {menu.map((m) => <li class="flex"><a href={m.href} class="flex items-center px-5 text-ink no-underline hover:bg-ijs">{m.label}</a></li>)}
+            </ul>
+          </nav>
+          <div class="flex items-center gap-3 lg:border-l lg:border-lijn lg:pl-8">
+            <a href={site.telHref} class="num hidden items-center gap-2 font-display font-bold text-marine no-underline md:flex"><Icoon naam="telefoon" maat={18} />{site.tel}</a>
+            <button type="button" class="flex h-11 w-11 items-center justify-center text-marine xl:hidden" aria-label="Menu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 9h16M8 15h12"/></svg></button>
+          </div>
+        </div>
+      </header>
+
+      <div class="relative flex flex-1 flex-col">
+        <Image src={foto} alt="Een klassieke Omega Seamaster-chronograaf in zwart-wit" widths={[600, 1088]} sizes="(min-width: 1024px) 50vw, 100vw" loading="eager" fetchpriority="high" class="foto pointer-events-none absolute right-[-12%] top-0 h-[54%] w-auto object-contain sm:right-[-4%] lg:right-[2%] lg:top-[-4%] lg:h-[112%]" />
+        <div class="wrap relative mt-auto pb-12 pt-[52svh] lg:pb-16 lg:pt-16">
+          <p class="font-display text-sm font-bold uppercase tracking-[.2em] text-[#8a6a35]">Officieel Omega Service Center · Herten</p>
+          <h1 id="t-hero" class="mt-4 max-w-[11ch] text-[clamp(2.8rem,6.4vw+0.8rem,7.25rem)] font-extrabold leading-[.95] tracking-[-0.045em] text-marine">Uw horloge in handen van erkend vakmanschap.</h1>
+          <div class="mt-9 flex flex-wrap items-center gap-x-8 gap-y-4">
+            <a href={url('#contact')} class="btn btn-marine">Afspraak maken<Icoon naam="pijl" maat={20} /></a>
+            <p class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-ink-zacht"><Sterren maat={15} /><strong class="num font-display text-ink">{site.google.score}</strong> op Google<span aria-hidden="true">·</span>Ook Longines, Rado en Rolex</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Base>
+
+<style>
+  /* Laat de randen van de foto in het wit oplossen, zodat de doos niet als rechthoek zichtbaar is. */
+  .foto { -webkit-mask-image: radial-gradient(closest-side, #000 62%, transparent 100%); mask-image: radial-gradient(closest-side, #000 62%, transparent 100%); }
+</style>
