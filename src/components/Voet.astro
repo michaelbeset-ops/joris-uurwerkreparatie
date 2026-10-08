@@ -10,21 +10,21 @@ interface Props { thuis?: boolean }
 const { thuis = true } = Astro.props;
 const h = (id: string) => (thuis ? `#${id}` : url(`#${id}`));
 ---
-<section id="contact" class="wrap scroll-mt-28 py-16 lg:py-24" aria-labelledby="t-contact">
+<section id="contact" class="wrap scroll-mt-28 py-12 lg:py-24" aria-labelledby="t-contact">
   <div class="donker grid grid-cols-1 overflow-hidden rounded-2xl bg-marine text-wit shadow-kaart lg:grid-cols-12">
     <div class="min-w-0 p-6 md:p-10 lg:col-span-5 lg:p-12">
       <p class="kicker text-staal">Afspraak maken</p>
       <h2 id="t-contact" class="mt-3 text-3xl text-wit">Vertel wat er met uw horloge is.</h2>
       <p class="mt-5 text-staal">Ik ontvang u alleen op afspraak. Bellen mag, maar tijdens het werk neem ik meestal niet op. Een bericht met een paar foto's werkt het best.</p>
-      <ol class="mt-8 grid gap-4">
+      <ol class="mt-8 hidden gap-4 lg:grid">
         {['U stuurt uw bericht, met foto’s als u die heeft.', 'Ik neem contact op en we plannen een afspraak in Herten.', 'Na onderzoek krijgt u een prijsopgave. Pas na uw akkoord begin ik.'].map((t, i) => (
           <li class="flex gap-3"><span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-pill bg-wit/15 font-display text-sm font-bold">{i + 1}</span><span>{t}</span></li>
         ))}
       </ol>
-      <ul class="mt-10 grid gap-3">
-        <li><a href={waAfspraak} class="flex items-center gap-3 rounded-md bg-wit/10 px-4 py-3 no-underline hover:bg-wit/15"><Icoon naam="bericht" /><span><span class="block text-sm text-staal">WhatsApp</span><span class="num font-display font-bold">{site.tel}</span></span></a></li>
-        <li><a href={site.telHref} class="flex items-center gap-3 rounded-md bg-wit/10 px-4 py-3 no-underline hover:bg-wit/15"><Icoon naam="telefoon" /><span><span class="block text-sm text-staal">Bellen</span><span class="num font-display font-bold">{site.tel}</span></span></a></li>
-        <li><a href={`mailto:${site.mail}`} class="flex items-center gap-3 rounded-md bg-wit/10 px-4 py-3 no-underline hover:bg-wit/15"><Icoon naam="mail" /><span class="min-w-0"><span class="block text-sm text-staal">E-mail</span><span class="block break-all font-display text-xs font-bold min-[400px]:text-sm">{site.mail}</span></span></a></li>
+      <ul class="mt-7 grid grid-cols-3 gap-2 lg:mt-10 lg:grid-cols-1 lg:gap-3">
+        <li><a href={waAfspraak} class="flex h-full flex-col items-center gap-1.5 rounded-md bg-wit/10 px-2 py-3.5 text-center no-underline hover:bg-wit/15 lg:flex-row lg:gap-3 lg:px-4 lg:py-3 lg:text-left"><Icoon naam="bericht" /><span><span class="block font-display text-sm font-bold text-wit lg:font-body lg:font-normal lg:text-staal">WhatsApp</span><span class="num hidden font-display font-bold lg:block">{site.tel}</span></span></a></li>
+        <li><a href={site.telHref} class="flex h-full flex-col items-center gap-1.5 rounded-md bg-wit/10 px-2 py-3.5 text-center no-underline hover:bg-wit/15 lg:flex-row lg:gap-3 lg:px-4 lg:py-3 lg:text-left"><Icoon naam="telefoon" /><span><span class="block font-display text-sm font-bold text-wit lg:font-body lg:font-normal lg:text-staal">Bellen</span><span class="num hidden font-display font-bold lg:block">{site.tel}</span></span></a></li>
+        <li><a href={`mailto:${site.mail}`} class="flex h-full flex-col items-center gap-1.5 rounded-md bg-wit/10 px-2 py-3.5 text-center no-underline hover:bg-wit/15 lg:flex-row lg:gap-3 lg:px-4 lg:py-3 lg:text-left"><Icoon naam="mail" /><span class="min-w-0 lg:min-w-0"><span class="block font-display text-sm font-bold text-wit lg:font-body lg:font-normal lg:text-staal">E-mail</span><span class="hidden break-all font-display text-sm font-bold lg:block">{site.mail}</span></span></a></li>
       </ul>
     </div>
 
@@ -51,8 +51,8 @@ const h = (id: string) => (thuis ? `#${id}` : url(`#${id}`));
         <div class="sm:col-span-2"><label for="f-vraag" class="text-sm font-medium">Wat is er aan de hand?</label><textarea id="f-vraag" name="vraag" rows="4" placeholder="Bijvoorbeeld: loopt achter, toe aan een servicebeurt of glas gebroken" class="veld mt-1.5"></textarea></div>
       </div>
       <div class="mt-6 flex flex-wrap items-center gap-3">
-        <a href={waAfspraak} class="btn btn-marine" data-wa-knop><Icoon naam="bericht" maat={20} />Verstuur via WhatsApp</a>
-        <a href={`mailto:${site.mail}`} class="btn btn-wit" data-mail-knop><Icoon naam="mail" maat={20} />Of per e-mail</a>
+        <a href={waAfspraak} class="btn btn-marine w-full sm:w-auto" data-wa-knop><Icoon naam="bericht" maat={20} />Verstuur via WhatsApp</a>
+        <a href={`mailto:${site.mail}`} class="btn btn-wit w-full sm:w-auto" data-mail-knop><Icoon naam="mail" maat={20} />Of per e-mail</a>
       </div>
       <p class="mt-4 text-sm text-ink-zacht">Foto's van de voor- en achterkant voegt u daarna toe in WhatsApp of uw mail.</p>
     </form>
@@ -61,15 +61,16 @@ const h = (id: string) => (thuis ? `#${id}` : url(`#${id}`));
 
 <footer class="donker bg-marine-diep text-wit">
   <div class="wrap">
-    <div class="flex flex-col gap-6 border-b border-wit/15 py-12 md:flex-row md:items-center md:justify-between lg:py-16">
+    <!-- Op mobiel weg: direct na het formulier herhaalt dit alleen, en de vaste balk heeft dezelfde knoppen. -->
+    <div class="hidden gap-6 border-b border-wit/15 py-12 md:flex md:flex-row md:items-center md:justify-between lg:py-16">
       <p class="font-display text-3xl font-extrabold leading-none tracking-[-0.025em]">Vragen over uw horloge?</p>
       <div class="flex flex-wrap gap-3">
         <a href={h('contact')} class="btn bg-wit text-marine hover:bg-ijs">Afspraak maken</a>
         <a href={site.telHref} class="btn btn-glas"><Icoon naam="telefoon" maat={18} /><span class="num">{site.tel}</span></a>
       </div>
     </div>
-    <div class="grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
-      <div class="lg:col-span-4">
+    <div class="grid grid-cols-2 gap-x-6 gap-y-10 py-12 lg:grid-cols-12 lg:gap-8">
+      <div class="col-span-2 lg:col-span-4">
         <Logo licht />
         <p class="mt-3 max-w-xs text-staal">Officieel Omega Service Center en servicecenter voor Longines en Rado.</p>
         <p class="mt-3 text-sm"><a href={site.omegaLocator} target="_blank" rel="noopener" class="text-staal underline hover:text-wit">Bekijk de OMEGA-vermelding<span class="sr-only"> (opent in een nieuw tabblad)</span></a></p>
@@ -80,7 +81,7 @@ const h = (id: string) => (thuis ? `#${id}` : url(`#${id}`));
         <ul class="mt-4 grid gap-2">
           <li><a href={waAfspraak} class="no-underline hover:underline">WhatsApp</a></li>
           <li><a href={site.telHref} class="num no-underline hover:underline">{site.tel}</a></li>
-          <li><a href={`mailto:${site.mail}`} class="break-all no-underline hover:underline">{site.mail}</a></li>
+          <li><a href={`mailto:${site.mail}`} class="no-underline hover:underline"><span class="sm:hidden">E-mail</span><span class="hidden break-all sm:inline">{site.mail}</span></a></li>
           <li><a href={site.instagram} target="_blank" rel="noopener" class="no-underline hover:underline">Instagram<span class="sr-only"> (opent in een nieuw tabblad)</span></a></li>
         </ul>
       </div>
@@ -89,7 +90,7 @@ const h = (id: string) => (thuis ? `#${id}` : url(`#${id}`));
         <p class="mt-4">{site.straat}<br />{site.postcode} {site.plaats}<br /><span class="text-staal">Alleen op afspraak</span></p>
         <a href={site.maps} target="_blank" rel="noopener" class="mt-3 inline-flex items-center gap-2 no-underline hover:underline"><Icoon naam="pin" maat={18} />Route plannen<span class="sr-only"> (opent in een nieuw tabblad)</span></a>
       </div>
-      <figure class="lg:col-span-2">
+      <figure class="col-span-2 lg:col-span-2">
         <Image src={pand} alt="De voordeur van het pand aan de Dijk 126 in Herten" widths={[320, 505]} sizes="(min-width: 1024px) 12rem, 10rem" class="aspect-[4/5] w-40 rounded-md object-cover lg:w-full" />
       </figure>
     </div>

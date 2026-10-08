@@ -76,7 +76,7 @@ const rolex = [
     </nav>
 
     <!-- 2. Omega Service Center -->
-    <section id="omega" class="scroll-mt-28 py-16 lg:py-24" aria-labelledby="t-omega">
+    <section id="omega" class="scroll-mt-28 py-12 lg:py-24" aria-labelledby="t-omega">
       <div class="wrap grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center lg:gap-10">
         <div class="lg:col-span-6">
           <p class="kicker text-ink-zacht">Omega Service Center</p>
@@ -88,15 +88,15 @@ const rolex = [
           {/* [[AANLEVEREN: sinds wanneer gecertificeerd en welk niveau (oude site noemt mogelijk "sinds 2017, niveau 3"); pas tonen na bevestiging Hugo]] */}
           <p class="mt-6 text-ink-zacht">Controleer het zelf: Joris Uurwerkreparatie staat in de <a href={site.omegaLocator} target="_blank" rel="noopener" class="font-semibold text-marine underline">officiële OMEGA Service Center-zoeker<span class="sr-only"> (opent in een nieuw tabblad)</span></a>, op Aan de Dijk 126 in Herten.</p>
           <div class="mt-8 flex flex-wrap gap-3">
-            <a href="#contact" class="btn btn-marine">Afspraak voor uw Omega</a>
-            <a href="#diensten" class="btn btn-wit">Alle diensten</a>
+            <a href="#contact" class="btn btn-marine w-full sm:w-auto">Afspraak voor uw Omega</a>
+            <a href="#diensten" class="btn btn-wit hidden sm:inline-flex">Alle diensten</a>
           </div>
         </div>
-        <div class="relative lg:col-span-6">
+        <div class="relative order-first lg:order-none lg:col-span-6">
           <div class="overflow-hidden rounded-2xl shadow-kaart">
-            <Image src={kaliber} alt="Een opengewerkt Omega-chronograafuurwerk, kaliber 321, op de werkbank van Hugo Joris" widths={[480, 720]} sizes="(min-width: 1024px) 40vw, 100vw" class="aspect-[4/3] w-full object-cover object-[50%_58%]" />
+            <Image src={kaliber} alt="Een opengewerkt Omega-chronograafuurwerk, kaliber 321, op de werkbank van Hugo Joris" widths={[480, 720]} sizes="(min-width: 1024px) 40vw, 100vw" class="aspect-[16/10] w-full object-cover object-[50%_58%] sm:aspect-[4/3]" />
           </div>
-          <div class="kaart absolute -bottom-6 left-4 right-4 flex items-center gap-4 p-4 sm:left-auto sm:right-6 sm:w-80 lg:-left-8 lg:right-auto">
+          <div class="kaart absolute -bottom-6 hidden items-center gap-4 p-4 sm:right-6 sm:flex sm:left-auto sm:right-6 sm:w-80 lg:-left-8 lg:right-auto">
             <span class="icoonvlak"><Icoon naam="schild" maat={26} /></span>
             <p class="leading-snug"><strong class="block font-display">Officieel Omega Service Center</strong><span class="text-sm text-ink-zacht">Originele onderdelen, Omega-gereedschap</span></p>
           </div>
@@ -105,14 +105,14 @@ const rolex = [
     </section>
 
     <!-- 3. Diensten -->
-    <section id="diensten" class="scroll-mt-28 bg-ijs py-16 lg:py-24" aria-labelledby="t-diensten">
+    <section id="diensten" class="scroll-mt-28 bg-ijs py-12 lg:py-24" aria-labelledby="t-diensten">
       <div class="wrap grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-10">
         <div class="lg:col-span-4">
           <div class="lg:sticky lg:top-32">
             <p class="kicker text-ink-zacht">Diensten</p>
             <h2 id="t-diensten" class="mt-3 text-3xl">Onderhoud en reparatie, met originele onderdelen.</h2>
             <p class="mt-5 text-ink-zacht">Voor Omega, Longines, Rado en de andere merken. Geen modemerken, geen batterijservice en zeker geen imitaties.</p>
-            <a href="#contact" class="btn btn-marine mt-7">Afspraak maken</a>
+            <a href="#contact" class="btn btn-marine mt-7 hidden lg:inline-flex">Afspraak maken</a>
           </div>
         </div>
         <div class="min-w-0 lg:col-span-8">
@@ -139,7 +139,7 @@ const rolex = [
     <Prijsindicatie />
 
     <!-- 4. Werkwijze: donker paneel met vier stappen. -->
-    <section id="werkwijze" class="wrap scroll-mt-28 py-16 lg:py-24" aria-labelledby="t-werkwijze">
+    <section id="werkwijze" class="wrap scroll-mt-28 py-12 lg:py-24" aria-labelledby="t-werkwijze">
       <div class="donker relative overflow-hidden rounded-2xl bg-marine px-6 py-12 text-wit md:px-12 lg:px-16 lg:py-20">
         <div class="grid gap-6 lg:grid-cols-12 lg:items-end">
           <div class="lg:col-span-7">
@@ -168,7 +168,7 @@ const rolex = [
     </section>
 
     <!-- 5. Reviews en Over Hugo -->
-    <section id="over" class="scroll-mt-28 pb-16 lg:pb-24" aria-labelledby="t-over">
+    <section id="over" class="scroll-mt-28 pb-12 lg:pb-24" aria-labelledby="t-over">
       <div class="wrap grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center lg:gap-10">
         <div class="lg:col-span-5">
           {/* [[AANLEVEREN: portret van Hugo aan de werkbank, staand formaat; vervangt deze foto]] */}
@@ -181,10 +181,10 @@ const rolex = [
           <h2 id="t-over" class="mt-3 text-3xl">De horlogemaker achter Joris Uurwerkreparatie.</h2>
           <p class="mt-5 text-lg text-ink-zacht">Als officieel Omega Service Center ben ik trots op het vertrouwen dat Omega en veel horlogeliefhebbers in mij stellen. Elk horloge krijgt de aandacht die het verdient, met originele onderdelen.</p>
           {/* [[AANLEVEREN: opleiding, aantal jaren ervaring en sinds wanneer Omega-erkend]] */}
-          <div class="kaart mt-8 grid gap-5 p-6 sm:grid-cols-[auto_1fr] sm:items-center sm:gap-8 sm:p-8">
-            <div class="text-center sm:text-left">
-              <p class="num font-display text-cijfer font-extrabold leading-none">{site.google.score}</p>
-              <div class="mt-2"><Sterren maat={20} /></div>
+          <div class="kaart mt-8 grid grid-cols-[auto_1fr] items-start gap-5 p-5 sm:items-center sm:gap-8 sm:p-8">
+            <div>
+              <p class="num font-display text-[2.5rem] font-extrabold leading-none sm:text-cijfer">{site.google.score}</p>
+              <div class="mt-2"><Sterren maat={14} /></div>
               <p class="mt-1 text-sm text-ink-zacht">{site.google.aantal} beoordelingen</p>
             </div>
             <div>
@@ -201,7 +201,7 @@ const rolex = [
     </section>
 
     <!-- 6. Waarom -->
-    <section class="wrap pb-16 lg:pb-24" aria-labelledby="t-waarom">
+    <section class="wrap pb-12 lg:pb-24" aria-labelledby="t-waarom">
       <div class="rounded-2xl bg-ijs p-6 md:p-10 lg:p-14">
         <div class="grid gap-10 lg:grid-cols-3 lg:gap-12">
           <div>
@@ -224,7 +224,7 @@ const rolex = [
     </section>
 
     <!-- 7. Rolex, compact -->
-    <section id="rolex" class="scroll-mt-28 border-t border-lijn py-16 lg:py-24" aria-labelledby="t-rolex">
+    <section id="rolex" class="scroll-mt-28 border-t border-lijn py-12 lg:py-24" aria-labelledby="t-rolex">
       <div class="wrap grid grid-cols-1 gap-10 lg:grid-cols-12 lg:items-start lg:gap-10">
         <div class="lg:col-span-5">
           <p class="kicker text-ink-zacht">Rolex</p>
@@ -234,7 +234,6 @@ const rolex = [
             <p class="flex items-center gap-2 font-display font-bold text-marine"><Icoon naam="doos" maat={20} />Origineel of generiek: u kiest</p>
             <p class="mt-2 text-sm text-ink">De werkelijke slijtage is pas te zien als het horloge gedemonteerd en gereinigd is. Moeten er onderdelen bij, dan krijgt u twee keuzes: origineel of generiek. Bij een waardevol of verzamelwaardig horloge kan dat verschil maken voor originaliteit en waarde. Dat bespreken we vooraf.</p>
           </div>
-          <p class="mt-5 text-sm font-medium text-ink">Joris Uurwerkreparatie is geen officieel Rolex-servicecentrum.</p>
         </div>
         <div class="kaart min-w-0 p-5 sm:p-8 lg:col-span-7">
           <table class="w-full text-left">
