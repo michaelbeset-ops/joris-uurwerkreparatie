@@ -7,7 +7,7 @@ import Icoon from '../components/Icoon.astro';
 import Sterren from '../components/Sterren.astro';
 import Prijsindicatie from '../components/Prijsindicatie.astro';
 import { site, waAfspraak } from '../data/site';
-import heroFoto from '../assets/hero/seamaster-wit.jpg';
+import HeroK from '../components/HeroK.astro';
 import houder from '../assets/omega-houder.jpg';
 import groen from '../assets/uurwerk-groen.jpg';
 import onderdelen from '../assets/onderdelen.jpg';
@@ -64,19 +64,8 @@ const rolex = [
   <Kop />
   <main id="inhoud">
 
-    <!-- 1. Hero (gekozen proef K): wit, de klassieke Seamaster groot in zwart-wit en vervagend in het wit, alsof hij
-         op de pagina ligt, met een grote kop ernaast. Precies schermvullend onder de kopbalk (5rem, vanaf lg 6rem). -->
-    <section class="relative flex min-h-[calc(100svh-5rem)] flex-col overflow-hidden bg-wit lg:min-h-[calc(100svh-6rem)]" aria-labelledby="t-hero">
-      <Image src={heroFoto} alt="Een klassieke Omega Seamaster-chronograaf in zwart-wit" widths={[600, 1088]} sizes="(min-width: 1024px) 50vw, 100vw" loading="eager" fetchpriority="high" class="hero-foto pointer-events-none absolute right-[-10%] top-0 h-[38svh] w-auto object-contain sm:right-[-4%] lg:right-[2%] lg:top-[-4%] lg:h-[112%]" />
-      <div class="wrap relative mt-auto pb-24 pt-[35svh] md:pb-12 lg:pb-16 lg:pt-16">
-        <p class="font-display text-xs font-bold uppercase tracking-[.18em] text-goud-donker sm:text-sm sm:tracking-[.2em]">Officieel Omega Service <span class="whitespace-nowrap">Center · {site.plaats}</span></p>
-        <h1 id="t-hero" class="mt-4 max-w-[11ch] text-[clamp(2.8rem,6.4vw+0.8rem,7.25rem)] font-extrabold leading-[.95] tracking-[-0.045em] text-marine">Uw horloge in handen van erkend vakmanschap.</h1>
-        <div class="mt-7 flex flex-wrap items-center gap-x-8 gap-y-4 sm:mt-9">
-          <a href="#contact" class="btn btn-marine">Afspraak maken<Icoon naam="pijl" maat={20} /></a>
-          <a href={reviewsUrl} target="_blank" rel="noopener" class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-ink-zacht no-underline hover:underline"><Sterren maat={15} /><strong class="num font-display text-ink">{site.google.score}</strong> op Google<span aria-hidden="true">·</span>Ook Longines, Rado en Rolex<span class="sr-only"> (opent in een nieuw tabblad)</span></a>
-        </div>
-      </div>
-    </section>
+    <!-- 1. Hero K: wit, de Seamaster in zwart-wit, grote kop. Op mobiel het horloge gecentreerd boven de tekst. -->
+    <HeroK mobiel="centraal" />
 
     <!-- Merkenrij: alle merken als knoppen, op mobiel swipebaar. Omega uitgelicht. -->
     <nav id="merken" aria-label="Merken" class="scroll-mt-28 border-b border-lijn bg-ijs">
@@ -126,21 +115,24 @@ const rolex = [
             <a href="#contact" class="btn btn-marine mt-7">Afspraak maken</a>
           </div>
         </div>
-        <ul class="grid min-w-0 grid-cols-1 gap-4 lg:col-span-8">
+        <div class="min-w-0 lg:col-span-8">
+        <ul class="swipe min-w-0 md:[--rand:2.5rem] lg:grid lg:grid-cols-1 lg:gap-4">
           {diensten.map((d) => (
-            <li id={d.id} class="scroll-mt-28">
-              <a href="#contact" class="group kaart flex items-stretch overflow-hidden no-underline transition-transform duration-200 hover:-translate-y-0.5">
-                <span class="relative w-20 shrink-0 overflow-hidden bg-marine-licht min-[400px]:w-24 sm:w-40">
+            <li id={d.id} class="scroll-mt-28 py-1 lg:py-0">
+              <a href="#contact" class="group kaart flex h-full flex-col overflow-hidden no-underline transition-transform duration-200 hover:-translate-y-0.5 lg:flex-row lg:items-stretch">
+                <span class="relative h-40 w-full shrink-0 overflow-hidden bg-marine-licht lg:h-auto lg:w-40">
                   {d.foto ? <Image src={d.foto} alt={d.alt} widths={[200, 320]} sizes="10rem" class="absolute inset-0 h-full w-full object-cover" /> : <span class="absolute inset-0 flex items-center justify-center text-marine"><Icoon naam={d.icoon!} maat={36} dik={1.5} /></span>}
                 </span>
-                <span class="flex min-w-0 flex-1 items-center justify-between gap-4 p-4 sm:p-6">
+                <span class="flex min-w-0 flex-1 items-start justify-between gap-4 p-5 lg:items-center lg:p-6">
                   <span class="min-w-0"><span class="block font-display text-lg font-bold leading-tight sm:text-xl">{d.kop}</span><span class="mt-1.5 block text-ink-zacht">{d.tekst}</span></span>
-                  <span aria-hidden="true" class="hidden h-10 w-10 shrink-0 items-center justify-center rounded-pill ring-1 ring-lijn transition-colors group-hover:bg-marine group-hover:text-wit group-hover:ring-marine sm:flex"><Icoon naam="pijl" maat={18} dik={2.2} /></span>
+                  <span aria-hidden="true" class="hidden h-10 w-10 shrink-0 items-center justify-center rounded-pill ring-1 ring-lijn transition-colors group-hover:bg-marine group-hover:text-wit group-hover:ring-marine lg:flex"><Icoon naam="pijl" maat={18} dik={2.2} /></span>
                 </span>
               </a>
             </li>
           ))}
         </ul>
+        <p class="mt-4 flex items-center gap-1.5 text-sm text-ink-zacht lg:hidden" aria-hidden="true">Veeg voor meer<Icoon naam="pijl" maat={16} dik={2.2} /></p>
+        </div>
       </div>
     </section>
 
@@ -156,21 +148,22 @@ const rolex = [
           </div>
           <p class="text-staal lg:col-span-5">Aan de prijsopgave zijn onderzoeks- en administratiekosten verbonden. Die betaalt u alleen als u de reparatie niet laat uitvoeren.</p>
         </div>
-        <ol class="relative mt-12 grid gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+        <ol class="swipe relative mt-10 [--rand:1.5rem] md:[--rand:3rem] lg:mt-12 lg:grid lg:grid-cols-4 lg:gap-6">
           {stappen.map((s, i) => (
-            <li class="relative flex gap-5 lg:block">
-              {i < stappen.length - 1 && <span aria-hidden="true" class="absolute left-7 top-16 h-[calc(100%-1.5rem)] w-px bg-wit/20 md:hidden lg:left-[4.25rem] lg:top-7 lg:block lg:h-px lg:w-[calc(100%-4.25rem+1.5rem)]"></span>}
+            <li class="relative rounded-xl bg-wit/5 p-5 ring-1 ring-wit/10 lg:bg-transparent lg:p-0 lg:ring-0">
+              {i < stappen.length - 1 && <span aria-hidden="true" class="absolute hidden bg-wit/20 lg:left-[4.25rem] lg:top-7 lg:block lg:h-px lg:w-[calc(100%-4.25rem+1.5rem)]"></span>}
               <span class="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-wit text-marine">
                 <Icoon naam={s.icoon} maat={26} />
                 <span class="num absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-pill bg-vink-licht font-display text-xs font-bold text-marine-diep">{i + 1}</span>
               </span>
-              <div class="lg:mt-6">
+              <div class="mt-5 lg:mt-6">
                 <h3 class="text-lg text-wit"><span class="sr-only">Stap {i + 1}: </span>{s.kop}</h3>
                 <p class="mt-2 text-staal">{s.tekst}</p>
               </div>
             </li>
           ))}
         </ol>
+        <p class="mt-4 flex items-center gap-1.5 text-sm text-staal lg:hidden" aria-hidden="true">Veeg voor alle stappen<Icoon naam="pijl" maat={16} dik={2.2} /></p>
       </div>
     </section>
 
@@ -180,7 +173,7 @@ const rolex = [
         <div class="lg:col-span-5">
           {/* [[AANLEVEREN: portret van Hugo aan de werkbank, staand formaat; vervangt deze foto]] */}
           <figure class="overflow-hidden rounded-2xl shadow-kaart">
-            <Image src={onderdelen} alt="Een gedemonteerde Omega op de werkbank: de rotor met het Omega-logo, de kastbodem en losse onderdelen" widths={[480, 720, 1000]} sizes="(min-width: 1024px) 34vw, 100vw" class="aspect-[4/5] w-full object-cover object-[80%_50%]" />
+            <Image src={onderdelen} alt="Een gedemonteerde Omega op de werkbank: de rotor met het Omega-logo, de kastbodem en losse onderdelen" widths={[480, 720, 1000]} sizes="(min-width: 1024px) 34vw, 100vw" class="aspect-[16/10] w-full object-cover object-[80%_50%] lg:aspect-[4/5]" />
           </figure>
         </div>
         <div class="lg:col-span-7">
@@ -217,14 +210,15 @@ const rolex = [
               <p class="mt-5 text-ink-zacht">Een kostbaar horloge geeft u niet zomaar uit handen. Dit kunt u van de werkplaats verwachten.</p>
             </div>
           </div>
-          <ul class="grid gap-x-8 gap-y-8 sm:grid-cols-2 lg:col-span-2">
+          <div class="min-w-0 lg:col-span-2"><ul class="swipe [--rand:1.5rem] md:[--rand:2.5rem] lg:grid lg:grid-cols-2 lg:gap-x-8 lg:gap-y-8">
             {waarom.map((w) => (
-              <li class="flex gap-4">
+              <li class="flex flex-col gap-4 rounded-xl bg-wit p-5 lg:flex-row lg:bg-transparent lg:p-0">
                 <span class="icoonvlak bg-wit shadow-zacht"><Icoon naam="schild" maat={24} /></span>
                 <span><h3 class="text-lg">{w.kop}</h3><span class="mt-1.5 block text-ink-zacht">{w.tekst}</span></span>
               </li>
             ))}
           </ul>
+          <p class="mt-4 flex items-center gap-1.5 text-sm text-ink-zacht lg:hidden" aria-hidden="true">Veeg voor meer<Icoon naam="pijl" maat={16} dik={2.2} /></p></div>
         </div>
       </div>
     </section>
@@ -268,7 +262,3 @@ const rolex = [
   <Voet />
 </Base>
 
-<style>
-  /* Laat de randen van de herofoto in het wit oplossen, zodat de horlogedoos niet als rechthoek zichtbaar is. */
-  .hero-foto { -webkit-mask-image: radial-gradient(closest-side, #000 62%, transparent 100%); mask-image: radial-gradient(closest-side, #000 62%, transparent 100%); }
-</style>

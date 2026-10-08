@@ -93,6 +93,20 @@
   .slider::-webkit-scrollbar { display: none; }
   .slider > * { scroll-snap-align: start; flex: 0 0 auto; }
 
+  /* Onder lg: kaarten naast elkaar om te vegen in plaats van een lange lijst. --rand is de binnenmarge van de
+     omringende container, zodat de rij tot de rand doorloopt en de volgende kaart net in beeld piept. */
+  @media (max-width: 1023.98px) {
+    .swipe { display: flex; gap: .75rem; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+      margin-inline: calc(var(--rand, 1.25rem) * -1); padding-inline: var(--rand, 1.25rem); scroll-padding-inline: var(--rand, 1.25rem); }
+    .swipe::-webkit-scrollbar, .rij::-webkit-scrollbar { display: none; }
+    .swipe > * { position: relative; flex: 0 0 min(80%, 21rem); scroll-snap-align: start; }
+    .rij { display: flex; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none;
+      margin-inline: calc(var(--rand, 1.25rem) * -1); padding-inline: var(--rand, 1.25rem); }
+    .rij > * { position: relative; flex: 0 0 auto; }
+    .swipe[hidden], .rij[hidden] { display: none; }
+  }
+  @media (min-width: 768px) and (max-width: 1023.98px) { .wrap > .swipe, .wrap .swipe-wrap { --rand: 2.5rem; } .swipe > * { flex-basis: min(46%, 22rem); } }
+
   .veld { width: 100%; border-radius: var(--radius-sm); border: 1.5px solid #0f172a33; background: #fff; padding: .75rem .9rem; font: inherit; color: var(--color-ink); transition: border-color .15s; }
   .veld:hover { border-color: #0f172a66; }
   .veld:focus-visible { outline-offset: 1px; border-color: var(--color-marine); }

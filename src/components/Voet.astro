@@ -33,14 +33,20 @@ const h = (id: string) => (thuis ? `#${id}` : url(`#${id}`));
       <p id="wa-uitleg" class="mt-2 text-ink-zacht">Vul in wat u weet. De knop opent WhatsApp of uw mail met het bericht al ingevuld. Er wordt niets verstuurd voordat u dat zelf doet.</p>
       <div class="mt-6 grid gap-5 sm:grid-cols-2">
         <div><label for="f-merk" class="text-sm font-medium">Merk</label><input id="f-merk" name="merk" autocomplete="off" placeholder="Bijvoorbeeld Omega" class="veld mt-1.5" /></div>
-        <div><label for="f-type" class="text-sm font-medium">Type</label>
-          <select id="f-type" name="type" class="veld mt-1.5">
-            <option value="">Weet ik niet</option><option>Automaat</option><option>Quartz</option><option>Chronograaf</option>
-          </select>
-        </div>
-        <div><label for="f-ref" class="text-sm font-medium">Model of referentienummer</label><input id="f-ref" name="ref" autocomplete="off" placeholder="Bijvoorbeeld Speedmaster 3861" class="veld mt-1.5" /></div>
-        <div><label for="f-band" class="text-sm font-medium">Soort band</label><input id="f-band" name="band" autocomplete="off" placeholder="Staal, leer of rubber" class="veld mt-1.5" /></div>
-        <div><label for="f-sinds" class="text-sm font-medium">Sinds wanneer?</label><input id="f-sinds" name="sinds" autocomplete="off" placeholder="Bijvoorbeeld: sinds een week" class="veld mt-1.5" /></div>
+        <!-- Op mobiel staan de extra details ingeklapt, zodat het formulier kort blijft. Vanaf sm altijd open. -->
+        <details class="group sm:col-span-2" data-meer>
+          <summary class="flex cursor-pointer list-none items-center justify-between rounded-md bg-ijs px-4 py-3 font-display font-semibold sm:hidden [&::-webkit-details-marker]:hidden">Meer details (optioneel)<svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="text-ink-zacht transition-transform group-open:rotate-180"><path d="M6 9l6 6 6-6"/></svg></summary>
+          <div class="mt-5 grid gap-5 sm:mt-0 sm:grid-cols-2">
+          <div><label for="f-type" class="text-sm font-medium">Type</label>
+            <select id="f-type" name="type" class="veld mt-1.5">
+              <option value="">Weet ik niet</option><option>Automaat</option><option>Quartz</option><option>Chronograaf</option>
+            </select>
+          </div>
+          <div><label for="f-ref" class="text-sm font-medium">Model of referentienummer</label><input id="f-ref" name="ref" autocomplete="off" placeholder="Bijvoorbeeld Speedmaster 3861" class="veld mt-1.5" /></div>
+          <div><label for="f-band" class="text-sm font-medium">Soort band</label><input id="f-band" name="band" autocomplete="off" placeholder="Staal, leer of rubber" class="veld mt-1.5" /></div>
+          <div><label for="f-sinds" class="text-sm font-medium">Sinds wanneer?</label><input id="f-sinds" name="sinds" autocomplete="off" placeholder="Bijvoorbeeld: sinds een week" class="veld mt-1.5" /></div>
+          </div>
+        </details>
         <div><label for="f-contact" class="text-sm font-medium">Liefst contact via</label><select id="f-contact" name="contact" class="veld mt-1.5"><option>WhatsApp</option><option>Telefoon</option><option>E-mail</option></select></div>
         <div class="sm:col-span-2"><label for="f-vraag" class="text-sm font-medium">Wat is er aan de hand?</label><textarea id="f-vraag" name="vraag" rows="4" placeholder="Bijvoorbeeld: loopt achter, toe aan een servicebeurt of glas gebroken" class="veld mt-1.5"></textarea></div>
       </div>
@@ -103,6 +109,9 @@ const h = (id: string) => (thuis ? `#${id}` : url(`#${id}`));
 </div>
 
 <script>
+  // Extra formuliervelden: vanaf sm altijd zichtbaar, op mobiel ingeklapt.
+  const meer = document.querySelector<HTMLDetailsElement>("[data-meer]");
+  if (meer && matchMedia("(min-width: 640px)").matches) meer.open = true;
   const f = document.querySelector<HTMLFormElement>('[data-wa]');
   const k = document.querySelector<HTMLAnchorElement>('[data-wa-knop]');
   const m = document.querySelector<HTMLAnchorElement>('[data-mail-knop]');
